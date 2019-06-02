@@ -1,0 +1,2 @@
+"0","paperWordData <- paperWordData[-c(13,274),] %>% "
+"0","    dplyr::filter(!grepl('âˆ†k_th', word))"

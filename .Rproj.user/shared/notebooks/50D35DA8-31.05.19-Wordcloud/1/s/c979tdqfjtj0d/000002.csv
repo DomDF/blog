@@ -1,0 +1,3 @@
+"0","skippedWords <- c('which', 'there', 'these', 'therefore')"
+"0","paperWordData <- paperWordData %>% "
+"0","  dplyr::filter(!grepl(paste(skippedWords, collapse='|'), word))"

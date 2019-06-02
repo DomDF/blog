@@ -1,0 +1,6 @@
+"0","set.seed(1008)"
+"0","wordcloud(words = paperWordData$word, "
+"0","                     freq = paperWordData$count, "
+"0","                     min.freq = 3, max.words = 100, "
+"0","                     random.order = FALSE, rot.per = 0.25, "
+"0","                     colors = brewer.pal(n = 8, name = 'Dark2'))"

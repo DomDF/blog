@@ -1,0 +1,2 @@
+"0","paperRows <- strsplit(paste(unlist(paper), collapse = "" ""), '\n')"
+"0","paperWords <- unlist(strsplit(paste(unlist(paperRows), collapse = "" ""), ' '))"

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Wordcloud on Bayesian Engineering</title>
+    <link>/tags/wordcloud/</link>
+    <description>Recent content in Wordcloud on Bayesian Engineering</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 31 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	    <atom:link href="/tags/wordcloud/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Wordcloud</title>
+      <link>/post/31.05.19-wordcloud/</link>
+      <pubDate>Fri, 31 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/31.05.19-wordcloud/</guid>
+      <description>
+
+
+&lt;div id=&#34;summarising-the-content-of-an-upcoming-conference-paper&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Summarising the content of an upcoming conference paper&lt;/h2&gt;
+&lt;p&gt;There is an R package dedicated to creating wordclouds, so I’ve started by loading this, along with the tidyverse.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(wordcloud); library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The wordcloud package creates a graphic of words that appear in some specified text. The more times the word appears in the text, the larger it appears in the wordcloud. R can read text from a local file, as shown below, or from a website.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We can read a text file using &amp;#39;readLines&amp;#39; and we can select a file interactively using &amp;#39;file.choose&amp;#39;
+# Both of these are Base R functions
+# paper &amp;lt;- readLines(file.choose())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Because of the way I’ve read my text, the ‘paper’ variable is currently as list of individual lines, as we can see when viewing one of its elements:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(paper[2])
+## [1] &amp;quot;Application of MCMC Sampling to Account for Variability and Dependency&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As a result, I need to extract the individual words, which I’ve saved to a new variable:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;paperRows &amp;lt;- strsplit(paste(unlist(paper), collapse = &amp;quot; &amp;quot;), &amp;#39;\n&amp;#39;)
+paperWords &amp;lt;- unlist(strsplit(paste(unlist(paperRows), collapse = &amp;quot; &amp;quot;), &amp;#39; &amp;#39;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The next step is to create a dataframe that will eventually have two columns of interest to us: a list of words, and a count of the number of times they feature in the paper. I’ve set up an empty dataframe of the required size, and also added a check to identify small words (since I think words like ‘the’ are likely to feature a lot in the text, and I’d like the option of removing them from my wordcloud).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;paperWordData &amp;lt;- data.frame(word = c(rep(x = 0, times = length(paperWords))), 
+                       count = c(rep(x = 0, times = length(paperWords))),
+                       check = c(rep(x = 0, times = length(paperWords))))
+
+paperWordData$word &amp;lt;- as.vector(paperWords)
+
+maxLength &amp;lt;- 5
+
+for (i in seq(from = 1, to = nrow(paperWordData), by = 1)){
+  paperWordData$count[i] &amp;lt;- sum(paperWords == paperWords[i])
+  if (nchar(paperWordData$word[i]) &amp;lt; maxLength) {
+    paperWordData$check[i] &amp;lt;- 0
+  } else {
+    paperWordData$check[i] &amp;lt;- 1
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I’ll then convert all words to lower case. Without this, if a word had begun with a capital letter (perhaps because it was starting a sentence) it would not have been included in the same count as instances of the same word beginning with a lower case letter.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;paperWordData$word &amp;lt;- tolower(paperWordData$word)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Time to make use of the filter that was previously set up to remove, short and uninteresting words.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;paperWordData &amp;lt;- unique(paperWordData) %&amp;gt;% 
+  dplyr::filter(check == 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After reviewing the resultant wordcloud, I realised that my filter removing all words of length &amp;lt; 5 was not as comprehensive as I first thought. There were sti
+ll a few words I didn’t want to see, and I’ve resorted to doing this manually. Not very elegant, sadly.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;skippedWords &amp;lt;- c(&amp;#39;which&amp;#39;, &amp;#39;there&amp;#39;, &amp;#39;these&amp;#39;, &amp;#39;therefore&amp;#39;)
+
+paperWordData &amp;lt;- paperWordData %&amp;gt;% 
+  dplyr::filter(!grepl(paste(skippedWords, collapse=&amp;#39;|&amp;#39;), word))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Finally, time to ask the wordcloud function to read and plot our data. There are some useful arguments to experiment with here:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;min.freq&lt;/strong&gt; and &lt;strong&gt;max.words&lt;/strong&gt; set boundaries for how populated the wordcloud will be&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;random.order&lt;/strong&gt; will put the largest word in the middle if set to FALSE&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;rot.per&lt;/strong&gt; is the fraction of words that will be rotated in the graphic&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Finally, the words are arranged stochastically somehow, and so for a repeatable graphic it is best to specify a seed value.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1008)
+wordcloud(words = paperWordData$word, 
+                     freq = paperWordData$count, 
+                     min.freq = 3, max.words = 100, 
+                     random.order = FALSE, rot.per = 0.25, 
+                     colors = brewer.pal(n = 8, name = &amp;#39;Dark2&amp;#39;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/31.05.19-Wordcloud_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;If you’re not familiar with the colour palettes, the below line will ask R to display them for you:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;RColorBrewer::display.brewer.all()&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

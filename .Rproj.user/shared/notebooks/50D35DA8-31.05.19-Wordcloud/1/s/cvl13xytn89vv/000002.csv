@@ -1,0 +1,2 @@
+"0","paperWordData <- unique(paperWordData) %>% "
+"0","  dplyr::filter(check == 1)"
