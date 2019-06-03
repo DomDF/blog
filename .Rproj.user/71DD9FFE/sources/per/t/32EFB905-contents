@@ -1,0 +1,88 @@
+functions {
+//NA
+}
+data {
+  int <lower = 1> n_teams;
+  int <lower = 1> n_games;
+  
+  int <lower = 0> score_home[n_games];
+  int <lower = 0> score_away[n_games];
+  
+  vector <lower = 0> [n_teams] avgGoalsHome;
+  vector <lower = 0> [n_teams] avgYellowsHome;
+//  vector <lower = 0> [n_teams] avgRedsHome;
+  vector <lower = 0> [n_teams] avgConcHome;
+  vector <lower = 0> [n_teams] avgMFGHome;
+
+  
+  vector <lower = 0> [n_teams] avgGoalsAway;
+  vector <lower = 0> [n_teams] avgYellowsAway;
+//  vector <lower = 0> [n_teams] avgRedsAway;
+  vector <lower = 0> [n_teams] avgConcAway;
+  vector <lower = 0> [n_teams] avgMFGAway;
+
+//  vector[n_teams] teamPos;
+  
+  int <lower = 1, upper = n_teams> team_home [n_games];
+  int <lower = 1, upper = n_teams> team_away [n_games];
+}
+parameters {
+//  vector [n_teams] mu;
+
+  real BetaGH;
+  real BetaYgH;
+  real BetaYcH;
+//  real BetaRH;
+  real BetaCH;
+  real BetaMFGH;
+  
+  real BetaGA;
+  real BetaYgA;
+  real BetaYcA;
+//  real BetaRA;
+  real BetaCA;
+  real BetaMFGA;
+}
+transformed parameters {
+    vector [n_teams] home_skill;
+    vector [n_teams] away_skill;
+    vector [n_teams] home_def;
+    vector [n_teams] away_def;
+    for( i in 1:n_teams){
+      home_skill[i] = BetaGH * avgGoalsHome[i] + BetaYgH * avgYellowsHome[i] + BetaMFGH * avgMFGHome[i];// + BetaRH * avgRedsHome[i];
+      away_skill[i] = BetaGA * avgGoalsAway[i] + BetaYgA * avgYellowsAway[i] + BetaMFGA * avgMFGAway[i];// + BetaRA * avgRedsAway[i];
+      home_def[i] = BetaCH * avgConcHome[i] + BetaYcH * avgYellowsHome[i];
+      away_def[i] = BetaCA * avgConcAway[i] + BetaYcA * avgYellowsAway[i];
+    }
+      
+}
+model {
+  // Likelihood
+  
+    // for (i in 1:n_games){
+    //       score_home[i] ~ poisson(exp(skill[team_home][i] - skill[team_away][i]));
+    //       score_away[i] ~ poisson(exp(skill[team_away][i] - skill[team_home][i]));
+    // }
+    
+    score_home ~ poisson(exp(home_skill[team_home] + away_def[team_away])); // Difference in skill, or sum of attack and defence
+    score_away ~ poisson(exp(away_skill[team_away] + home_def[team_home]));
+    
+    // for (j in 1:n_teams){
+    //   skill[j] = BetaG * avgGoals[j];// + BetaY * avgYellows[j] + BetaR * avgReds[j], sigma[j]);  
+    // }
+
+
+  // Priors
+  // BetaG ~ normal(0, 10);
+  // BetaY ~ normal(0, 10);
+  // BetaR ~ normal(0, 10);
+  // sigma ~ normal (0, 10) T[0,];
+  
+//  skill ~ normal (teamPos - mean(teamPos), 10*mean(teamPos));
+  
+}
+generated quantities{
+  // For posterior predictive sampling
+  
+
+}
