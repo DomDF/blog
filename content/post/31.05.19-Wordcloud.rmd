@@ -27,7 +27,7 @@ The wordcloud package creates a graphic of words that appear in some specified t
 ```
 
 ```{r, include = FALSE}
-paper <- readLines(con = 'C:/Users/domen/Desktop/Conferences/IPW2019/Wordcloud/confPaper.txt')
+paper <- readLines(con = 'C:/Users/domen/OneDrive/Documents/PhD/Conferences/IPW2019/Wordcloud/confPaper.txt')
 ```
 
 Because of the way I've read my text, the 'paper' variable is currently as list of individual lines, as we can see when viewing one of its elements:
