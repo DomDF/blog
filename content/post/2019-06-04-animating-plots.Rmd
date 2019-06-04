@@ -130,9 +130,9 @@ The `animate` function requires us to specify the plot (to be animated), but inc
 
 I tried a few alternatives and because each state has quite a few points I wanted it to be held for a reasonable amount of time. However, it does result in a total of 1200 frames in the animation. On my laptop this required approximately 3 minutes to render. A shorter animation could be produced in a few seconds.
 
-![](fifa.gif)
+![Final Animation](/fifa.gif)
 
-Once you are happy with your animation you can save it (in various formats).
+Once you are happy with your animation you can save it (in various formats) using `anim_save()`.
 
 **A note on animating text or label geoms from the *ggrepel* library**:
 After my first attempt at this excercise my labels were jumping around erratically, though always in a similar position. As I found out on [stackoverflow](https://stackoverflow.com/questions/55723567/how-to-stop-ggrepel-labels-moving-between-gganimate-frames-in-r-ggplot2), this is because the position of the text was being assigned stochastically and was therefore being re-assigned in each frame.

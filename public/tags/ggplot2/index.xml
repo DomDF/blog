@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ggplot2 on Bayesian Engineering</title>
+    <link>/tags/ggplot2/</link>
+    <description>Recent content in ggplot2 on Bayesian Engineering</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Jun 2019 00:00:00 +0000</lastBuildDate>
+    
+	    <atom:link href="/tags/ggplot2/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Animating Plots</title>
+      <link>/post/animating-plots/</link>
+      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/animating-plots/</guid>
+      <description>
+
+
+&lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;TLDR&lt;/h3&gt;
+&lt;p&gt;There are many instances where it may be useful to animate graphical representations of data, perhaps to better communicate how some parameter has been shown to vary with time. However, the below is a purely gimmicky example that demonstrates some of the functionality of the &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;&lt;em&gt;gganimate&lt;/em&gt;&lt;/a&gt; library.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;making-moving-plots-with-gganimate&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Making Moving Plots with &lt;em&gt;gganimate&lt;/em&gt;&lt;/h3&gt;
+&lt;p&gt;Graphics made using the ggplot2 package are already extremely customisable. They can be further enhanced using some of the &lt;a href=&#34;http://ggplot2-exts.org/gallery/&#34;&gt;extensions that have been developed&lt;/a&gt;. These include providing access to new themes, as well as entirely new functionality.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;gganimate&lt;/em&gt; allows for the animation of existing ggplot graphics. Once installed, we can load both packages (&lt;em&gt;ggplot2&lt;/em&gt; is included as part of the &lt;em&gt;tidyverse&lt;/em&gt;):&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(gganimate); library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The example dataset that I’ve selected is the fifa 19 dataset, found on &lt;a href=&#34;https://www.kaggle.com/karangadiya/fifa19&#34;&gt;Kaggle&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;size &amp;lt;- 500
+fifa19 &amp;lt;- fifa19 %&amp;gt;% arrange(desc(Overall))
+topPlayers &amp;lt;- fifa19[1:size,]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The above filter results in the &lt;code&gt;topPlayers&lt;/code&gt; dataframe including the highest rated &lt;code&gt;r, size&lt;/code&gt; players on the game.&lt;/p&gt;
+&lt;p&gt;However, it still has a lot of columns, and we are not interested in them all for now:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;params &amp;lt;- c(&amp;#39;Name&amp;#39;, &amp;#39;Overall&amp;#39;, &amp;#39;NumValue&amp;#39;, &amp;#39;NumWage&amp;#39;)
+topPlayers &amp;lt;- topPlayers %&amp;gt;% select(params)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Below shows how we can use ggplot to create a scatterplot to compare the value and weekly wage of the players.&lt;/p&gt;
+&lt;p&gt;Because I want to label some of the most valuable and highest earning players I will use an additional ggplot extension, &lt;em&gt;ggrepel&lt;/em&gt;. The function &lt;em&gt;geom_text_repel&lt;/em&gt; from this library differs from ggplot’s geom_text in that it prevents text labels from overlapping with each other (where possible).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;minValueToLabel &amp;lt;- 75; minWageToLabel &amp;lt;- 300
+
+topPlayersPlot &amp;lt;- ggplot(topPlayers)+
+   geom_point(aes(x = NumValue, y = NumWage), alpha = 0.5)+
+   ggrepel::geom_text_repel(aes(x = NumValue, y = NumWage, label = Name), 
+                   data = subset(topPlayers, NumValue &amp;gt; minValueToLabel | NumWage &amp;gt; minWageToLabel),
+                   seed = 1008, size = 3, family = &amp;#39;Trebuchet MS&amp;#39;)+
+   xlab(&amp;#39;Player Value, $M&amp;#39;)+ylab(&amp;#39;Player Weekly Wage, $k&amp;#39;)+
+   theme_bw(base_size = 9)
+
+topPlayersPlot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The text label effectively includes a filter by specifying a subset of data. Only players with a value of at least $75
+M, or a weekly wage of at least $300 k.&lt;/p&gt;
+&lt;p&gt;This plot is the basis for the animation. Adding a function from &lt;em&gt;gganimate&lt;/em&gt; and saving as a new variable:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topPlayersPlotAnim &amp;lt;- topPlayersPlot +
+  transition_states(states = Overall, transition_length = 1, state_length = 4, wrap = FALSE)+
+     ggtitle(&amp;#39;Fifa 19 Top Rated Players&amp;#39;, subtitle = &amp;#39;Overall Rating = {closest_state}&amp;#39; )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;transition_states()&lt;/code&gt; requires specification of the discrete states that the plot animate sequentially.&lt;/p&gt;
+&lt;p&gt;There are numerous alternative types of transition within &lt;em&gt;gganimate&lt;/em&gt; as detailed &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;here&lt;/a&gt;. Each of these accept some additional arguments to describe the animation.&lt;/p&gt;
+&lt;p&gt;In this case, &lt;code&gt;transition_length&lt;/code&gt; and &lt;code&gt;state_length&lt;/code&gt; describe the &lt;strong&gt;relative&lt;/strong&gt; amount of time spent displaying the current state, and transitioning to the next state.&lt;/p&gt;
+&lt;p&gt;Finally, if &lt;code&gt;wrap&lt;/code&gt; is set to &lt;code&gt;TRUE&lt;/code&gt;, the animation will also transition from the final state back to the first state.&lt;/p&gt;
+&lt;p&gt;This example is certainly not exaustive and there are many additional tweaks available to further customise an animation. Some of those examples are shown in the official &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html&#34;&gt;beginner’s guide&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Regardless of the transition function selected, the best way to create the moving plot is to use the animate function:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;animate(plot = topPlayersPlotAnim, fps = 20, duration = 60, end_pause = 60)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;animate&lt;/code&gt; function requires us to specify the plot (to be animated), but includes many additional arguments not all of which are detailed above.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;fps&lt;/code&gt; is the frames per second, &lt;code&gt;duration&lt;/code&gt; is the length of the animation (in seconds), and &lt;code&gt;end_pause&lt;/code&gt; is the length of time that the final frame is held for (in number of frames.)&lt;/p&gt;
+&lt;p&gt;I tried a few alternatives and because each state has quite a few points I wanted it to be held for a reasonable amount of time. However, it does result in a total of 1200 frames in the animation. On my laptop this required approximately 3 minutes to render. A shorter animation could be produced in a few seconds.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/fifa.gif&#34; alt=&#34;Final Animation&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Final Animation&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Once you are happy with your animation you can save it (in various formats) using &lt;code&gt;anim_save()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;A note on animating text or label geoms from the &lt;em&gt;ggrepel&lt;/em&gt; library&lt;/strong&gt;:
+After my first attempt at this excercise my labels were jumping around erratically, though always in a similar position. As I found out on &lt;a href=&#34;https://stackoverflow.com/questions/55723567/how-to-stop-ggrepel-labels-moving-between-gganimate-frames-in-r-ggplot2&#34;&gt;stackoverflow&lt;/a&gt;, this is because the position of the text was being assigned stochastically and was therefore being re-assigned in each frame.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

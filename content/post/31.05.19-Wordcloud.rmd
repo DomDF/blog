@@ -1,18 +1,33 @@
 ---
-title: "Wordcloud"
-#author: "DDF"
-date: 2019-05-31
-categories: ["R"]
-tags: ["R Markdown", "Wordcloud"]
+title: Wordclouds
+author: ''
+date: '2019-06-04'
+categories:
+  - R
+  - wordcloud
+tags:
+  - R
+  - Wordcloud
+  - R Markdown
+slug: 
+lastmod: '2019-06-04T15:01:07+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
 ```
 
-## Summarising the content of an upcoming conference paper
+### TLDR
+Wordclouds can be used to produce a neat summary of a text, even if they do sacrifice substance (information) for style. They can readily be produced in R.
 
-There is an R package dedicated to creating wordclouds, so I've started by loading this, along with the tidyverse.
+### Summarising the content of an upcoming conference paper
+
+There is an [R package dedicated to creating wordclouds](https://cran.r-project.org/web/packages/wordcloud/index.html), so I've started by loading this, along with the tidyverse.
 
 ```{r, include = TRUE, warning = FALSE, message = FALSE}
 library(wordcloud); library(tidyverse)
@@ -20,10 +35,10 @@ library(wordcloud); library(tidyverse)
 
 The wordcloud package creates a graphic of words that appear in some specified text. The more times the word appears in the text, the larger it appears in the wordcloud. R can read text from a local file, as shown below, or from a website.
 
-```{r, include = TRUE, warning = FALSE, message = FALSE}
+```{r, include = TRUE, eval = FALSE, warning = FALSE, message = FALSE}
 # We can read a text file using 'readLines' and we can select a file interactively using 'file.choose'
 # Both of these are Base R functions
-# paper <- readLines(file.choose())
+paper <- readLines(file.choose())
 ```
 
 ```{r, include = FALSE}

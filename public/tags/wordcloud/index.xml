@@ -6,28 +6,32 @@
     <description>Recent content in Wordcloud on Bayesian Engineering</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 31 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="/tags/wordcloud/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Wordcloud</title>
+      <title>Wordclouds</title>
       <link>/post/31.05.19-wordcloud/</link>
-      <pubDate>Fri, 31 May 2019 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/post/31.05.19-wordcloud/</guid>
       <description>
 
 
-&lt;div id=&#34;summarising-the-content-of-an-upcoming-conference-paper&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Summarising the content of an upcoming conference paper&lt;/h2&gt;
-&lt;p&gt;There is an R package dedicated to creating wordclouds, so I’ve started by loading this, along with the tidyverse.&lt;/p&gt;
+&lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;TLDR&lt;/h3&gt;
+&lt;p&gt;Wordclouds can be used to produce a neat summary of a text, even if they do sacrifice substance (information) for style. They can readily be produced in R.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summarising-the-content-of-an-upcoming-conference-paper&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Summarising the content of an upcoming conference paper&lt;/h3&gt;
+&lt;p&gt;There is an &lt;a href=&#34;https://cran.r-project.org/web/packages/wordcloud/index.html&#34;&gt;R package dedicated to creating wordclouds&lt;/a&gt;, so I’ve started by loading this, along with the tidyverse.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(wordcloud); library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The wordcloud package creates a graphic of words that appear in some specified text. The more times the word appears in the text, the larger it appears in the wordcloud. R can read text from a local file, as shown below, or from a website.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We can read a text file using &amp;#39;readLines&amp;#39; and we can select a file interactively using &amp;#39;file.choose&amp;#39;
 # Both of these are Base R functions
-# paper &amp;lt;- readLines(file.choose())&lt;/code&gt;&lt;/pre&gt;
+paper &amp;lt;- readLines(file.choose())&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Because of the way I’ve read my text, the ‘paper’ variable is currently as list of individual lines, as we can see when viewing one of its elements:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(paper[2])
 ## [1] &amp;quot;Application of MCMC Sampling to Account for Variability and Dependency&amp;quot;&lt;/code&gt;&lt;/pre&gt;
