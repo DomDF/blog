@@ -22,7 +22,8 @@
 
 &lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;TLDR&lt;/h3&gt;
-&lt;p&gt;There are many instances where it may be useful to animate graphical representations of data, perhaps to better communicate how some parameter has been shown to vary with time. However, the below is a purely gimmicky example that demonstrates some of the functionality of the &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;&lt;em&gt;gganimate&lt;/em&gt;&lt;/a&gt; library.&lt;/p&gt;
+&lt;p&gt;There are many instances where it may be useful to animate graphical representations of data, perhaps to add an additional dimension to a plot. However, the below is a purely gimmicky example that simply demonstrates some of the functionality of the &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;&lt;em&gt;gganimate&lt;/em&gt;&lt;/a&gt; library.&lt;/p&gt;
+&lt;hr /&gt;
 &lt;/div&gt;
 &lt;div id=&#34;making-moving-plots-with-gganimate&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Making Moving Plots with &lt;em&gt;gganimate&lt;/em&gt;&lt;/h3&gt;
