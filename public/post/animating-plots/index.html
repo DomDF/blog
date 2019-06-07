@@ -292,68 +292,9 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#projects">
-            
-            <span>Projects</span>
-            
-          </a>
-        </li>
-
-        
-        
-
-        
-
-        
-        
-        
-          
-        
-
-        
-        
-        
-        
-        
-        
-          
-          
-          
-            
-          
-          
-        
-
-        <li class="nav-item">
           <a class="nav-link " href="/#featured">
             
             <span>Publications</span>
-            
-          </a>
-        </li>
-
-        
-        
-
-        
-
-        
-        
-        
-          
-        
-
-        
-        
-        
-        
-        
-        
-
-        <li class="nav-item">
-          <a class="nav-link " href="/courses/">
-            
-            <span>Courses</span>
             
           </a>
         </li>
@@ -573,16 +514,16 @@
 <p>Graphics made using the ggplot2 package are already extremely customisable. They can be further enhanced using some of the <a href="http://ggplot2-exts.org/gallery/">extensions that have been developed</a>. These include providing access to new themes, as well as entirely new functionality.</p>
 <p><em>gganimate</em> allows for the animation of existing ggplot graphics. Once installed, we can load both packages (<em>ggplot2</em> is included as part of the <em>tidyverse</em>):</p>
 <pre class="r"><code>library(gganimate); library(tidyverse)</code></pre>
-<p>The example dataset that I’ve selected is the fifa 19 dataset, found on <a href="https://www.kaggle.com/karangadiya/fifa19">Kaggle</a>.</p>
+<p>The example uses a fifa 19 dataset that I found on <a href="https://www.kaggle.com/karangadiya/fifa19">Kaggle</a>.</p>
 <pre class="r"><code>size &lt;- 500
 fifa19 &lt;- fifa19 %&gt;% arrange(desc(Overall))
 topPlayers &lt;- fifa19[1:size,]</code></pre>
-<p>The above filter results in the <code>topPlayers</code> dataframe including the highest rated <code>r, size</code> players on the game.</p>
+<p>The above filter defines the <code>topPlayers</code> dataframe as the highest rated 500 players on the game.</p>
 <p>However, it still has a lot of columns, and we are not interested in them all for now:</p>
 <pre class="r"><code>params &lt;- c(&#39;Name&#39;, &#39;Overall&#39;, &#39;NumValue&#39;, &#39;NumWage&#39;)
 topPlayers &lt;- topPlayers %&gt;% select(params)</code></pre>
-<p>Below shows how we can use ggplot to create a scatterplot to compare the value and weekly wage of the players.</p>
-<p>Because I want to label some of the most valuable and highest earning players I will use an additional ggplot extension, <em>ggrepel</em>. The function <em>geom_text_repel</em> from this library differs from ggplot’s geom_text in that it prevents text labels from overlapping with each other (where possible).</p>
+<p>Below shows how we can use ggplot to create a scatterplot comparing the transfer value and weekly wage of the players.</p>
+<p>Because I want to label some of the most valuable and highest earning players I will use an additional ggplot extension, <em>ggrepel</em>. The function <code>geom_text_repel()</code> from this library differs from <em>ggplot</em>’s <code>geom_text()</code> in that it prevents text labels from overlapping with each other (where possible).</p>
 <pre class="r"><code>minValueToLabel &lt;- 75; minWageToLabel &lt;- 300
 
 topPlayersPlot &lt;- ggplot(topPlayers)+
@@ -597,27 +538,29 @@ topPlayersPlot</code></pre>
 <p><img src="/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>The text label effectively includes a filter by specifying a subset of data. Only players with a value of at least $75
 M, or a weekly wage of at least $300 k.</p>
-<p>This plot is the basis for the animation. Adding a function from <em>gganimate</em> and saving as a new variable:</p>
+<p>This plot is the basis for the animation.</p>
+<p>Adding a function from <em>gganimate</em> and saving as a new variable:</p>
 <pre class="r"><code>topPlayersPlotAnim &lt;- topPlayersPlot +
   transition_states(states = Overall, transition_length = 1, state_length = 4, wrap = FALSE)+
      ggtitle(&#39;Fifa 19 Top Rated Players&#39;, subtitle = &#39;Overall Rating = {closest_state}&#39; )</code></pre>
-<p><code>transition_states()</code> requires specification of the discrete states that the plot animate sequentially.</p>
+<p><code>transition_states()</code> requires specification of the discrete states that the plot animate sequentially. As shown above, this animation will transition through values of <code>Overall</code> i.e. the overall player rating.</p>
 <p>There are numerous alternative types of transition within <em>gganimate</em> as detailed <a href="https://cran.r-project.org/web/packages/gganimate">here</a>. Each of these accept some additional arguments to describe the animation.</p>
 <p>In this case, <code>transition_length</code> and <code>state_length</code> describe the <strong>relative</strong> amount of time spent displaying the current state, and transitioning to the next state.</p>
 <p>Finally, if <code>wrap</code> is set to <code>TRUE</code>, the animation will also transition from the final state back to the first state.</p>
 <p>This example is certainly not exaustive and there are many additional tweaks available to further customise an animation. Some of those examples are shown in the official <a href="https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html">beginner’s guide</a>.</p>
-<p>Regardless of the transition function selected, the best way to create the moving plot is to use the animate function:</p>
+<p>Regardless of the transition function selected, the best way to create the moving plot is to use the <code>animate</code> function:</p>
 <pre class="r"><code>animate(plot = topPlayersPlotAnim, fps = 20, duration = 60, end_pause = 60)</code></pre>
-<p>The <code>animate</code> function requires us to specify the plot (to be animated), but includes many additional arguments not all of which are detailed above.</p>
+<p>The <code>animate()</code> function requires us to specify the plot (to be animated), but includes many additional arguments not all of which are detailed above.</p>
 <p><code>fps</code> is the frames per second, <code>duration</code> is the length of the animation (in seconds), and <code>end_pause</code> is the length of time that the final frame is held for (in number of frames.)</p>
-<p>I tried a few alternatives and because each state has quite a few points I wanted it to be held for a reasonable amount of time. However, it does result in a total of 1200 frames in the animation. On my laptop this required approximately 3 minutes to render. A shorter animation could be produced in a few seconds.</p>
+<p>I tried a few alternatives here, In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. However, it does result in a total of 1200 frames in the animation. On my laptop this required approximately 3 minutes to render. A shorter animation could be produced in a few seconds.</p>
 <div class="figure">
 <img src="/fifa.gif" alt="Final Animation" />
 <p class="caption">Final Animation</p>
 </div>
 <p>Once you are happy with your animation you can save it (in various formats) using <code>anim_save()</code>.</p>
-<p><strong>A note on animating text or label geoms from the <em>ggrepel</em> library</strong>:
-After my first attempt at this excercise my labels were jumping around erratically, though always in a similar position. As I found out on <a href="https://stackoverflow.com/questions/55723567/how-to-stop-ggrepel-labels-moving-between-gganimate-frames-in-r-ggplot2">stackoverflow</a>, this is because the position of the text was being assigned stochastically and was therefore being re-assigned in each frame.</p>
+<p><strong>A note on animating text or label geoms from the <em>ggrepel</em> library</strong>:</p>
+<p>After my first attempt at this excercise my labels were jumping around erratically, though always in a similar position. As I found out on <a href="https://stackoverflow.com/questions/55723567/how-to-stop-ggrepel-labels-moving-between-gganimate-frames-in-r-ggplot2">stackoverflow</a>, this is because the position of the text was being assigned stochastically and was therefore being re-assigned in each frame.
+Setting the seed value means the position will be the same in each frame. This is done in the <code>geom_text_repel()</code> function.</p>
 </div>
 
     </div>
