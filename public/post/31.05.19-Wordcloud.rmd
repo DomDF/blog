@@ -25,6 +25,8 @@ knitr::opts_chunk$set(collapse = TRUE)
 ### TLDR
 Wordclouds can be used to produce a neat summary of a text, even if they do sacrifice substance (information) for style. They can readily be produced in R.
 
+---
+
 ### Summarising the content of an upcoming conference paper
 
 There is an [R package dedicated to creating wordclouds](https://cran.r-project.org/web/packages/wordcloud/index.html), so I've started by loading this, along with the tidyverse.

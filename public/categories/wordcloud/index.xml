@@ -23,6 +23,7 @@
 &lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;TLDR&lt;/h3&gt;
 &lt;p&gt;Wordclouds can be used to produce a neat summary of a text, even if they do sacrifice substance (information) for style. They can readily be produced in R.&lt;/p&gt;
+&lt;hr /&gt;
 &lt;/div&gt;
 &lt;div id=&#34;summarising-the-content-of-an-upcoming-conference-paper&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Summarising the content of an upcoming conference paper&lt;/h3&gt;
