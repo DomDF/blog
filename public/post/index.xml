@@ -6,10 +6,90 @@
     <description>Recent content in Posts on Bayesian Engineering</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 04 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Conceptual Introduction - Information Entropy</title>
+      <link>/post/2019-06-11-conceptual-introduction-information/</link>
+      <pubDate>Tue, 11 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2019-06-11-conceptual-introduction-information/</guid>
+      <description>
+
+
+&lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;TL;DR&lt;/h3&gt;
+&lt;p&gt;Entropy is used synonymously with disorder. For instance, it is blamed for headphone cables tangling when left in a bag. If we consider two macro-states of a headphone cable: &lt;em&gt;tangled&lt;/em&gt; and &lt;em&gt;untangled&lt;/em&gt;, then think about possible micro-states, i.e. every possible arrangement they could conceivably be forced into, it is evident that there are more ways that the cable can exist in a tangled state than untangled. If allowed to move randomly (even a little) amongst other contents in a bag, cords and cables become tangled.&lt;/p&gt;
+&lt;p&gt;In the context of statistics, &lt;strong&gt;information entropy&lt;/strong&gt; can be used to quantify uncertainty. Maximising entropy for some given costraints results in models that are most likely to be consistent with It can be applied to support modelling choices in statistical decision analysis. Information theory is also the basis for various methods of evaluating the relative performance of &lt;em&gt;competing&lt;/em&gt; models.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;thermodynamic-entropy&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Thermodynamic Entropy&lt;/h3&gt;
+&lt;p&gt;As an engineering undergraduate student, I was taught about entropy in the context of thermodynamics. The reason processes like expanding steam through a turbine are irreversible is because they are not isentropic. They are associated with an increase in entropy, and as&lt;/p&gt;
+&lt;p&gt;Include picture of a T-s diagram
+What is an isentropic process? (A reversible process)&lt;/p&gt;
+&lt;p&gt;Not possible -&amp;gt; second law of thermodynamics.&lt;/p&gt;
+&lt;p&gt;Slight digression, but will pay off soon:&lt;/p&gt;
+&lt;p&gt;Quantitative case: moving molecules.&lt;/p&gt;
+&lt;p&gt;What is the system? What are possible &lt;em&gt;macro-states&lt;/em&gt;? What are possible &lt;em&gt;micro-states&lt;/em&gt;?&lt;/p&gt;
+&lt;p&gt;How many different ways can each macro-state exist? Depends on the number of possible micro-states!
+The most likely outcome in such a stochastic process is the outcome that can occur in the most ways. This is the maximum entropy (&lt;strong&gt;MaxEnt&lt;/strong&gt;) solution.&lt;/p&gt;
+&lt;p&gt;Unless some energy is put into the system to encourage a particular macro-state, the MaxEnt argument is the best bet.&lt;/p&gt;
+&lt;p&gt;for &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; gas molecules each of a distinct energy level, &lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt;, where &lt;span class=&#34;math inline&#34;&gt;\(p_{i}\)&lt;/span&gt; is the proportion of molecules with energy &lt;span class=&#34;math inline&#34;&gt;\(E_{i}\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+S = -k \cdot \sum\limits_{i = 1}^{E} p_{i} \cdot log(p_{i})
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The above expression can be used to maximise &lt;span class=&#34;math inline&#34;&gt;\(S\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;This sort of description of entropy is no longer restricted to thermodynamic systems and can also be applied to uncertainty.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;information-entropy&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Information Entropy&lt;/h3&gt;
+&lt;p&gt;Information theory is the formal framework for modelling uncertainty. &lt;a href=&#34;link%20to%20bio&#34;&gt;Claude Shannon&lt;/a&gt; is regarded as a pioneer in the field, describing how information is communicated mathematically. His work became the basis for modern telecommunication systems.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+H = -k \cdot \sum\limits_{i = 1}^{n} p_{i} \cdot log(p_{i})
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;looks familiar, right?&lt;/p&gt;
+&lt;p&gt;The best introductions to information entropy that I have read are in books by &lt;a href=&#34;https://www.amazon.co.uk/Decisions-under-Uncertainty-Probabilistic-Engineering/dp/0521782775/ref=sr_1_1?keywords=decision+making+under+uncertainty+jordaan&amp;amp;qid=1560247665&amp;amp;s=books&amp;amp;sr=1-1&#34;&gt;I.Jordaan&lt;/a&gt;, &lt;a href=&#34;https://www.amazon.co.uk/Statistical-Rethinking-Bayesian-Examples-Chapman/dp/1482253445/ref=sr_1_1?crid=3NY20Q0R1GOYA&amp;amp;keywords=statistical+rethinking&amp;amp;qid=1560247633&amp;amp;s=books&amp;amp;sprefix=statistical+re%2Cstripbooks%2C138&amp;amp;sr=1-1&#34;&gt;R.McElreath&lt;/a&gt; and &lt;a href=&#34;https://www.amazon.co.uk/Probability-Theory-Principles-Elementary-Applications/dp/0521592712&#34;&gt;E.T. Jaynes&lt;/a&gt;, who each provide helpful anaologies.&lt;/p&gt;
+&lt;div id=&#34;analogy-1-mcelreath&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Analogy 1 (McElreath)&lt;/h4&gt;
+&lt;p&gt;Jaynes uses the example of morbid children’s word-game &lt;strong&gt;hangman&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;McElreath suggests an experiment where ten balls are randomly placed in five buckets, and evaluates a few different arrangements.&lt;/p&gt;
+&lt;p&gt;The two extremes are:
+* All ten balls are placed in a single bucket (e.g Bucket 1 of 5): There is only one way of achieving this.
+* Two balls are placed in each of the five buckets: There are 113400 ways of achieving this.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;analogy-2-jordaan&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Analogy 2 (Jordaan)&lt;/h4&gt;
+&lt;p&gt;Jordaan proposes a simple definition of entropy:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;‘Entropy is the smallest expected number of YES–NO questions to determine the true event.’&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;…which I think can be interpretted as the complexity of a system.&lt;/p&gt;
+&lt;p&gt;He elaborates on this idea by imagining an &lt;strong&gt;entropy demon&lt;/strong&gt; playing games. In one instance, he plays a game of roulette many times.&lt;/p&gt;
+&lt;p&gt;In each of the above examples we are relating information to a count of possible system states.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;maxent-statistical-models&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;MaxEnt Statistical Models&lt;/h3&gt;
+&lt;p&gt;MaxEnt methods are also used in ecology, and &lt;a href=&#34;https://www.sciencedirect.com/science/article/pii/S0169534714001037&#34;&gt;J. Harte and E. Newman&lt;/a&gt; have written an introduction, which also includes statistical distributions which are MaxEnt solutions for some given constraints.&lt;/p&gt;
+&lt;p&gt;If we were to bet on the outcome of the number of balls in each of McElreath’s buckets, the optimal way to do so would be to use a uniform distribution. The MaxEnt solution (the macro state consistent with the largest number of possible micro-states) is a uniform distribution. Selecting any other distribution to model the probability of the number of balls in the buckets&lt;/p&gt;
+&lt;p&gt;Bayesian Inference as an extension of MaxEnt methodology …&lt;/p&gt;
+&lt;p&gt;A discussion on Bayesian models will follow.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We can read a text file using &amp;#39;readLines&amp;#39; and we can select a file interactively using &amp;#39;file.choose&amp;#39;
+# Both of these are Base R functions
+paper &amp;lt;- readLines(file.choose())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;MaxEnt in ecology&lt;/p&gt;
+&lt;p&gt;Congratulations on making it to the end!&lt;/p&gt;
+&lt;img src=&#34;https://media3.giphy.com/media/xTiTnwqkkEtj3hm6DS/giphy.gif&#34; alt=&#34;entropy&#34; /&gt;&lt;br /&gt;
+
+&lt;div style=&#34;font-size:50%&#34;&gt;
+(&lt;a href=&#34;www.behance.net/banaszek&#34;&gt;GIF Source link&lt;/a&gt;, accessed Sep 17, 2019)
+&lt;/div&gt;
+&lt;p&gt;&lt;a href=&#34;https://xkcd.com/license.html%5D&#34;&gt;XKCD license&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Animating Plots</title>

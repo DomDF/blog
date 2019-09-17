@@ -97,35 +97,76 @@
   </url>
   
   <url>
-    <loc>/post/animating-plots/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <loc>/categories/bayesian/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/football/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <loc>/tags/bayesian/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/post/2019-06-11-conceptual-introduction-information/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/entropy/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/entropy/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/information/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/information/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-    <priority>0</priority>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/r/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/post/animating-plots/</loc>
+    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/football/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -148,13 +189,13 @@
   </url>
   
   <url>
-    <loc>/tags/gganimate/</loc>
+    <loc>/categories/gganimate/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/gganimate/</loc>
+    <loc>/tags/gganimate/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
     <priority>0</priority>
   </url>

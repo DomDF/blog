@@ -6,15 +6,42 @@
     <description>Recent content in Categories on Bayesian Engineering</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 04 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Bayesian</title>
+      <link>/categories/bayesian/</link>
+      <pubDate>Tue, 11 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/bayesian/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Entropy</title>
+      <link>/categories/entropy/</link>
+      <pubDate>Tue, 11 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/entropy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Information</title>
+      <link>/categories/information/</link>
+      <pubDate>Tue, 11 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/information/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>R</title>
       <link>/categories/r/</link>
-      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 11 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/categories/r/</guid>
       <description></description>

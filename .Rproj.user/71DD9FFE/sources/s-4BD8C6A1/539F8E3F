@@ -12,9 +12,12 @@
     "path" : "~/GitHub/blog/config/_default/menus.toml",
     "project_path" : "config/_default/menus.toml",
     "properties" : {
-        "cursorPosition" : "23,13",
+        "cursorPosition" : "17,20",
         "scrollLine" : "0"
     },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
     "relative_order" : 5,
     "source_on_save" : false,
     "source_window" : "",

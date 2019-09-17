@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1560242888202.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "9B9AC8BB",
+    "lastKnownWriteTime" : 1560263471,
+    "last_content_update" : 1560263471934,
+    "path" : "~/GitHub/blog/content/post/2019-06-11-conceptual-introduction-information.Rmd",
+    "project_path" : "content/post/2019-06-11-conceptual-introduction-information.Rmd",
+    "properties" : {
+        "cursorPosition" : "103,91",
+        "ignored_words" : "i\n",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

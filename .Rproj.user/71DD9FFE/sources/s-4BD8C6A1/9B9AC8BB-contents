@@ -1,0 +1,130 @@
+---
+title: 'Conceptual Introduction: Information'
+author: ''
+date: '2019-06-11'
+slug: conceptual-introduction-information
+categories:
+  - R
+  - Bayesian
+  - Information
+  - Entropy
+tags:
+  - R
+  - Bayesian
+  - Information
+  - Entropy
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2019-06-11T09:48:07+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+### TLDR
+The concept of information entropy can be used to quantify likelihoods. The metric can be applied to support modelling choices in statistical decision analysis. 
+
+---
+
+### Entropy
+
+Engineering students are taught about entropy in the context of thermodynamics. 
+
+Include picture of a T-s diagram
+What is an isentropic process? (A reversible process)
+
+Not possible -> second law of thermodynamics.
+
+Slight digression, but will pay off soon:
+
+Quantitative case: moving molecules.
+
+What is the system? What are possible *macro-states*?  What are possible *micro-states*?
+
+How many different ways can each macro-state exist? Depends on the number of possible micro-states!
+The most likely outcome in such a stochastic process is the outcome that can occur in the most ways. This is the maximum entropy (**MaxEnt**) solution.
+
+Unless some energy is put into the system to encourage a particular macro-state, the MaxEnt argument is the best bet.
+
+
+for $N$ gas moecules each of a distinct energy level, $E$, where $p_{i}$ is the propoertion of molecules with energy $E_{i}$
+
+\[
+S = -k \cdot \sum\limits_{i = 1}^{E} p_{i} \cdot log(p_{i})
+\]
+
+The above expression can be used to maximise $S$. 
+
+Entropy is also synonymous with disorder. for instance, it is blamed for headphone cables tangling when left in a bag. If we consider two macro-states of a headphone cable: **tangled** and **untangled**, then think about possible micro-states, i.e. every possible arrangement they could conceivable be forced into ....it is evident that there are more ways that the cable can exist in a tangled state than untangled. If allowed to move randomly (even a little) amongst other contents in a bag, cords and cables become tangled.
+
+This sort of description of entropy is no longer restricted to thermodynamic systems and can also be applied to uncertainty.
+
+### Information Theory
+
+Information theory is the formal framework for modelling uncertainty. [Claude Shannon](link to bio) s regarding as a pioneer in the field, describing how information is communicated mathematically. This work is the basis for modern teelcommunication systems.
+
+\[
+H = -k \cdot \sum\limits_{i = 1}^{n} p_{i} \cdot log(p_{i})
+\]
+
+looks familiar, right?
+
+The best introductions to information entropy that I have read are in books by [I.Jordaan](https://www.amazon.co.uk/Decisions-under-Uncertainty-Probabilistic-Engineering/dp/0521782775/ref=sr_1_1?keywords=decision+making+under+uncertainty+jordaan&qid=1560247665&s=books&sr=1-1), [R.McElreath](https://www.amazon.co.uk/Statistical-Rethinking-Bayesian-Examples-Chapman/dp/1482253445/ref=sr_1_1?crid=3NY20Q0R1GOYA&keywords=statistical+rethinking&qid=1560247633&s=books&sprefix=statistical+re%2Cstripbooks%2C138&sr=1-1) and [E.T. Jaynes](https://www.amazon.co.uk/Probability-Theory-Principles-Elementary-Applications/dp/0521592712).
+
+Jaynes uses the example of morbid children's wordgame **hangman**.
+
+
+McElreath suggests an experiment where ten balls are randomly placed in five buckets, and evaluates a few different arrangements.
+
+The two extremes are:
+  * All ten balls are placed in a single bucket (e.g Bucket 1 of 5): There is only one way of achieving this.
+  * Two balls are placed in each of the five buckets: There are 113400 ways of achieving this.
+  
+  
+Jordaan imagines an **entropy demon** playing games. In one instance, he plays a game of roulette many times.
+
+
+
+
+
+
+In each of the above examples we are relating information to a count of possible system states.
+
+### MaxEnt Statistical Models
+
+MaxEnt methods are also used in ecology, and [J. Harte and E. Newman](https://www.sciencedirect.com/science/article/pii/S0169534714001037) have written an introduction, which also includes statistical distributions which are MaxEnt solutions for some given constraints.
+
+If we were to bet on the outcome of the number of balls in each of McElreath's buckets, the optimal way to do so would be to use a uniform distribution. The MaxEnt solution (the macrostate consistent with the largest number of possible microstates) is a uniform distribution. Selecting any other distribution to model the probability of the number of balls in the buckets
+
+
+### Bayesian Inference
+
+The MaxEnt principle can be extented ...
+
+
+
+...this is why Bayesian inference is the optimal way to combine an existing (prior) model, with new information.
+
+A discussion on Bayesian models will follow.
+```{r, include = TRUE, eval = FALSE, warning = FALSE, message = FALSE}
+# We can read a text file using 'readLines' and we can select a file interactively using 'file.choose'
+# Both of these are Base R functions
+paper <- readLines(file.choose())
+```
+
+
+MaxEnt in ecology
+
+
+
+
+[XKCD license](https://xkcd.com/license.html])
