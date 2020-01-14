@@ -1,0 +1,7 @@
+"0",""
+"0","ggplot(paper_tbl %>% "
+"0","         arrange(desc(n)) %>% "
+"0","         dplyr::filter(n >= 12))+"
+"0","  geom_col(mapping = aes(x = word, y = n))+"
+"0","  theme_minimal()+ theme(axis.text.x = element_text(angle = 90), axis.title.x = element_blank())+"
+"0","  labs(y = 'count')"

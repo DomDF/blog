@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1579018639124.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4050053282",
+    "id" : "7E7D7F06",
+    "lastKnownWriteTime" : 1579030698,
+    "last_content_update" : 1579030698851,
+    "path" : "~/GitHub/blog/content/post/31.05.19-Wordcloud.rmd",
+    "project_path" : "content/post/31.05.19-Wordcloud.rmd",
+    "properties" : {
+        "cursorPosition" : "110,0",
+        "last_setup_crc32" : "D27CDFD086caa7c1",
+        "scrollLine" : "97"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,4 @@
+"0","paper_tbl <- as_tibble(paper) %>% "
+"0","  tidytext::unnest_tokens(word, value) %>% "
+"0","  dplyr::filter(is.na(as.numeric(word))) %>% "
+"0","  count(word)"

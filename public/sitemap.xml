@@ -72,13 +72,13 @@
   </url>
   
   <url>
-    <loc>/tags/bayesian/</loc>
+    <loc>/categories/bayesian/</loc>
     <lastmod>2019-06-11T09:48:07+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/bayesian/</loc>
+    <loc>/tags/bayesian/</loc>
     <lastmod>2019-06-11T09:48:07+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -95,19 +95,13 @@
   </url>
   
   <url>
-    <loc>/tags/entropy/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/entropy/</loc>
     <lastmod>2019-06-11T09:48:07+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/information/</loc>
+    <loc>/tags/entropy/</loc>
     <lastmod>2019-06-11T09:48:07+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -119,18 +113,24 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
+    <loc>/tags/information/</loc>
     <lastmod>2019-06-11T09:48:07+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>/post/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/categories/r/</loc>
+    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
     <lastmod>2019-06-11T09:48:07+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -164,13 +164,13 @@
   </url>
   
   <url>
-    <loc>/tags/gganimate/</loc>
+    <loc>/categories/gganimate/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/gganimate/</loc>
+    <loc>/tags/gganimate/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
     <priority>0</priority>
   </url>

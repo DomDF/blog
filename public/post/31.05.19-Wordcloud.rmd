@@ -23,16 +23,16 @@ knitr::opts_chunk$set(collapse = TRUE)
 ```
 
 ### TLDR
-Wordclouds can be used to produce a neat summary of a text, even if they do sacrifice substance (information) for style. They can readily be produced in R.
+Wordclouds can be used to produce a neat summary of text and can readily be produced in R. This is a simple example based on a recent conferene paper.
 
 ---
 
 ### Summarising the content of an upcoming conference paper
 
-There is an [R package dedicated to creating wordclouds](https://cran.r-project.org/web/packages/wordcloud/index.html), so I've started by loading this, along with the tidyverse.
+There is an [R package dedicated to creating wordclouds](https://cran.r-project.org/web/packages/wordcloud/index.html), so I've started by loading this, along with the tidyverse (for standard data manipulation) and tidytext (for some help processing the contents of the paper).
 
 ```{r, include = TRUE, warning = FALSE, message = FALSE}
-library(wordcloud); library(tidyverse)
+library(wordcloud); library(tidyverse); library(tidytext)
 ```
 
 The wordcloud package creates a graphic of words that appear in some specified text. The more times the word appears in the text, the larger it appears in the wordcloud. R can read text from a local file, as shown below, or from a website.
@@ -52,61 +52,51 @@ Because of the way I've read my text, the 'paper' variable is currently as list 
 print(paper[2])
 ```
 
-As a result, I need to extract the individual words, which I've saved to a new variable:
+*tidytext* helps get this into a friendlier format allowing us to count the occirence of each word.
+
+```{r, include = TRUE, eval = TRUE, warning = FALSE, message = FALSE}
+paper_tbl <- as_tibble(paper) %>% 
+  tidytext::unnest_tokens(word, value) %>% 
+  dplyr::filter(is.na(as.numeric(word))) %>% 
+  count(word)
+```
+
+Since I expected words like 'the' and 'of' are likely to feature a lot in the text, I wanted to be able to remove them. I initally used *dplyr* to set up a variable that would allow me to filter out shorter words, based on some threshold...
+
+```{r, include = TRUE, eval = FALSE, warning = FALSE, message = FALSE}
+minLength <- 4
+
+paper_tbl <- paper_tbl %>% 
+  mutate(check = case_when(nchar(word) < minLength ~ 0,
+                           nchar(word) >= minLength ~ 1))
+```
+
+But then I learnt about [stopwords](https://en.wikipedia.org/wiki/Stop_words) and made use of the database that *tidytext* conveniently provides, before removing them from the data.
 
 ```{r, include = TRUE, warning = FALSE, message = FALSE}
-paperRows <- strsplit(paste(unlist(paper), collapse = " "), '\n')
-paperWords <- unlist(strsplit(paste(unlist(paperRows), collapse = " "), ' '))
+paper_tbl <- paper_tbl %>%  
+ anti_join(tidytext::get_stopwords(language = 'en', source = 'stopwords-iso'))
 ```
 
-The next step is to create a dataframe that will eventually have two columns of interest to us: a list of words, and a count of the number of times they feature in the paper. I've set up an empty dataframe of the required size, and also added a check to identify small words (since I think words like 'the' are likely to feature a lot in the text, and I'd like the option of removing them from my wordcloud).
+Before sending this directly into the wordcloud function, we can review the current state of the data, either as a table...
 
 ```{r, include = TRUE, warning = FALSE, message = FALSE}
-paperWordData <- data.frame(word = c(rep(x = 0, times = length(paperWords))), 
-                       count = c(rep(x = 0, times = length(paperWords))),
-                       check = c(rep(x = 0, times = length(paperWords))))
-
-paperWordData$word <- as.vector(paperWords)
-
-maxLength <- 5
-
-for (i in seq(from = 1, to = nrow(paperWordData), by = 1)){
-  paperWordData$count[i] <- sum(paperWords == paperWords[i])
-  if (nchar(paperWordData$word[i]) < maxLength) {
-    paperWordData$check[i] <- 0
-  } else {
-    paperWordData$check[i] <- 1
-  }
-}
+head(x = paper_tbl %>% 
+       arrange(desc(x = n)), n = 10)
 ```
-
-I'll then convert all words to lower case. Without this, if a word had begun with a capital letter (perhaps because it was starting a sentence) it would not have been included in the same count as instances of the same word beginning with a lower case letter.
+...or as a simple plot (in either case I'm only interested in the most frequent words for now) ...
 
 ```{r, include = TRUE, warning = FALSE, message = FALSE}
-paperWordData$word <- tolower(paperWordData$word)
+
+ggplot(paper_tbl %>% 
+         arrange(desc(n)) %>% 
+         dplyr::filter(n >= 12))+
+  geom_col(mapping = aes(x = word, y = n))+
+  theme_minimal()+ theme(axis.text.x = element_text(angle = 90), axis.title.x = element_blank())+
+  labs(y = 'count')
 ```
 
-Time to make use of the filter that was previously set up to remove, short and uninteresting words.
-
-```{r, include = TRUE, warning = FALSE, message = FALSE}
-paperWordData <- unique(paperWordData) %>% 
-  dplyr::filter(check == 1)
-```
-
-```{r, include = FALSE}
-paperWordData <- paperWordData[-c(13,274),] %>% 
-    dplyr::filter(!grepl('âˆ†k_th', word))
-```
-
-After reviewing the resultant wordcloud, I realised that my filter removing all words of length < `r maxLength` was not as comprehensive as I first thought. There were sti
-ll a few words I didn't want to see, and I've resorted to doing this manually. Not very elegant, sadly.
-
-```{r, include = TRUE, warning = FALSE, message = FALSE}
-skippedWords <- c('which', 'there', 'these', 'therefore')
-
-paperWordData <- paperWordData %>% 
-  dplyr::filter(!grepl(paste(skippedWords, collapse='|'), word))
-```
+One thing that is apparent from the above summaries is that we have not dealt with plurals from the data, i.e. 'model' and 'models' will be treated as two different words, with their own count. I've not found a neat way to combine these, but a manual solution with regular expressions (such as *grepl*, *!grepl*, etc.) would be simple but not very elegant. I decided to leave plurals as they are.
 
 Finally, time to ask the wordcloud function to read and plot our data. There are some useful arguments to experiment with here:
 
@@ -117,12 +107,12 @@ Finally, time to ask the wordcloud function to read and plot our data. There are
 Finally, the words are arranged stochastically somehow, and so for a repeatable graphic it is best to specify a seed value.
 
 ```{r, include = TRUE, warning = FALSE, message = FALSE}
-set.seed(1008)
-wordcloud(words = paperWordData$word, 
-                     freq = paperWordData$count, 
-                     min.freq = 3, max.words = 100, 
-                     random.order = FALSE, rot.per = 0.25, 
-                     colors = brewer.pal(n = 8, name = 'Dark2'))
+set.seed(1008) 
+
+wordcloud(words = paper_tbl$word, freq = paper_tbl$n, 
+          min.freq = 3, max.words = 100, random.order = FALSE, rot.per = 0.25,
+          colors = brewer.pal(n = 8, name = 'Dark2'))
+
 ```
 
 If you're not familiar with the colour palettes, the below line will ask R to display them for you:

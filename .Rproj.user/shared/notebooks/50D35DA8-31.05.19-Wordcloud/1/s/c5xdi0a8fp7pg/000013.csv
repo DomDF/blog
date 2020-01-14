@@ -1,0 +1,6 @@
+"0","set.seed(1008) # For a reproducable image"
+"0",""
+"0","wordcloud(words = paper_tbl$word, freq = paper_tbl$n, "
+"0","          min.freq = 3, max.words = 100, random.order = FALSE, rot.per = 0.25,"
+"0","          colors = brewer.pal(n = 8, name = 'Dark2'))"
+"0",""

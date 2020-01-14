@@ -1,0 +1,2 @@
+"0","paper_tbl <- paper_tbl %>%  "
+"0"," anti_join(tidytext::get_stopwords(language = 'en', source = 'stopwords-iso'))"
