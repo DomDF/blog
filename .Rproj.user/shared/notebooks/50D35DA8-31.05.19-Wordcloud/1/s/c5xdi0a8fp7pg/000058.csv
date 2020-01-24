@@ -1,0 +1,7 @@
+"0","set.seed(1008) "
+"0",""
+"0","wordcloud(words = paper_tbl$word, freq = paper_tbl$n, "
+"0","          min.freq = 4, max.words = 100, random.order = FALSE, rot.per = 0.25,"
+"0","          colors = brewer.pal(n = 8, name = 'Paired'))"
+"2","Error in fun() : no active graphics device
+"

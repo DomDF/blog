@@ -1,0 +1,34 @@
+library(MASS); library(tidyverse); library(ggrough); library(extrafont)
+
+point_options <- list(background = list(roughness = 10, bowing = 2), 
+                      GeomPoint = list(roughness = 5, bowing = 5)
+
+?MASS::painters
+                                            
+paint_plot <- MASS::painters %>%
+  ggplot(mapping = aes(x = Colour, y = Expression))+
+  geom_point(mapping = aes(col = School))+
+  scale_shape_manual(values = seq(from = 1, to = length(unique(MASS::painters$School)), by = 1))+
+  ggthemes::theme_tufte(base_size = 8) + 
+  theme(axis.title = element_text(size = 14), legend.title = element_text(size = 24), legend.position = 'top')+
+  labs(caption = 'Data from MASS::painters  |  @d73mwf')
+
+get_rough_chart(p = paint_plot, rough_user_options = point_options, family = 'Ink Free', font_size_booster = 2, width = 8, height = 10)
+
+ggplot2::seals
+ggplot2::msleep
+
+mpg_plot <- ggplot2::mpg %>% 
+  ggplot(mapping = aes(x = cyl, y = cty))+
+  geom_col()
+
+mpg_plot_2 <- ggplot2::mpg %>% 
+  ggplot(mapping = aes(x = hwy, y = cty))+
+  geom_point()
+
+col_options <- list(#background = list(roughness = 10, bowing = 2), 
+  #GeomPoint = list(roughness = 5, bowing = 1),
+  GeomCol = list(roughness = 1, fill_style = 'hachure', angle_noise = 0, gap_noise = 0, angle = 45))
+get_rough_chart(p = mpg_plot, rough_user_options = col_options, family = 'Viner Hand ITC', font_size_booster = 1.5)
+
+get_rough_chart(p = mpg_plot_2, rough_user_options = point_options, family = 'Viner Hand ITC', font_size_booster = 1.5)

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Bayesian on Bayesian Engineering</title>
+    <title>Bayesian on All Your Bayes</title>
     <link>/tags/bayesian/</link>
-    <description>Recent content in Bayesian on Bayesian Engineering</description>
+    <description>Recent content in Bayesian on All Your Bayes</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-uk</language>
     <lastBuildDate>Tue, 11 Jun 2019 00:00:00 +0000</lastBuildDate>
@@ -22,13 +22,13 @@
 
 &lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;TLDR&lt;/h3&gt;
-&lt;p&gt;Entropy is used synonymously with disorder. For instance, it is blamed for headphone cables tangling when left in a bag. If we consider two macro-states of a headphone cable: &lt;em&gt;tangled&lt;/em&gt; and &lt;em&gt;untangled&lt;/em&gt;, then think about possible micro-states, i.e. every possible arrangement they could conceivably be forced into, it is evident that there are more ways that the cable can exist in a tangled state than untangled. Therefore, if allowed to move randomly (even a little) amongst other contents in a bag, they become tangled.&lt;/p&gt;
-&lt;p&gt;In the context of statistics, &lt;strong&gt;information entropy&lt;/strong&gt; can be used to work with uncertainty. Methods of Maximising Entropy (MaxEnt), conditional on some given costraints, produce models that are most likely to be consistent with future observations. These arguments are used to support modelling choices in statistical decision analysis. Information theory is also the basis for various methods of evaluating the relative performance of &lt;em&gt;competing&lt;/em&gt; models.&lt;/p&gt;
+&lt;p&gt;The term &lt;em&gt;entropy&lt;/em&gt; is used synonymously with disorder. For instance, it is blamed for headphone cables tangling when left in a bag. If we consider two macro-states of a headphone cable: &lt;em&gt;tangled&lt;/em&gt; and &lt;em&gt;untangled&lt;/em&gt;, then think about possible micro-states, i.e. every possible arrangement they could conceivably be forced into, it is evident that there are more ways that the cable can exist in a tangled state than untangled. Therefore, if allowed to move randomly amongst other contents in a bag, they are likely to become tangled.&lt;/p&gt;
+&lt;p&gt;In the context of statistics, &lt;strong&gt;information entropy&lt;/strong&gt; can be used to work with uncertainty. Methods of Maximising Entropy (MaxEnt), conditional on some given constraints, produce models that are most likely to be consistent with future observations. These arguments are used to structure and evaluate models in a principled way.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;/div&gt;
 &lt;div id=&#34;thermodynamic-entropy&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Thermodynamic Entropy&lt;/h3&gt;
-&lt;p&gt;As an engineering undergraduate student, I was taught about entropy in the context of thermodynamics. The reason processes like expanding steam through a turbine are irreversible is because they are not isentropic. They are associated with an increase in entropy, and a the entropy of a system can never decrease.&lt;/p&gt;
+&lt;p&gt;As an engineering undergraduate student, I was taught about entropy in the context of thermodynamics. The reason processes like expanding steam through a turbine are irreversible is because they are not isentropic. They are associated with an increase in entropy, and the entropy of a system can never decrease.&lt;/p&gt;
 &lt;p&gt;Include picture of a T-s diagram
 What is an isentropic process? (A reversible process)&lt;/p&gt;
 &lt;p&gt;Not possible -&amp;gt; second law of thermodynamics.&lt;/p&gt;

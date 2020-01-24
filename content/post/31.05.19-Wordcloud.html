@@ -25,29 +25,30 @@ image:
 <p>Wordclouds can be used to produce a neat summary of text and can readily be produced in R. This is a simple example based on a recent conferene paper.</p>
 <hr />
 </div>
-<div id="summarising-the-content-of-an-upcoming-conference-paper" class="section level3">
-<h3>Summarising the content of an upcoming conference paper</h3>
-<p>There is an <a href="https://cran.r-project.org/web/packages/wordcloud/index.html">R package dedicated to creating wordclouds</a>, so I’ve started by loading this, along with the tidyverse (for standard data manipulation) and tidytext (for some help processing the contents of the paper).</p>
+<div id="summarising-the-content-of-a-conference-paper" class="section level3">
+<h3>Summarising the content of a conference paper</h3>
+<p>There is an <a href="https://cran.r-project.org/web/packages/wordcloud/index.html">R package dedicated to creating wordclouds</a>, so I’ve started by loading this, along with the <strong>tidyverse</strong> (for standard data manipulation) and <strong>tidytext</strong> (for some help processing the contents of the paper).</p>
 <pre class="r"><code>library(wordcloud); library(tidyverse); library(tidytext)</code></pre>
-<p>The wordcloud package creates a graphic of words that appear in some specified text. The more times the word appears in the text, the larger it appears in the wordcloud. R can read text from a local file, as shown below, or from a website.</p>
+<p>The wordcloud package creates a graphic of words that appear in some specified text. The size of the word is proprtional to its frequency in the text
+R can read text from a local file, as shown below, or from a website.</p>
 <pre class="r"><code># We can read a text file using &#39;readLines&#39; and we can select a file interactively using &#39;file.choose&#39;
 # Both of these are Base R functions
 paper &lt;- readLines(file.choose())</code></pre>
-<p>Because of the way I’ve read my text, the ‘paper’ variable is currently as list of individual lines, as we can see when viewing one of its elements:</p>
+<p>The ‘paper’ variable is currently as list of individual lines, as we can see when viewing one of its elements:</p>
 <pre class="r"><code>print(paper[2])
 ## [1] &quot;Application of MCMC Sampling to Account for Variability and Dependency&quot;</code></pre>
-<p><em>tidytext</em> helps get this into a friendlier format allowing us to count the occirence of each word.</p>
+<p><strong>tidytext</strong> helps get this into a friendlier format allowing us to count the occirence of each word.</p>
 <pre class="r"><code>paper_tbl &lt;- as_tibble(paper) %&gt;% 
   tidytext::unnest_tokens(word, value) %&gt;% 
   dplyr::filter(is.na(as.numeric(word))) %&gt;% 
   count(word)</code></pre>
-<p>Since I expected words like ‘the’ and ‘of’ are likely to feature a lot in the text, I wanted to be able to remove them. I initally used <em>dplyr</em> to set up a variable that would allow me to filter out shorter words, based on some threshold…</p>
+<p>Since I expected words like ‘the’ and ‘of’ are likely to feature a lot in the text, I wanted to be able to remove them. I initally used <strong>dplyr</strong> to set up a variable that would allow me to filter out shorter words, based on some threshold…</p>
 <pre class="r"><code>minLength &lt;- 4
 
 paper_tbl &lt;- paper_tbl %&gt;% 
   mutate(check = case_when(nchar(word) &lt; minLength ~ 0,
                            nchar(word) &gt;= minLength ~ 1))</code></pre>
-<p>But then I learnt about <a href="https://en.wikipedia.org/wiki/Stop_words">stopwords</a> and made use of the database that <em>tidytext</em> conveniently provides, before removing them from the data.</p>
+<p>But then I learnt about <a href="https://en.wikipedia.org/wiki/Stop_words">stopwords</a> and made use of the database that <strong>tidytext</strong> conveniently provides, before removing them from the data.</p>
 <pre class="r"><code>paper_tbl &lt;- paper_tbl %&gt;%  
  anti_join(tidytext::get_stopwords(language = &#39;en&#39;, source = &#39;stopwords-iso&#39;))</code></pre>
 <p>Before sending this directly into the wordcloud function, we can review the current state of the data, either as a table…</p>
@@ -67,28 +68,33 @@ paper_tbl &lt;- paper_tbl %&gt;%
 ##  9 growth        14
 ## 10 priors        12</code></pre>
 <p>…or as a simple plot (in either case I’m only interested in the most frequent words for now) …</p>
-<pre class="r"><code>
-ggplot(paper_tbl %&gt;% 
+<pre class="r"><code>ggplot(paper_tbl %&gt;% 
          arrange(desc(n)) %&gt;% 
          dplyr::filter(n &gt;= 12))+
   geom_col(mapping = aes(x = word, y = n))+
-  theme_minimal()+ theme(axis.text.x = element_text(angle = 90), axis.title.x = element_blank())+
+  theme_minimal()+ theme(axis.text.x = element_text(angle = 90), 
+                         axis.title.x = element_blank())+
   labs(y = &#39;count&#39;)</code></pre>
 <p><img src="/post/31.05.19-Wordcloud_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>One thing that is apparent from the above summaries is that we have not dealt with plurals from the data, i.e. ‘model’ and ‘models’ will be treated as two different words, with their own count. I’ve not found a neat way to combine these, but a manual solution with regular expressions (such as <em>grepl</em>, <em>!grepl</em>, etc.) would be simple but not very elegant. I decided to leave plurals as they are.</p>
+<p>One thing that is apparent from the above summaries is that we have not dealt with plurals from the data, i.e. ‘model’ and ‘models’ will be treated as two different words, with their own count. I’ve not found a neat way to combine these, but a manual solution with regular expressions (such as <em>grepl</em>, <em>!grepl</em>, etc.) would be simple, though not very elegant. I decided to leave plurals as they are.</p>
 <p>Finally, time to ask the wordcloud function to read and plot our data. There are some useful arguments to experiment with here:</p>
 <ul>
 <li><strong>min.freq</strong> and <strong>max.words</strong> set boundaries for how populated the wordcloud will be</li>
 <li><strong>random.order</strong> will put the largest word in the middle if set to FALSE</li>
 <li><strong>rot.per</strong> is the fraction of words that will be rotated in the graphic</li>
 </ul>
-<p>Finally, the words are arranged stochastically somehow, and so for a repeatable graphic it is best to specify a seed value.</p>
+<p>Finally, the words are arranged stochastically somehow, and so for a repeatable graphic we need to specify a seed value.</p>
 <pre class="r"><code>set.seed(1008) 
 
 wordcloud(words = paper_tbl$word, freq = paper_tbl$n, 
-          min.freq = 3, max.words = 100, random.order = FALSE, rot.per = 0.25,
-          colors = brewer.pal(n = 8, name = &#39;Dark2&#39;))</code></pre>
+          min.freq = 4, max.words = 100, random.order = FALSE, rot.per = 0.25,
+          colors = brewer.pal(n = 8, name = &#39;Paired&#39;))</code></pre>
 <p><img src="/post/31.05.19-Wordcloud_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>If you’re not familiar with the colour palettes, the below line will ask R to display them for you:</p>
 <pre class="r"><code>RColorBrewer::display.brewer.all()</code></pre>
+<p>Finally, some links to more information regarding the packages introduced here, both of which are available on CRAN:</p>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/wordcloud/index.html">wordcloud</a></li>
+<li><a href="https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html">tidytext</a></li>
+</ul>
 </div>

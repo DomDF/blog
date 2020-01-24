@@ -1,22 +1,58 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Bayesian Engineering</title>
+    <title>Tags on All Your Bayes</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on Bayesian Engineering</description>
+    <description>Recent content in Tags on All Your Bayes</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-uk</language>
-    <lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Source Themes</title>
-      <link>/tags/source-themes/</link>
+      <title>Bayesian Decision Analysis</title>
+      <link>/tags/bayesian-decision-analysis/</link>
+      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/bayesian-decision-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Value of Information</title>
+      <link>/tags/value-of-information/</link>
+      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/value-of-information/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bayesian Modelling</title>
+      <link>/tags/bayesian-modelling/</link>
       <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/source-themes/</guid>
+      <guid>/tags/bayesian-modelling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Fracture &amp; Fatigue</title>
+      <link>/tags/fracture-fatigue/</link>
+      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/fracture-fatigue/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Markov Chain Monte Carlo Sampling</title>
+      <link>/tags/markov-chain-monte-carlo-sampling/</link>
+      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/markov-chain-monte-carlo-sampling/</guid>
       <description></description>
     </item>
     
@@ -98,6 +134,15 @@
       <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/ggplot2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Source Themes</title>
+      <link>/tags/source-themes/</link>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/source-themes/</guid>
       <description></description>
     </item>
     
