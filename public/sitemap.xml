@@ -3,18 +3,117 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/bayesian/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/bayesian/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/post/bayesian-regression-models-with-stan/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/inspection-reliability/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/inspection-reliability/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/logistic-regression/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/logistic-regression/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/mcmc/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/mcmc/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/probability-of-detection/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/probability-of-detection/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/stan/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/stan/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/post/bayesian-regression-models-with-stan/</loc>
+    <lastmod>2020-02-14T10:30:10+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/authors/admin/</loc>
     <lastmod>2019-12-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/publication_types/1/</loc>
-    <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/</loc>
     <lastmod>2019-12-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -60,12 +159,6 @@
   </url>
   
   <url>
-    <loc>/tags/</loc>
-    <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/authors/ujjwal-bharadwaj/</loc>
     <lastmod>2019-12-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -101,76 +194,18 @@
   </url>
   
   <url>
-    <loc>/categories/bayesian/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/bayesian/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/2019-06-11-conceptual-introduction-information/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/entropy/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/entropy/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/information/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/information/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2019-06-11T09:48:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/post/animating-plots/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/football/</loc>
+    <loc>/categories/r/</loc>
+    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -190,6 +225,12 @@
   <url>
     <loc>/post/31.05.19-wordcloud/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/dplyr/</loc>
+    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>

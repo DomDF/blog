@@ -6,90 +6,10 @@
     <description>Recent content in R on All Your Bayes</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-uk</language>
-    <lastBuildDate>Tue, 11 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Conceptual Introduction - Information Entropy</title>
-      <link>/post/2019-06-11-conceptual-introduction-information/</link>
-      <pubDate>Tue, 11 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/2019-06-11-conceptual-introduction-information/</guid>
-      <description>
-
-
-&lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;TLDR&lt;/h3&gt;
-&lt;p&gt;The term &lt;em&gt;entropy&lt;/em&gt; is used synonymously with disorder. For instance, it is blamed for headphone cables tangling when left in a bag. If we consider two macro-states of a headphone cable: &lt;em&gt;tangled&lt;/em&gt; and &lt;em&gt;untangled&lt;/em&gt;, then think about possible micro-states, i.e. every possible arrangement they could conceivably be forced into, it is evident that there are more ways that the cable can exist in a tangled state than untangled. Therefore, if allowed to move randomly amongst other contents in a bag, they are likely to become tangled.&lt;/p&gt;
-&lt;p&gt;In the context of statistics, &lt;strong&gt;information entropy&lt;/strong&gt; can be used to work with uncertainty. Methods of Maximising Entropy (MaxEnt), conditional on some given constraints, produce models that are most likely to be consistent with future observations. These arguments are used to structure and evaluate models in a principled way.&lt;/p&gt;
-&lt;hr /&gt;
-&lt;/div&gt;
-&lt;div id=&#34;thermodynamic-entropy&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Thermodynamic Entropy&lt;/h3&gt;
-&lt;p&gt;As an engineering undergraduate student, I was taught about entropy in the context of thermodynamics. The reason processes like expanding steam through a turbine are irreversible is because they are not isentropic. They are associated with an increase in entropy, and the entropy of a system can never decrease.&lt;/p&gt;
-&lt;p&gt;Include picture of a T-s diagram
-What is an isentropic process? (A reversible process)&lt;/p&gt;
-&lt;p&gt;Not possible -&amp;gt; second law of thermodynamics.&lt;/p&gt;
-&lt;p&gt;Slight digression, but will pay off soon:&lt;/p&gt;
-&lt;p&gt;Quantitative case: moving molecules.&lt;/p&gt;
-&lt;p&gt;What is the system? What are possible &lt;em&gt;macro-states&lt;/em&gt;? What are possible &lt;em&gt;micro-states&lt;/em&gt;?&lt;/p&gt;
-&lt;p&gt;How many different ways can each macro-state exist? Depends on the number of possible micro-states!
-The most likely outcome in such a stochastic process is the outcome that can occur in the most ways. This is the maximum entropy (&lt;strong&gt;MaxEnt&lt;/strong&gt;) solution.&lt;/p&gt;
-&lt;p&gt;Unless some energy is put into the system to encourage a particular macro-state, the MaxEnt argument is the best bet.&lt;/p&gt;
-&lt;p&gt;for &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; gas molecules each of a distinct energy level, &lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt;, where &lt;span class=&#34;math inline&#34;&gt;\(p_{i}\)&lt;/span&gt; is the proportion of molecules with energy &lt;span class=&#34;math inline&#34;&gt;\(E_{i}\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-S = -k \cdot \sum\limits_{i = 1}^{E} p_{i} \cdot log(p_{i})
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;The above expression can be used to maximise &lt;span class=&#34;math inline&#34;&gt;\(S\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;This sort of description of entropy is no longer restricted to thermodynamic systems and can also be applied to uncertainty.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;information-entropy&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Information Entropy&lt;/h3&gt;
-&lt;p&gt;Information theory is the formal framework for modelling uncertainty. &lt;a href=&#34;link%20to%20bio&#34;&gt;Claude Shannon&lt;/a&gt; is regarded as a pioneer in the field, describing how information is communicated mathematically. His work became the basis for modern telecommunication systems.&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-H = -k \cdot \sum\limits_{i = 1}^{n} p_{i} \cdot log(p_{i})
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;looks familiar, right?&lt;/p&gt;
-&lt;p&gt;The best introductions to information entropy that I have read are in books by &lt;a href=&#34;https://www.amazon.co.uk/Decisions-under-Uncertainty-Probabilistic-Engineering/dp/0521782775/ref=sr_1_1?keywords=decision+making+under+uncertainty+jordaan&amp;amp;qid=1560247665&amp;amp;s=books&amp;amp;sr=1-1&#34;&gt;I.Jordaan&lt;/a&gt;, &lt;a href=&#34;https://www.amazon.co.uk/Statistical-Rethinking-Bayesian-Examples-Chapman/dp/1482253445/ref=sr_1_1?crid=3NY20Q0R1GOYA&amp;amp;keywords=statistical+rethinking&amp;amp;qid=1560247633&amp;amp;s=books&amp;amp;sprefix=statistical+re%2Cstripbooks%2C138&amp;amp;sr=1-1&#34;&gt;R.McElreath&lt;/a&gt; and &lt;a href=&#34;https://www.amazon.co.uk/Probability-Theory-Principles-Elementary-Applications/dp/0521592712&#34;&gt;E.T. Jaynes&lt;/a&gt;, who each provide helpful anaologies.&lt;/p&gt;
-&lt;div id=&#34;analogy-1-mcelreath&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Analogy 1 (McElreath)&lt;/h4&gt;
-&lt;p&gt;Jaynes uses the example of morbid children’s word-game &lt;strong&gt;hangman&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;McElreath suggests an experiment where ten balls are randomly placed in five buckets, and evaluates a few different arrangements.&lt;/p&gt;
-&lt;p&gt;The two extremes are:
-* All ten balls are placed in a single bucket (e.g Bucket 1 of 5): There is only one way of achieving this.
-* Two balls are placed in each of the five buckets: There are 113400 ways of achieving this.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;analogy-2-jordaan&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Analogy 2 (Jordaan)&lt;/h4&gt;
-&lt;p&gt;Jordaan proposes a simple definition of entropy:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;‘Entropy is the smallest expected number of YES–NO questions to determine the true event.’&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;…which I think can be interpretted as the complexity of a system.&lt;/p&gt;
-&lt;p&gt;He elaborates on this idea by imagining an &lt;strong&gt;entropy demon&lt;/strong&gt; playing games. In one instance, he plays a game of roulette many times.&lt;/p&gt;
-&lt;p&gt;In each of the above examples we are relating information to a count of possible system states.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;maxent-statistical-models&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;MaxEnt Statistical Models&lt;/h3&gt;
-&lt;p&gt;MaxEnt methods are also used in ecology, and &lt;a href=&#34;https://www.sciencedirect.com/science/article/pii/S0169534714001037&#34;&gt;J. Harte and E. Newman&lt;/a&gt; have written an introduction, which also includes statistical distributions which are MaxEnt solutions for some given constraints.&lt;/p&gt;
-&lt;p&gt;If we were to bet on the outcome of the number of balls in each of McElreath’s buckets, the optimal way to do so would be to use a uniform distribution. The MaxEnt solution (the macro state consistent with the largest number of possible micro-states) is a uniform distribution. Selecting any other distribution to model the probability of the number of balls in the buckets&lt;/p&gt;
-&lt;p&gt;Bayesian Inference as an extension of MaxEnt methodology …&lt;/p&gt;
-&lt;p&gt;A discussion on Bayesian models will follow.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We can read a text file using &amp;#39;readLines&amp;#39; and we can select a file interactively using &amp;#39;file.choose&amp;#39;
-# Both of these are Base R functions
-paper &amp;lt;- readLines(file.choose())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;MaxEnt in ecology&lt;/p&gt;
-&lt;p&gt;Congratulations on making it to the end!&lt;/p&gt;
-&lt;img src=&#34;https://media3.giphy.com/media/xTiTnwqkkEtj3hm6DS/giphy.gif&#34; alt=&#34;entropy&#34; /&gt;&lt;br /&gt;
-
-&lt;div style=&#34;font-size:50%&#34;&gt;
-(&lt;a href=&#34;www.behance.net/banaszek&#34;&gt;GIF Source link&lt;/a&gt;, accessed Sep 17, 2019)
-&lt;/div&gt;
-&lt;p&gt;&lt;a href=&#34;https://xkcd.com/license.html%5D&#34;&gt;XKCD license&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
     
     <item>
       <title>Animating Plots</title>
@@ -102,61 +22,96 @@ paper &amp;lt;- readLines(file.choose())&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;TLDR&lt;/h3&gt;
-&lt;p&gt;There are many instances where it may be useful to animate graphical representations of data, perhaps to add an additional dimension to a plot. However, the below is a purely gimmicky example that simply demonstrates some of the functionality of the &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;&lt;em&gt;gganimate&lt;/em&gt;&lt;/a&gt; library.&lt;/p&gt;
+&lt;p&gt;There are many instances where it may be useful to animate graphical representations of data, perhaps to add an additional dimension to a plot. The below example builds a cumulative map of car accidents in the UK using some of the functionality of the &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;&lt;strong&gt;gganimate&lt;/strong&gt;&lt;/a&gt; package.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;/div&gt;
 &lt;div id=&#34;making-moving-plots-with-gganimate&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Making Moving Plots with &lt;em&gt;gganimate&lt;/em&gt;&lt;/h3&gt;
+&lt;h3&gt;Making Moving Plots with &lt;strong&gt;gganimate&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;Graphics made using the ggplot2 package are already extremely customisable. They can be further enhanced using some of the &lt;a href=&#34;http://ggplot2-exts.org/gallery/&#34;&gt;extensions that have been developed&lt;/a&gt;. These include providing access to new themes, as well as entirely new functionality.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;gganimate&lt;/em&gt; allows for the animation of existing ggplot graphics. Once installed, we can load both packages (&lt;em&gt;ggplot2&lt;/em&gt; is included as part of the &lt;em&gt;tidyverse&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;gganimate&lt;/strong&gt; allows for the animation of existing ggplot graphics. Once installed, we can load both packages (&lt;strong&gt;ggplot2&lt;/strong&gt; is included as part of the &lt;strong&gt;tidyverse&lt;/strong&gt;):&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(gganimate); library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The example uses a fifa 19 dataset that I found on &lt;a href=&#34;https://www.kaggle.com/karangadiya/fifa19&#34;&gt;Kaggle&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;size &amp;lt;- 500
-fifa19 &amp;lt;- fifa19 %&amp;gt;% arrange(desc(Overall))
-topPlayers &amp;lt;- fifa19[1:size,]&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The above filter defines the &lt;code&gt;topPlayers&lt;/code&gt; dataframe as the highest rated 500 players on the game.&lt;/p&gt;
-&lt;p&gt;However, it still has a lot of columns, and we are not interested in them all for now:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;params &amp;lt;- c(&amp;#39;Name&amp;#39;, &amp;#39;Overall&amp;#39;, &amp;#39;NumValue&amp;#39;, &amp;#39;NumWage&amp;#39;)
-topPlayers &amp;lt;- topPlayers %&amp;gt;% select(params)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Below shows how we can use ggplot to create a scatterplot comparing the transfer value and weekly wage of the players.&lt;/p&gt;
-&lt;p&gt;Because I want to label some of the most valuable and highest earning players I will use an additional ggplot extension, &lt;em&gt;ggrepel&lt;/em&gt;. The function &lt;code&gt;geom_text_repel()&lt;/code&gt; from this library differs from &lt;em&gt;ggplot&lt;/em&gt;’s &lt;code&gt;geom_text()&lt;/code&gt; in that it prevents text labels from overlapping with each other (where possible).&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;minValueToLabel &amp;lt;- 75; minWageToLabel &amp;lt;- 300
+&lt;p&gt;The example uses a car accident dataset that I found on &lt;a href=&#34;https://www.kaggle.com/silicon99/dft-accident-data/data#&#34;&gt;Kaggle&lt;/a&gt;. Here are the first few rows of the variables that we’re interested in:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(Accidents_Dec2015 %&amp;gt;% 
+       dplyr::select(Date, Longitude, Latitude, Number_of_Casualties, Accident_Severity))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##         Date Longitude Latitude Number_of_Casualties Accident_Severity
+## 1 2015-12-01 -0.155880 51.48959                    1            Slight
+## 2 2015-12-01 -0.200271 51.49262                    1            Slight
+## 3 2015-12-03 -0.210643 51.49997                    2            Slight
+## 4 2015-12-03 -0.156754 51.49293                    1            Slight
+## 5 2015-12-03 -0.159124 51.50205                    1            Slight
+## 6 2015-12-04 -0.197452 51.49104                    1            Slight&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can plot the coordinates using a map of the UK included in &lt;strong&gt;ggplot2&lt;/strong&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;UK_coords &amp;lt;- ggplot2::map_data(map = &amp;#39;world&amp;#39;, region = &amp;#39;UK&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Before animating we need to create a ggplot that we will work from.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;accidents_plot &amp;lt;- ggplot(data = UK_coords)+
+  geom_polygon(mapping = aes(x = long, y = lat, group = group), col = &amp;#39;black&amp;#39;, fill = NA)+
+  theme_void(base_size = 12, base_family = &amp;#39;Bahnschrift&amp;#39;)+
+  geom_point(data = Accidents_Dec2015 %&amp;gt;% dplyr::filter(grepl(pattern = &amp;#39;Slight&amp;#39;, x = Accident_Severity)), 
+             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
+             alpha = 0.1)+
+  geom_point(data = Accidents_Dec2015 %&amp;gt;% dplyr::filter(grepl(pattern = &amp;#39;Serious&amp;#39;, x = Accident_Severity)), 
+             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
+             alpha = 0.2)+
+  geom_point(data = Accidents_Dec2015 %&amp;gt;% dplyr::filter(grepl(pattern = &amp;#39;Fatal&amp;#39;, x = Accident_Severity)), 
+             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
+             alpha = 0.4)+
+  theme(legend.position = &amp;#39;right&amp;#39;)+
+  scale_size_continuous(breaks = c(1, 3, 9))+
+  scale_color_manual(values = c(&amp;#39;firebrick&amp;#39;, &amp;#39;forestgreen&amp;#39;, &amp;#39;steelblue&amp;#39;))+
+  guides(col = guide_legend(title = element_blank(), ncol = 1),
+         size = guide_legend(title = element_text(&amp;#39;Casualties&amp;#39;, size = 10), ncol = 1))
 
-topPlayersPlot &amp;lt;- ggplot(topPlayers)+
-   geom_point(aes(x = NumValue, y = NumWage), alpha = 0.5)+
-   ggrepel::geom_text_repel(aes(x = NumValue, y = NumWage, label = Name), 
-                   data = subset(topPlayers, NumValue &amp;gt; minValueToLabel | NumWage &amp;gt; minWageToLabel),
-                   seed = 1008, size = 3, family = &amp;#39;Trebuchet MS&amp;#39;)+
-   xlab(&amp;#39;Player Value, $M&amp;#39;)+ylab(&amp;#39;Player Weekly Wage, $k&amp;#39;)+
-   theme_bw(base_size = 9)
-
-topPlayersPlot&lt;/code&gt;&lt;/pre&gt;
+accidents_plot&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The text label effectively includes a filter by specifying a subset of data. Only players with a value of at least $75
-M, or a weekly wage of at least $300 k.&lt;/p&gt;
-&lt;p&gt;This plot is the basis for the animation.&lt;/p&gt;
-&lt;p&gt;Adding a function from &lt;em&gt;gganimate&lt;/em&gt; and saving as a new variable:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topPlayersPlotAnim &amp;lt;- topPlayersPlot +
-  transition_states(states = Overall, transition_length = 1, state_length = 4, wrap = FALSE)+
-     ggtitle(&amp;#39;Fifa 19 Top Rated Players&amp;#39;, subtitle = &amp;#39;Overall Rating = {closest_state}&amp;#39; )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;code&gt;transition_states()&lt;/code&gt; requires specification of the discrete states that the plot animate sequentially. As shown above, this animation will transition through values of &lt;code&gt;Overall&lt;/code&gt; i.e. the overall player rating.&lt;/p&gt;
-&lt;p&gt;There are numerous alternative types of transition within &lt;em&gt;gganimate&lt;/em&gt; as detailed &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;here&lt;/a&gt;. Each of these accept some additional arguments to describe the animation.&lt;/p&gt;
+&lt;p&gt;We can now add some functions from &lt;strong&gt;gganimate&lt;/strong&gt;, which will describe how and saving as a new variable:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(gganimate)
+
+accidents_plot &amp;lt;- accidents_plot +
+  transition_time(time = Date)+
+  shadow_trail()+
+  ggtitle(label = &amp;#39;UK Car Accidents in December 2015&amp;#39;, subtitle = &amp;#39;Date : {frame_time}&amp;#39;)+
+  labs(caption = &amp;#39;Data from Kaggle: https://www.kaggle.com/silicon99/dft-accident-data/data |  @d73mwf&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;transition_time()&lt;/code&gt; requires specification of a time variable that the plot will display sequentially. As shown above, this animation will transition through values of &lt;code&gt;Date&lt;/code&gt;. There are many more options that allow for animation across different data types in different ways.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;shadow_mark()&lt;/code&gt; has been added to keep accidents from previous dates. Again, there are various methods of showing data from previous states.&lt;/p&gt;
+&lt;p&gt;Some of these additional options are detailed &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In this case, &lt;code&gt;transition_length&lt;/code&gt; and &lt;code&gt;state_length&lt;/code&gt; describe the &lt;strong&gt;relative&lt;/strong&gt; amount of time spent displaying the current state, and transitioning to the next state.&lt;/p&gt;
-&lt;p&gt;Finally, if &lt;code&gt;wrap&lt;/code&gt; is set to &lt;code&gt;TRUE&lt;/code&gt;, the animation will also transition from the final state back to the first state.&lt;/p&gt;
-&lt;p&gt;This example is certainly not exaustive and there are many additional tweaks available to further customise an animation. Some of those examples are shown in the official &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html&#34;&gt;beginner’s guide&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Regardless of the transition function selected, the best way to create the moving plot is to use the &lt;code&gt;animate&lt;/code&gt; function:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;animate(plot = topPlayersPlotAnim, fps = 20, duration = 60, end_pause = 60)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;animate(plot = accidents_plot, fps = 20, duration = 30, end_pause = 100)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;animate()&lt;/code&gt; function requires us to specify the plot (to be animated), but includes many additional arguments not all of which are detailed above.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;fps&lt;/code&gt; is the frames per second, &lt;code&gt;duration&lt;/code&gt; is the length of the animation (in seconds), and &lt;code&gt;end_pause&lt;/code&gt; is the length of time that the final frame is held for (in number of frames.)&lt;/p&gt;
-&lt;p&gt;I tried a few alternatives here, In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. However, it does result in a total of 1200 frames in the animation. On my laptop this required approximately 3 minutes to render. A shorter animation could be produced in a few seconds.&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/fifa.gif&#34; alt=&#34;Final Animation&#34; /&gt;
-&lt;p class=&#34;caption&#34;&gt;Final Animation&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;Once you are happy with your animation you can save it (in various formats) using &lt;code&gt;anim_save()&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;A note on animating text or label geoms from the &lt;em&gt;ggrepel&lt;/em&gt; library&lt;/strong&gt;:&lt;/p&gt;
-&lt;p&gt;After my first attempt at this excercise my labels were jumping around erratically, though always in a similar position. As I found out on &lt;a href=&#34;https://stackoverflow.com/questions/55723567/how-to-stop-ggrepel-labels-moving-between-gganimate-frames-in-r-ggplot2&#34;&gt;stackoverflow&lt;/a&gt;, this is because the position of the text was being assigned stochastically and was therefore being re-assigned in each frame.
-Setting the seed value means the position will be the same in each frame. This is done in the &lt;code&gt;geom_text_repel()&lt;/code&gt; function.&lt;/p&gt;
+&lt;div id=&#34;final-animation&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Final Animation&lt;/h3&gt;
+&lt;p&gt;I tried a few alternatives here. In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. The trade-off here is the number of frames (and associated processing time and file size). The below allocates approximately &lt;code&gt;1&lt;/code&gt; second per day and results in a total of 600 frames for the animation. On my (ageing) laptop this required approximately 4 minutes to render.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;C:/Users/domen/OneDrive/Documents/GitHub/blog/car_acc_Dec2015.gif&#34; alt=&#34;Animated Map&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Animated Map&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;thoughts-on-the-animation&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Thoughts on the Animation&lt;/h3&gt;
+&lt;p&gt;What does the animation tell us that the stationary plot doesn’t?&lt;/p&gt;
+&lt;p&gt;The final frame is pretty much identical, but the transitions will show when the accidents occurred. From viewing the animation there doesn’t appear to be a clear time when accidents were more frequent. We can check this with an additional plot:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Accidents_Dec2015 %&amp;gt;% 
+     dplyr::select(Date, Number_of_Casualties, Accident_Severity) %&amp;gt;% 
+     ggplot(mapping = aes(x = Date))+
+        geom_bar(stat = &amp;#39;count&amp;#39;)+
+        facet_wrap(facets = ~ Accident_Severity, scales = &amp;#39;free&amp;#39;)+
+        ggthemes::theme_tufte(base_size = 12, base_family = &amp;#39;Bahnschrift&amp;#39;)+
+        coord_flip()+
+        theme(axis.title = element_blank())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;What isn’t shown in the data is the number of cars that were on the road at the time, so it could be that there were a higher proportion of accidents between the &lt;code&gt;24&lt;/code&gt;th and &lt;code&gt;31&lt;/code&gt;st December - but that will have to remain speculation for now.&lt;/p&gt;
+&lt;p&gt;Another slight issue I have with the final animation is the way the points move to the next location. Given the context of the plot, it could be interpreted as the same vehicles having accidents all over the UK. When critically considering this idea it becomes apparent that it cannot be the case (for &lt;em&gt;many&lt;/em&gt; reasons), but there should be as little ambiguity as possible in a plot like this.&lt;/p&gt;
+&lt;p&gt;In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a gentle introduction to how the &lt;strong&gt;gganimate&lt;/strong&gt; package can automate animated graphics.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;additional-resources&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Additional Resources&lt;/h3&gt;
+&lt;p&gt;This example is certainly not exhaustive and there are many additional tweaks available to further customise an animation. I have personally found the below resources to be particularly helpful.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The official &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html&#34;&gt;beginner’s guide&lt;/a&gt; to &lt;strong&gt;gganimate&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;A tutorial from the &lt;a href=&#34;https://goodekat.github.io/presentations/2019-isugg-gganimate-spooky/slides.html#1&#34;&gt;ISU Graphics Group&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;
 </description>
     </item>

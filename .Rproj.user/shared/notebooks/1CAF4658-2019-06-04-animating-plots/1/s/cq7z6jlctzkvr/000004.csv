@@ -1,0 +1,7 @@
+"0","Accidents_Dec2015 <- read.csv(""~/Kaggle/Car Accidents/Accidents0515.csv"") %>% "
+"0","  mutate(Date = lubridate::dmy(Date)) %>% "
+"0","  dplyr::filter(Date >= lubridate::ymd(20151201)) %>% "
+"0","  mutate(Accident_Severity = case_when(Accident_Severity == 1 ~ 'Fatal',"
+"0","                                       Accident_Severity == 2 ~ 'Serious',"
+"0","                                       Accident_Severity == 3 ~ 'Slight'))"
+"0",""

@@ -6,10 +6,345 @@
     <description>Recent content on All Your Bayes</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-uk</language>
-    <lastBuildDate>Wed, 11 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 15 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Bayesian Logistic Regression with Stan</title>
+      <link>/post/bayesian-regression-models-with-stan/</link>
+      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/bayesian-regression-models-with-stan/</guid>
+      <description>
+
+
+&lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;TLDR&lt;/h3&gt;
+&lt;p&gt;Logistic regression is a popular machine learning model. One application of it in an engineering context is quantifying the effectiveness of inspection technologies at detecting damage. This post describes the additional information provided by a Bayesian application of logistic regression (and how it can be implemented using the &lt;code&gt;Stan&lt;/code&gt; probabilistic programming language). Finally, I’ve also included some recommendations for making sense of our priors.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;introductions&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Introductions&lt;/h3&gt;
+&lt;p&gt;So there are a couple of key topics discussed here: Logistic Regression, and Bayesian Statistics. Before jumping straight into the example application, I’ve provided&lt;/p&gt;
+&lt;div id=&#34;bayesian-inference&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Bayesian Inference&lt;/h4&gt;
+&lt;p&gt;At a very high level, Bayesian models quantify (aleatory and epistemic) uncertainty, so that our predictions and decisions take into account the ways in which our knowledge is limited or imperfect. We specify a statistical model, and identify probabilistic estimates for the parameters using a family of sampling algorithms known as Markov Chain Monte Carlo (MCMC). My preferred software for writing a fitting Bayesian models is &lt;a href=&#34;https://mc-stan.org/&#34;&gt;&lt;code&gt;Stan&lt;/code&gt;&lt;/a&gt;. If you are not yet familiar with Bayesian statistics, then I imagine you won’t be fully satisfied with that 3 sentence summary, so I will put together a separate post on the merits and challenges of applied Bayesian inference, which will include much more detail.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;logistic-regression&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Logistic Regression&lt;/h4&gt;
+&lt;p&gt;Logistic regression is used to estimate the probability of a binary outcome, such as &lt;em&gt;Pass&lt;/em&gt; or &lt;em&gt;Fail&lt;/em&gt; (though it can be extended for &lt;code&gt;&amp;gt; 2&lt;/code&gt; outcomes). This is achieved by transforming a standard reression using the logit function, shown below. The term in the bracks may be familiar to gamblers as it is how odds are calculated from probabilities. You may see &lt;em&gt;logit&lt;/em&gt; and &lt;em&gt;log-odds&lt;/em&gt; used exchangeably for this reason.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+Logit (x) = \log\Bigg({\frac{x}{1 - x}}\Bigg)
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Since the logit function transformed data &lt;em&gt;from&lt;/em&gt; a probability scale, the inverse logit function transforms data &lt;em&gt;to&lt;/em&gt; a probability scale. Therefore, as shown in the below plot, it’s values range from &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;1&lt;/code&gt;, and this feature is very useful when we are interested the probability of &lt;em&gt;Pass&lt;/em&gt;/&lt;em&gt;Fail&lt;/em&gt; type outcomes.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+Inverse\;Logit (x) = \frac{1}{1 + \exp(-x)}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-02-14-bayesian-regression-models-with-stan_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Before moving on, some terminology that you may find when reading about logistic regression elsewhere:
+* When a linear regression is combined with a re-scaling function such as this, it is known as a Generalised Linear Model (&lt;strong&gt;GLM&lt;/strong&gt;).
+* The logit function is known as a &lt;strong&gt;link function&lt;/strong&gt; in this context.
+* Logistic regression is a Bernoulli regression with a logit link function, or a Bernoulli-Logit GLM.&lt;/p&gt;
+&lt;p&gt;You may be familiar with libraries that automate the fitting of logistic regression models, either in &lt;code&gt;Python&lt;/code&gt; (via &lt;code&gt;sklearn&lt;/code&gt;):&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression()
+model.fit(X = dataset[&amp;#39;input_variables&amp;#39;], y = dataset[&amp;#39;predictions&amp;#39;])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;…or in &lt;code&gt;R&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;model_fit &amp;lt;- glm(formula = preditions ~ input_variables,
+                 data = dataset, family = binomial(link = &amp;#39;logit&amp;#39;))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;example-application-probability-of-detection&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Example Application: Probability of Detection&lt;/h3&gt;
+&lt;p&gt;To demonstrate how a Bayesian logistic regression model can be fit (and utilised), I’ve included an example from one of my papers. Engineers make use of data from inspections to understand the condition of structures. Modern inspection methods, whether remote, autonomous or manual application of sensor technologies, are very good. They are generally evaluated in terms of the accuracy and reliability with which they size damage. Engineers never receive perfect information from an inspection, such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;There is a crack of &lt;strong&gt;exact&lt;/strong&gt; length &lt;code&gt;30 mm&lt;/code&gt; and &lt;strong&gt;exact&lt;/strong&gt; depth &lt;code&gt;5 mm&lt;/code&gt; at this &lt;strong&gt;exact&lt;/strong&gt; location, or&lt;/li&gt;
+&lt;li&gt;There is &lt;strong&gt;definitely&lt;/strong&gt; no damage at this location.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For various reasons, the information we receive from inspections is imperfect and this is something that engineers need to deal with. As a result, providers of inspection services are requested to provide some measure of how good their product is. This typically includes some measure of how accurately damage is sized and how reliable an outcome (detection or no detection) is.&lt;/p&gt;
+&lt;p&gt;This example will consider trials of an inspection tool looking for damage of varying size, to fit a model that will predict the probability of detection for any size of damage. Since various forms of damage can initiate in structures, each requiring inspection methods that are suitable, let’s avoid ambiguity and imagine we are only looking for cracks.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://media.giphy.com/media/42wQXwITfQbDGKqUP7/giphy.gif&#34; alt=&#34;Detecting Damage: Never 100% Reliable&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Detecting Damage: Never 100% Reliable&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;test-data&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Test Data&lt;/h4&gt;
+&lt;p&gt;For the purposes of this example we will simulate some data. Let’s imagine we have introduced some cracks (of known size) into some test specimens and then arranged for some blind trials to test whether an inspection technology is able to detect them.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1008)
+
+N &amp;lt;- 30; lower &amp;lt;- 0; upper &amp;lt;- 10; alpha_true &amp;lt;- -1; beta_true &amp;lt;- 1
+
+depth &amp;lt;- runif(n = N, min = lower, max = upper)
+
+PoD_1D &amp;lt;- function(depth, alpha_1D, beta_1D){
+  PoD &amp;lt;- exp(alpha_1D + beta_1D * log(depth)) / (1 + exp(alpha_1D + beta_1D * log(depth)))
+  return (PoD)
+}
+
+pod_df &amp;lt;- data.frame(depth = depth, det = double(length = N))
+
+for (i in seq(from = 1, to = nrow(pod_df), by = 1)) {
+  
+  pod_df$det[i] = rbernoulli(n = 1, 
+                             p = PoD_1D(depth = pod_df$depth[i], 
+                                       alpha_1D = alpha_true, 
+                                       beta_1D = beta_true))
+  
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The above code is used to create 30 crack sizes (depths) between 0 and 10 mm. We then use a log-odds model to back calculate a probability of detection for each. This is based on some fixed values for &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;. In a real trial, these would not be known, but since we are inventing the data we can see how successful our model ends up being in estimating these values.&lt;/p&gt;
+&lt;p&gt;The below plot shows the size of each crack, and whether or not it was detected (in our simulation). The smallest crack that was detected was 2.2210205 mm deep, and the largest undetected crack was 5.692122 mm deep Even so, it’s already clear that larger cracks are more likely to be detected than smaller cracks, but just about all we can say at this stage.&lt;/p&gt;
+&lt;p&gt;After fitting our model, we will be able to predict the probability of detection for any crack size.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-02-14-bayesian-regression-models-with-stan_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Stan&lt;/code&gt; is a &lt;a href=&#34;https://en.wikipedia.org/wiki/Probabilistic_programming&#34;&gt;probabilistic programming language&lt;/a&gt;. In a future post I will explain why it has been my preferred software for statistical inference throughout my PhD.&lt;/p&gt;
+&lt;p&gt;The below is a simple &lt;code&gt;Stan&lt;/code&gt; program to fit a Bayesian Probability of Detection (PoD) model:&lt;/p&gt;
+&lt;pre class=&#34;stan&#34;&gt;&lt;code&gt;data {
+
+  int &amp;lt;lower = 0&amp;gt; N; // Defining the number of defects in the test dataset
+  int &amp;lt;lower = 0, upper = 1&amp;gt; det [N]; // A variable that describes whether each defect was detected [1]or not [0]
+  vector [N] depth; // A variable that describes the corresponding depth of each defect
+  
+  int &amp;lt;lower = 0&amp;gt; K; // Defining the number of probabilistic predictions required from the model
+  vector [K] depth_pred;
+  
+}
+
+parameters {
+  
+  // The (unobserved) model parameters that we want to recover
+  real alpha;
+  real beta;
+  
+}
+
+model {
+
+  // A logistic regression model relating the defect depth to whether it will be detected
+  det ~ bernoulli_logit(alpha + beta * log(depth));
+  
+  // Prior models for the unobserved parameters
+  alpha ~ normal(0, 1);
+  beta ~ normal(1, 1);
+
+}
+
+generated quantities {
+  
+  // Using the fitted model for probabilistic predicition
+  // K posterior predictive distributions will be estimated for a corresponding crack depth
+  vector [K] postpred_pr;
+  
+  for (k in 1:K) {
+    
+    postpred_pr[k] = inv_logit(alpha + beta * log(depth_pred[k]));
+    
+  }
+  
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I’ve extended the above model to also included a probability of false indication in a recent piece of work.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;fitting-the-model&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Fitting the model&lt;/h4&gt;
+&lt;p&gt;Data can be pre-processed in any language for which a &lt;code&gt;Stan&lt;/code&gt; interface has been developed. This includes, &lt;code&gt;R&lt;/code&gt;, &lt;code&gt;Python&lt;/code&gt;, and &lt;code&gt;Julia&lt;/code&gt;. In this example we will use &lt;code&gt;R&lt;/code&gt; and the accompanying package, &lt;code&gt;rstan&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Our &lt;code&gt;Stan&lt;/code&gt; model is expecting data for three variables: &lt;strong&gt;N&lt;/strong&gt;, &lt;strong&gt;det&lt;/strong&gt;, &lt;strong&gt;depth&lt;/strong&gt;, &lt;strong&gt;K&lt;/strong&gt; and &lt;strong&gt;depth_pred&lt;/strong&gt; and &lt;code&gt;rstan&lt;/code&gt; requires this in the form of a list.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;K &amp;lt;- 50; depth_pred &amp;lt;- seq(from = lower, to = upper, length.out = K)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;results&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Results&lt;/h4&gt;
+&lt;p&gt;Once we have our data, and are happy with our model, we can set off the Markov chains. There are plenty of opportunities to control the way that the &lt;code&gt;Stan&lt;/code&gt; algorithm will run, but I won’t include that here, rather we will mostly stick with the default arguments in &lt;code&gt;rstan&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rstan)
+
+PoD_samples &amp;lt;- sampling(object = PoD_model, 
+                        data = list(N = N, det = pod_df$det, depth = pod_df$depth,
+                                    K = K, depth_pred = depth_pred), 
+                        seed = 1008)
+## 
+## SAMPLING FOR MODEL &amp;#39;41d120de40f8db19a7d34e80e3451b84&amp;#39; NOW (CHAIN 1).
+## Chain 1: 
+## Chain 1: Gradient evaluation took 0 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+## Chain 1: Adjust your expectations accordingly!
+## Chain 1: 
+## Chain 1: 
+## Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 1: 
+## Chain 1:  Elapsed Time: 0.182 seconds (Warm-up)
+## Chain 1:                0.102 seconds (Sampling)
+## Chain 1:                0.284 seconds (Total)
+## Chain 1: 
+## 
+## SAMPLING FOR MODEL &amp;#39;41d120de40f8db19a7d34e80e3451b84&amp;#39; NOW (CHAIN 2).
+## Chain 2: 
+## Chain 2: Gradient evaluation took 0 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+## Chain 2: Adjust your expectations accordingly!
+## Chain 2: 
+## Chain 2: 
+## Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 2: 
+## Chain 2:  Elapsed Time: 0.1 seconds (Warm-up)
+## Chain 2:                0.122 seconds (Sampling)
+## Chain 2:                0.222 seconds (Total)
+## Chain 2: 
+## 
+## SAMPLING FOR MODEL &amp;#39;41d120de40f8db19a7d34e80e3451b84&amp;#39; NOW (CHAIN 3).
+## Chain 3: 
+## Chain 3: Gradient evaluation took 0 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+## Chain 3: Adjust your expectations accordingly!
+## Chain 3: 
+## Chain 3: 
+## Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 3: 
+## Chain 3:  Elapsed Time: 0.116 seconds (Warm-up)
+## Chain 3:                0.097 seconds (Sampling)
+## Chain 3:                0.213 seconds (Total)
+## Chain 3: 
+## 
+## SAMPLING FOR MODEL &amp;#39;41d120de40f8db19a7d34e80e3451b84&amp;#39; NOW (CHAIN 4).
+## Chain 4: 
+## Chain 4: Gradient evaluation took 0 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+## Chain 4: Adjust your expectations accordingly!
+## Chain 4: 
+## Chain 4: 
+## Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 4: 
+## Chain 4:  Elapsed Time: 0.094 seconds (Warm-up)
+## Chain 4:                0.087 seconds (Sampling)
+## Chain 4:                0.181 seconds (Total)
+## Chain 4:&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:I’ve not included any detail here on the checks we need to do on our samples. There are some common challenges associated with MCMC methods, each with plenty of associated guidance on how to diagnose and resolve them. For now, let’s assume everything has gone to plan.&lt;/p&gt;
+&lt;p&gt;Now, there are a few options for extracting samples from a stanfit object such as &lt;code&gt;PoD_samples&lt;/code&gt;, including &lt;code&gt;rstan::extract()&lt;/code&gt;. However, these usually require a little post-processing to get them into a tidy format - no big deal, but a hassle I’d rather avoid. That’s why I like to use the &lt;code&gt;ggmcmc&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/ggmcmc/&#34;&gt;package&lt;/a&gt;, which we can use to create a data frame that specifies the iteration, parameter value and chain associated with each data point:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggmcmc)
+
+PoD_extracted_samples &amp;lt;- ggs(S = PoD_samples)
+
+head(x = PoD_extracted_samples, n = 5)
+## # A tibble: 5 x 4
+##   Iteration Chain Parameter  value
+##       &amp;lt;dbl&amp;gt; &amp;lt;int&amp;gt; &amp;lt;fct&amp;gt;      &amp;lt;dbl&amp;gt;
+## 1         1     1 alpha     -1.35 
+## 2         2     1 alpha     -1.13 
+## 3         3     1 alpha     -0.537
+## 4         4     1 alpha     -0.304
+## 5         5     1 alpha     -0.679&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We have sampled from a 2-dimensional posterior distribution of the unobserved parameters in the model: &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;. Below is a density plot of their corresponding marginal distributions based on the &lt;code&gt;1000&lt;/code&gt; samples collected from each of the &lt;code&gt;4&lt;/code&gt; Markov chains that have been run.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-02-14-bayesian-regression-models-with-stan_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;So our estimates are beginning to converge on the values that were used to generate the data, but this plot also shows that there is still plenty of uncertainty in the results. Unlike many alternative approaches, Bayesian models account for the statistical uncertainty associated with our limited dataset - remember that we are estimating these values from 30 trials. These results describe the possible values of &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; in our model that are consistent with the limited available evidence. If more data was available, we could expect the uncertainty in our results to decrease. I think there are some great reasons to keep track of this statistical (sometimes called &lt;em&gt;epistemic&lt;/em&gt;) uncertainty - a primary example being that we should be interested in how confident our predictive models are in their own results!
+…but I’ll leave it at that for now, and try to stay on topic.&lt;/p&gt;
+&lt;p&gt;How do we know what do these estimates of &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; mean for the PoD (what we are ultimately interested in)?
+We can check this using the posterior predictive distributions that we have (thanks to the &lt;code&gt;generated quantities&lt;/code&gt; block of the &lt;code&gt;Stan&lt;/code&gt; program).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-02-14-bayesian-regression-models-with-stan_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;One thing to note from these results is that the model is able to make much more confident predictions for larger crack sizes. The increased uncertainty associated with shallow cracks reflects the lack of data available in this region - this could be useful information for a decision maker!&lt;/p&gt;
+&lt;p&gt;There are only 3 trials in our dataset considering cracks shallower than 3 mm (and only 1 for crack depths &lt;code&gt;&amp;lt; 2&lt;/code&gt; mm). If we needed to make predictions for shallow cracks, this analysis could be extended to quantify the value of future tests in this region.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-thought-where-did-those-priors-come-from-and-are-they-any-good&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Final Thought: Where Did Those Priors Come From and Are They Any Good?&lt;/h4&gt;
+&lt;p&gt;There are many approaches for specifying prior models in Bayesian statistics. &lt;em&gt;Weakly informative&lt;/em&gt; and &lt;em&gt;MaxEnt&lt;/em&gt; priors are advocated by various authors. Unfortunately, &lt;em&gt;Flat Priors&lt;/em&gt; are sometimes proposed too, particularly (but not exclusively) in older books. A flat prior is a wide distribution - in the extreme this would be a uniform distribution across all real numbers, but in practice distribution functions with very large variance parameters are sometimes used. In either case, a very large range prior of credible outcomes for our parameters is introduced the model. This may sound innocent enough, and in many cases could be harmless.&lt;/p&gt;
+&lt;p&gt;Flat priors have the appeal of describing a state of complete uncertainty, which we may believe we are in before seeing any data - but is this really the case?&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://media.giphy.com/media/UgM7H8OEmf4mQ/giphy.gif&#34; alt=&#34;Prior Expectations: Can We Do Better?&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Prior Expectations: Can We Do Better?&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Suppose you are using Bayesian methods to model the speed of some athletes. Even before seeing any data, there is some information that we can build into the model. For instance, we can discount negative speeds. We also wouldn’t need to know anything about the athletes to know that they would not be travelling faster than the speed of light. This may sound facetious, but flat priors are implying that we should treat all outcomes as equally likely. In fact, there are some cases where flat priors cause models to require large amounts of data to make good predictions (meaning we are failing to take advantage of Bayesian statistics ability to work with limited data).&lt;/p&gt;
+&lt;p&gt;In this example, we would probably just want to constrain outcomes to the range of metres per second, but the amount of information we choose to include is ultimately a modelling choice. Another helpful feature of Bayesian models is that the priors are part of the model, and so must be made explicit - fully visible and ready to be scrutinised.&lt;/p&gt;
+&lt;p&gt;A common challenge, which was evident in the above PoD example, is lacking an intuitive understanding of the meaning of our model parameters. Here &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; required prior models, but I don’t think there is an obvious way to relate their values to the result we were interested in. They are linear regression parameters on a log-odds scale, but this is then transformed into a probability scale using the logit function.&lt;/p&gt;
+&lt;p&gt;This problem can be addressed using a process known as &lt;strong&gt;Prior Predictive Simulation&lt;/strong&gt;, which I was first introduced to in Richard McElreath’s &lt;a href=&#34;https://www.crcpress.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919&#34;&gt;fantastic book&lt;/a&gt;. This involves evaluating the predictions that our model would make, based only on the information in our priors. Relating our predictions to our parameters provides a clearer understanding of the implications of our priors.&lt;/p&gt;
+&lt;p&gt;Back to our PoD parameters - both &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; can take positive or negative values, but I could not immediately tell you a sensible range for them. Based on our lack of intuition it may be tempting to use a variance for both, right? Well, before making that decision, we can always simulate some predictions from these priors. The below code is creating a data frame of prior predictions for the PoD (&lt;code&gt;PoD_pr&lt;/code&gt;) for many possible crack sizes.
+&lt;span class=&#34;math display&#34;&gt;\[
+\alpha \sim N(\mu_{\alpha}, \sigma_{\alpha})
+\]&lt;/span&gt;
+&lt;span class=&#34;math display&#34;&gt;\[
+\beta \sim N(\mu_{\beta}, \sigma_{\beta})
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- seq(from = min_depth, to = max_depth, length.out = N_samples)
+prPrSim_df &amp;lt;- data.frame(depth = x)
+
+for (i in seq(from = 1, to = nrow(prPrSim_df), by = 1)) {
+  
+  alpha = rnorm(n = N_samples, mean = mu_alpha, sd = sigma_alpha)
+  beta = rnorm(n = N_samples, mean = mu_beta, sd = sigma_beta)
+  prPrSim_df$PoD_pr[i] &amp;lt;- exp(alpha + beta * log(prPrSim_df$depth[i]))/(1 + exp(alpha + beta * log(prPrSim_df$depth[i])))
+
+}
+
+head(prPrSim_df)
+##        depth       PoD_pr
+## 1 0.00000000 0.000000e+00
+## 2 0.01001001 4.085619e-05
+## 3 0.02002002 5.966123e-02
+## 4 0.03003003 4.766970e-05
+## 5 0.04004004 4.532144e-03
+## 6 0.05005005 2.997338e-03&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And we can visualise the information contained within our priors for a couple of different cases.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-02-14-bayesian-regression-models-with-stan_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Our wide, supposedly &lt;em&gt;non&lt;/em&gt;-informative priors result in some pretty useless predictions. I’ve suggested some more sensible priors that suggest that larger cracks are more likely to be detected than small cracks, without overly constraining our outcome (see that there is still prior credible that very small cracks are detected reliabily and that very large cracks are often missed).&lt;/p&gt;
+&lt;p&gt;Why did our predictions end up looking like this?&lt;/p&gt;
+&lt;p&gt;Borrowing from McElreath’s explantion, it’s because &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; are linear regression parameters on a log-odds (logit) scale. Since we are estimating a PoD we end up transforming out predictions onto a probability scale. Flat priors for our parameters imply that extreme values of log-odds are credible. All that prior credibility of values &lt;code&gt;&amp;lt; - 3&lt;/code&gt; and &lt;code&gt;&amp;gt; 3&lt;/code&gt; ends up getting concentrated at probabilities near &lt;code&gt;0&lt;/code&gt; and &lt;code&gt;1&lt;/code&gt;. I think this is a really good example of flat priors containing a lot more information than they appear to.&lt;/p&gt;
+&lt;p&gt;I’ll end by directing you towards some additional (generally non-technical) discussion of choosing priors, written by the &lt;code&gt;Stan&lt;/code&gt; development team &lt;a href=&#34;https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations&#34;&gt;(link)&lt;/a&gt;. It provides a definition of &lt;em&gt;weakly informative priors&lt;/em&gt;, some words of warning against &lt;em&gt;flat priors&lt;/em&gt; and more general detail than this humble footnote.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-02-14-bayesian-regression-models-with-stan_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bayesian Regression Models with Stan</title>
+      <link>/post/bayesian-regression-models-with-stan/</link>
+      <pubDate>Fri, 14 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/bayesian-regression-models-with-stan/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Inspection Planning of Hazardous Locations Using a Value of Information Analysis</title>
@@ -66,86 +401,6 @@ Supplementary notes can be added here, including [code and math](https://sourcet
     </item>
     
     <item>
-      <title>Conceptual Introduction - Information Entropy</title>
-      <link>/post/2019-06-11-conceptual-introduction-information/</link>
-      <pubDate>Tue, 11 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/2019-06-11-conceptual-introduction-information/</guid>
-      <description>
-
-
-&lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;TLDR&lt;/h3&gt;
-&lt;p&gt;The term &lt;em&gt;entropy&lt;/em&gt; is used synonymously with disorder. For instance, it is blamed for headphone cables tangling when left in a bag. If we consider two macro-states of a headphone cable: &lt;em&gt;tangled&lt;/em&gt; and &lt;em&gt;untangled&lt;/em&gt;, then think about possible micro-states, i.e. every possible arrangement they could conceivably be forced into, it is evident that there are more ways that the cable can exist in a tangled state than untangled. Therefore, if allowed to move randomly amongst other contents in a bag, they are likely to become tangled.&lt;/p&gt;
-&lt;p&gt;In the context of statistics, &lt;strong&gt;information entropy&lt;/strong&gt; can be used to work with uncertainty. Methods of Maximising Entropy (MaxEnt), conditional on some given constraints, produce models that are most likely to be consistent with future observations. These arguments are used to structure and evaluate models in a principled way.&lt;/p&gt;
-&lt;hr /&gt;
-&lt;/div&gt;
-&lt;div id=&#34;thermodynamic-entropy&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Thermodynamic Entropy&lt;/h3&gt;
-&lt;p&gt;As an engineering undergraduate student, I was taught about entropy in the context of thermodynamics. The reason processes like expanding steam through a turbine are irreversible is because they are not isentropic. They are associated with an increase in entropy, and the entropy of a system can never decrease.&lt;/p&gt;
-&lt;p&gt;Include picture of a T-s diagram
-What is an isentropic process? (A reversible process)&lt;/p&gt;
-&lt;p&gt;Not possible -&amp;gt; second law of thermodynamics.&lt;/p&gt;
-&lt;p&gt;Slight digression, but will pay off soon:&lt;/p&gt;
-&lt;p&gt;Quantitative case: moving molecules.&lt;/p&gt;
-&lt;p&gt;What is the system? What are possible &lt;em&gt;macro-states&lt;/em&gt;? What are possible &lt;em&gt;micro-states&lt;/em&gt;?&lt;/p&gt;
-&lt;p&gt;How many different ways can each macro-state exist? Depends on the number of possible micro-states!
-The most likely outcome in such a stochastic process is the outcome that can occur in the most ways. This is the maximum entropy (&lt;strong&gt;MaxEnt&lt;/strong&gt;) solution.&lt;/p&gt;
-&lt;p&gt;Unless some energy is put into the system to encourage a particular macro-state, the MaxEnt argument is the best bet.&lt;/p&gt;
-&lt;p&gt;for &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; gas molecules each of a distinct energy level, &lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt;, where &lt;span class=&#34;math inline&#34;&gt;\(p_{i}\)&lt;/span&gt; is the proportion of molecules with energy &lt;span class=&#34;math inline&#34;&gt;\(E_{i}\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-S = -k \cdot \sum\limits_{i = 1}^{E} p_{i} \cdot log(p_{i})
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;The above expression can be used to maximise &lt;span class=&#34;math inline&#34;&gt;\(S\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;This sort of description of entropy is no longer restricted to thermodynamic systems and can also be applied to uncertainty.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;information-entropy&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Information Entropy&lt;/h3&gt;
-&lt;p&gt;Information theory is the formal framework for modelling uncertainty. &lt;a href=&#34;link%20to%20bio&#34;&gt;Claude Shannon&lt;/a&gt; is regarded as a pioneer in the field, describing how information is communicated mathematically. His work became the basis for modern telecommunication systems.&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-H = -k \cdot \sum\limits_{i = 1}^{n} p_{i} \cdot log(p_{i})
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;looks familiar, right?&lt;/p&gt;
-&lt;p&gt;The best introductions to information entropy that I have read are in books by &lt;a href=&#34;https://www.amazon.co.uk/Decisions-under-Uncertainty-Probabilistic-Engineering/dp/0521782775/ref=sr_1_1?keywords=decision+making+under+uncertainty+jordaan&amp;amp;qid=1560247665&amp;amp;s=books&amp;amp;sr=1-1&#34;&gt;I.Jordaan&lt;/a&gt;, &lt;a href=&#34;https://www.amazon.co.uk/Statistical-Rethinking-Bayesian-Examples-Chapman/dp/1482253445/ref=sr_1_1?crid=3NY20Q0R1GOYA&amp;amp;keywords=statistical+rethinking&amp;amp;qid=1560247633&amp;amp;s=books&amp;amp;sprefix=statistical+re%2Cstripbooks%2C138&amp;amp;sr=1-1&#34;&gt;R.McElreath&lt;/a&gt; and &lt;a href=&#34;https://www.amazon.co.uk/Probability-Theory-Principles-Elementary-Applications/dp/0521592712&#34;&gt;E.T. Jaynes&lt;/a&gt;, who each provide helpful anaologies.&lt;/p&gt;
-&lt;div id=&#34;analogy-1-mcelreath&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Analogy 1 (McElreath)&lt;/h4&gt;
-&lt;p&gt;Jaynes uses the example of morbid children’s word-game &lt;strong&gt;hangman&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;McElreath suggests an experiment where ten balls are randomly placed in five buckets, and evaluates a few different arrangements.&lt;/p&gt;
-&lt;p&gt;The two extremes are:
-* All ten balls are placed in a single bucket (e.g Bucket 1 of 5): There is only one way of achieving this.
-* Two balls are placed in each of the five buckets: There are 113400 ways of achieving this.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;analogy-2-jordaan&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Analogy 2 (Jordaan)&lt;/h4&gt;
-&lt;p&gt;Jordaan proposes a simple definition of entropy:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;‘Entropy is the smallest expected number of YES–NO questions to determine the true event.’&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;…which I think can be interpretted as the complexity of a system.&lt;/p&gt;
-&lt;p&gt;He elaborates on this idea by imagining an &lt;strong&gt;entropy demon&lt;/strong&gt; playing games. In one instance, he plays a game of roulette many times.&lt;/p&gt;
-&lt;p&gt;In each of the above examples we are relating information to a count of possible system states.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;maxent-statistical-models&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;MaxEnt Statistical Models&lt;/h3&gt;
-&lt;p&gt;MaxEnt methods are also used in ecology, and &lt;a href=&#34;https://www.sciencedirect.com/science/article/pii/S0169534714001037&#34;&gt;J. Harte and E. Newman&lt;/a&gt; have written an introduction, which also includes statistical distributions which are MaxEnt solutions for some given constraints.&lt;/p&gt;
-&lt;p&gt;If we were to bet on the outcome of the number of balls in each of McElreath’s buckets, the optimal way to do so would be to use a uniform distribution. The MaxEnt solution (the macro state consistent with the largest number of possible micro-states) is a uniform distribution. Selecting any other distribution to model the probability of the number of balls in the buckets&lt;/p&gt;
-&lt;p&gt;Bayesian Inference as an extension of MaxEnt methodology …&lt;/p&gt;
-&lt;p&gt;A discussion on Bayesian models will follow.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We can read a text file using &amp;#39;readLines&amp;#39; and we can select a file interactively using &amp;#39;file.choose&amp;#39;
-# Both of these are Base R functions
-paper &amp;lt;- readLines(file.choose())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;MaxEnt in ecology&lt;/p&gt;
-&lt;p&gt;Congratulations on making it to the end!&lt;/p&gt;
-&lt;img src=&#34;https://media3.giphy.com/media/xTiTnwqkkEtj3hm6DS/giphy.gif&#34; alt=&#34;entropy&#34; /&gt;&lt;br /&gt;
-
-&lt;div style=&#34;font-size:50%&#34;&gt;
-(&lt;a href=&#34;www.behance.net/banaszek&#34;&gt;GIF Source link&lt;/a&gt;, accessed Sep 17, 2019)
-&lt;/div&gt;
-&lt;p&gt;&lt;a href=&#34;https://xkcd.com/license.html%5D&#34;&gt;XKCD license&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Animating Plots</title>
       <link>/post/animating-plots/</link>
       <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
@@ -156,61 +411,96 @@ paper &amp;lt;- readLines(file.choose())&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;TLDR&lt;/h3&gt;
-&lt;p&gt;There are many instances where it may be useful to animate graphical representations of data, perhaps to add an additional dimension to a plot. However, the below is a purely gimmicky example that simply demonstrates some of the functionality of the &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;&lt;em&gt;gganimate&lt;/em&gt;&lt;/a&gt; library.&lt;/p&gt;
+&lt;p&gt;There are many instances where it may be useful to animate graphical representations of data, perhaps to add an additional dimension to a plot. The below example builds a cumulative map of car accidents in the UK using some of the functionality of the &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;&lt;strong&gt;gganimate&lt;/strong&gt;&lt;/a&gt; package.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;/div&gt;
 &lt;div id=&#34;making-moving-plots-with-gganimate&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Making Moving Plots with &lt;em&gt;gganimate&lt;/em&gt;&lt;/h3&gt;
+&lt;h3&gt;Making Moving Plots with &lt;strong&gt;gganimate&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;Graphics made using the ggplot2 package are already extremely customisable. They can be further enhanced using some of the &lt;a href=&#34;http://ggplot2-exts.org/gallery/&#34;&gt;extensions that have been developed&lt;/a&gt;. These include providing access to new themes, as well as entirely new functionality.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;gganimate&lt;/em&gt; allows for the animation of existing ggplot graphics. Once installed, we can load both packages (&lt;em&gt;ggplot2&lt;/em&gt; is included as part of the &lt;em&gt;tidyverse&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;gganimate&lt;/strong&gt; allows for the animation of existing ggplot graphics. Once installed, we can load both packages (&lt;strong&gt;ggplot2&lt;/strong&gt; is included as part of the &lt;strong&gt;tidyverse&lt;/strong&gt;):&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(gganimate); library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The example uses a fifa 19 dataset that I found on &lt;a href=&#34;https://www.kaggle.com/karangadiya/fifa19&#34;&gt;Kaggle&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;size &amp;lt;- 500
-fifa19 &amp;lt;- fifa19 %&amp;gt;% arrange(desc(Overall))
-topPlayers &amp;lt;- fifa19[1:size,]&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The above filter defines the &lt;code&gt;topPlayers&lt;/code&gt; dataframe as the highest rated 500 players on the game.&lt;/p&gt;
-&lt;p&gt;However, it still has a lot of columns, and we are not interested in them all for now:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;params &amp;lt;- c(&amp;#39;Name&amp;#39;, &amp;#39;Overall&amp;#39;, &amp;#39;NumValue&amp;#39;, &amp;#39;NumWage&amp;#39;)
-topPlayers &amp;lt;- topPlayers %&amp;gt;% select(params)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Below shows how we can use ggplot to create a scatterplot comparing the transfer value and weekly wage of the players.&lt;/p&gt;
-&lt;p&gt;Because I want to label some of the most valuable and highest earning players I will use an additional ggplot extension, &lt;em&gt;ggrepel&lt;/em&gt;. The function &lt;code&gt;geom_text_repel()&lt;/code&gt; from this library differs from &lt;em&gt;ggplot&lt;/em&gt;’s &lt;code&gt;geom_text()&lt;/code&gt; in that it prevents text labels from overlapping with each other (where possible).&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;minValueToLabel &amp;lt;- 75; minWageToLabel &amp;lt;- 300
+&lt;p&gt;The example uses a car accident dataset that I found on &lt;a href=&#34;https://www.kaggle.com/silicon99/dft-accident-data/data#&#34;&gt;Kaggle&lt;/a&gt;. Here are the first few rows of the variables that we’re interested in:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(Accidents_Dec2015 %&amp;gt;% 
+       dplyr::select(Date, Longitude, Latitude, Number_of_Casualties, Accident_Severity))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##         Date Longitude Latitude Number_of_Casualties Accident_Severity
+## 1 2015-12-01 -0.155880 51.48959                    1            Slight
+## 2 2015-12-01 -0.200271 51.49262                    1            Slight
+## 3 2015-12-03 -0.210643 51.49997                    2            Slight
+## 4 2015-12-03 -0.156754 51.49293                    1            Slight
+## 5 2015-12-03 -0.159124 51.50205                    1            Slight
+## 6 2015-12-04 -0.197452 51.49104                    1            Slight&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can plot the coordinates using a map of the UK included in &lt;strong&gt;ggplot2&lt;/strong&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;UK_coords &amp;lt;- ggplot2::map_data(map = &amp;#39;world&amp;#39;, region = &amp;#39;UK&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Before animating we need to create a ggplot that we will work from.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;accidents_plot &amp;lt;- ggplot(data = UK_coords)+
+  geom_polygon(mapping = aes(x = long, y = lat, group = group), col = &amp;#39;black&amp;#39;, fill = NA)+
+  theme_void(base_size = 12, base_family = &amp;#39;Bahnschrift&amp;#39;)+
+  geom_point(data = Accidents_Dec2015 %&amp;gt;% dplyr::filter(grepl(pattern = &amp;#39;Slight&amp;#39;, x = Accident_Severity)), 
+             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
+             alpha = 0.1)+
+  geom_point(data = Accidents_Dec2015 %&amp;gt;% dplyr::filter(grepl(pattern = &amp;#39;Serious&amp;#39;, x = Accident_Severity)), 
+             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
+             alpha = 0.2)+
+  geom_point(data = Accidents_Dec2015 %&amp;gt;% dplyr::filter(grepl(pattern = &amp;#39;Fatal&amp;#39;, x = Accident_Severity)), 
+             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
+             alpha = 0.4)+
+  theme(legend.position = &amp;#39;right&amp;#39;)+
+  scale_size_continuous(breaks = c(1, 3, 9))+
+  scale_color_manual(values = c(&amp;#39;firebrick&amp;#39;, &amp;#39;forestgreen&amp;#39;, &amp;#39;steelblue&amp;#39;))+
+  guides(col = guide_legend(title = element_blank(), ncol = 1),
+         size = guide_legend(title = element_text(&amp;#39;Casualties&amp;#39;, size = 10), ncol = 1))
 
-topPlayersPlot &amp;lt;- ggplot(topPlayers)+
-   geom_point(aes(x = NumValue, y = NumWage), alpha = 0.5)+
-   ggrepel::geom_text_repel(aes(x = NumValue, y = NumWage, label = Name), 
-                   data = subset(topPlayers, NumValue &amp;gt; minValueToLabel | NumWage &amp;gt; minWageToLabel),
-                   seed = 1008, size = 3, family = &amp;#39;Trebuchet MS&amp;#39;)+
-   xlab(&amp;#39;Player Value, $M&amp;#39;)+ylab(&amp;#39;Player Weekly Wage, $k&amp;#39;)+
-   theme_bw(base_size = 9)
-
-topPlayersPlot&lt;/code&gt;&lt;/pre&gt;
+accidents_plot&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The text label effectively includes a filter by specifying a subset of data. Only players with a value of at least $75
-M, or a weekly wage of at least $300 k.&lt;/p&gt;
-&lt;p&gt;This plot is the basis for the animation.&lt;/p&gt;
-&lt;p&gt;Adding a function from &lt;em&gt;gganimate&lt;/em&gt; and saving as a new variable:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topPlayersPlotAnim &amp;lt;- topPlayersPlot +
-  transition_states(states = Overall, transition_length = 1, state_length = 4, wrap = FALSE)+
-     ggtitle(&amp;#39;Fifa 19 Top Rated Players&amp;#39;, subtitle = &amp;#39;Overall Rating = {closest_state}&amp;#39; )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;code&gt;transition_states()&lt;/code&gt; requires specification of the discrete states that the plot animate sequentially. As shown above, this animation will transition through values of &lt;code&gt;Overall&lt;/code&gt; i.e. the overall player rating.&lt;/p&gt;
-&lt;p&gt;There are numerous alternative types of transition within &lt;em&gt;gganimate&lt;/em&gt; as detailed &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;here&lt;/a&gt;. Each of these accept some additional arguments to describe the animation.&lt;/p&gt;
+&lt;p&gt;We can now add some functions from &lt;strong&gt;gganimate&lt;/strong&gt;, which will describe how and saving as a new variable:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(gganimate)
+
+accidents_plot &amp;lt;- accidents_plot +
+  transition_time(time = Date)+
+  shadow_trail()+
+  ggtitle(label = &amp;#39;UK Car Accidents in December 2015&amp;#39;, subtitle = &amp;#39;Date : {frame_time}&amp;#39;)+
+  labs(caption = &amp;#39;Data from Kaggle: https://www.kaggle.com/silicon99/dft-accident-data/data |  @d73mwf&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;transition_time()&lt;/code&gt; requires specification of a time variable that the plot will display sequentially. As shown above, this animation will transition through values of &lt;code&gt;Date&lt;/code&gt;. There are many more options that allow for animation across different data types in different ways.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;shadow_mark()&lt;/code&gt; has been added to keep accidents from previous dates. Again, there are various methods of showing data from previous states.&lt;/p&gt;
+&lt;p&gt;Some of these additional options are detailed &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In this case, &lt;code&gt;transition_length&lt;/code&gt; and &lt;code&gt;state_length&lt;/code&gt; describe the &lt;strong&gt;relative&lt;/strong&gt; amount of time spent displaying the current state, and transitioning to the next state.&lt;/p&gt;
-&lt;p&gt;Finally, if &lt;code&gt;wrap&lt;/code&gt; is set to &lt;code&gt;TRUE&lt;/code&gt;, the animation will also transition from the final state back to the first state.&lt;/p&gt;
-&lt;p&gt;This example is certainly not exaustive and there are many additional tweaks available to further customise an animation. Some of those examples are shown in the official &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html&#34;&gt;beginner’s guide&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Regardless of the transition function selected, the best way to create the moving plot is to use the &lt;code&gt;animate&lt;/code&gt; function:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;animate(plot = topPlayersPlotAnim, fps = 20, duration = 60, end_pause = 60)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;animate(plot = accidents_plot, fps = 20, duration = 30, end_pause = 100)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;animate()&lt;/code&gt; function requires us to specify the plot (to be animated), but includes many additional arguments not all of which are detailed above.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;fps&lt;/code&gt; is the frames per second, &lt;code&gt;duration&lt;/code&gt; is the length of the animation (in seconds), and &lt;code&gt;end_pause&lt;/code&gt; is the length of time that the final frame is held for (in number of frames.)&lt;/p&gt;
-&lt;p&gt;I tried a few alternatives here, In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. However, it does result in a total of 1200 frames in the animation. On my laptop this required approximately 3 minutes to render. A shorter animation could be produced in a few seconds.&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/fifa.gif&#34; alt=&#34;Final Animation&#34; /&gt;
-&lt;p class=&#34;caption&#34;&gt;Final Animation&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;Once you are happy with your animation you can save it (in various formats) using &lt;code&gt;anim_save()&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;A note on animating text or label geoms from the &lt;em&gt;ggrepel&lt;/em&gt; library&lt;/strong&gt;:&lt;/p&gt;
-&lt;p&gt;After my first attempt at this excercise my labels were jumping around erratically, though always in a similar position. As I found out on &lt;a href=&#34;https://stackoverflow.com/questions/55723567/how-to-stop-ggrepel-labels-moving-between-gganimate-frames-in-r-ggplot2&#34;&gt;stackoverflow&lt;/a&gt;, this is because the position of the text was being assigned stochastically and was therefore being re-assigned in each frame.
-Setting the seed value means the position will be the same in each frame. This is done in the &lt;code&gt;geom_text_repel()&lt;/code&gt; function.&lt;/p&gt;
+&lt;div id=&#34;final-animation&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Final Animation&lt;/h3&gt;
+&lt;p&gt;I tried a few alternatives here. In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. The trade-off here is the number of frames (and associated processing time and file size). The below allocates approximately &lt;code&gt;1&lt;/code&gt; second per day and results in a total of 600 frames for the animation. On my (ageing) laptop this required approximately 4 minutes to render.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;C:/Users/domen/OneDrive/Documents/GitHub/blog/car_acc_Dec2015.gif&#34; alt=&#34;Animated Map&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Animated Map&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;thoughts-on-the-animation&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Thoughts on the Animation&lt;/h3&gt;
+&lt;p&gt;What does the animation tell us that the stationary plot doesn’t?&lt;/p&gt;
+&lt;p&gt;The final frame is pretty much identical, but the transitions will show when the accidents occurred. From viewing the animation there doesn’t appear to be a clear time when accidents were more frequent. We can check this with an additional plot:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Accidents_Dec2015 %&amp;gt;% 
+     dplyr::select(Date, Number_of_Casualties, Accident_Severity) %&amp;gt;% 
+     ggplot(mapping = aes(x = Date))+
+        geom_bar(stat = &amp;#39;count&amp;#39;)+
+        facet_wrap(facets = ~ Accident_Severity, scales = &amp;#39;free&amp;#39;)+
+        ggthemes::theme_tufte(base_size = 12, base_family = &amp;#39;Bahnschrift&amp;#39;)+
+        coord_flip()+
+        theme(axis.title = element_blank())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;What isn’t shown in the data is the number of cars that were on the road at the time, so it could be that there were a higher proportion of accidents between the &lt;code&gt;24&lt;/code&gt;th and &lt;code&gt;31&lt;/code&gt;st December - but that will have to remain speculation for now.&lt;/p&gt;
+&lt;p&gt;Another slight issue I have with the final animation is the way the points move to the next location. Given the context of the plot, it could be interpreted as the same vehicles having accidents all over the UK. When critically considering this idea it becomes apparent that it cannot be the case (for &lt;em&gt;many&lt;/em&gt; reasons), but there should be as little ambiguity as possible in a plot like this.&lt;/p&gt;
+&lt;p&gt;In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a gentle introduction to how the &lt;strong&gt;gganimate&lt;/strong&gt; package can automate animated graphics.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;additional-resources&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Additional Resources&lt;/h3&gt;
+&lt;p&gt;This example is certainly not exhaustive and there are many additional tweaks available to further customise an animation. I have personally found the below resources to be particularly helpful.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The official &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html&#34;&gt;beginner’s guide&lt;/a&gt; to &lt;strong&gt;gganimate&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;A tutorial from the &lt;a href=&#34;https://goodekat.github.io/presentations/2019-isugg-gganimate-spooky/slides.html#1&#34;&gt;ISU Graphics Group&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;
 </description>
     </item>

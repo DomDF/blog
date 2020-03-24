@@ -1,0 +1,8 @@
+"0","Accidents_Dec2015 %>% "
+"0","     dplyr::select(Date, Number_of_Casualties, Accident_Severity) %>% "
+"0","     ggplot(mapping = aes(x = Date))+"
+"0","        geom_bar(stat = 'count')+"
+"0","        facet_wrap(facets = ~ Accident_Severity, scales = 'free')+"
+"0","        ggthemes::theme_tufte(base_size = 12, base_family = 'Bahnschrift')+"
+"0","        coord_flip()+"
+"0","        theme(axis.title = element_blank())"

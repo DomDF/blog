@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1580813902609.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "71F47481",
+    "lastKnownWriteTime" : 1581371787,
+    "last_content_update" : 1581371787168,
+    "path" : "C:/Users/domen/Google Drive/PhD/Literature/R/Shiny/ShinyApp.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "61,24",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

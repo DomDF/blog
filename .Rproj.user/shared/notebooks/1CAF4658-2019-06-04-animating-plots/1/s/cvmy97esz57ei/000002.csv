@@ -1,0 +1,8 @@
+"0","library(gganimate)"
+"0",""
+"0","accidents_plot <- accidents_plot +"
+"0","  transition_time(time = Date)+"
+"0","  shadow_trail()+"
+"0","  ggtitle(label = 'UK Car Accidents in December 2015', subtitle = 'Date : {frame_time}')+"
+"0","  labs(caption = 'Data from Kaggle: https://www.kaggle.com/silicon99/dft-accident-data/data |  @d73mwf')"
+"0",""

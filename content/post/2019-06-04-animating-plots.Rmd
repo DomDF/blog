@@ -7,9 +7,8 @@ categories:
   - R
   - gganimate
 tags:
-  - R Markdown
-  - Football
   - gganimate
+  - dplyr
   - ggplot2
   - R
 subtitle: ''
@@ -25,19 +24,19 @@ projects: []
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE); library(extrafont)
 ```
 ### TLDR
 
-There are many instances where it may be useful to animate graphical representations of data, perhaps to add an additional dimension to a plot. However, the below is a purely gimmicky example that simply demonstrates some of the functionality of the [*gganimate*](https://cran.r-project.org/web/packages/gganimate) library.
+There are many instances where it may be useful to animate graphical representations of data, perhaps to add an additional dimension to a plot. The below example builds a cumulative map of car accidents in the UK using some of the functionality of the [**gganimate**](https://cran.r-project.org/web/packages/gganimate) package.
 
 ---
 
-### Making Moving Plots with *gganimate*
+### Making Moving Plots with **gganimate**
 
 Graphics made using the ggplot2 package are already extremely customisable. They can be further enhanced using some of the [extensions that have been developed](http://ggplot2-exts.org/gallery/). These include providing access to new themes, as well as entirely new functionality.
 
-*gganimate* allows for the animation of existing ggplot graphics. Once installed, we can load both packages (*ggplot2* is included as part of the *tidyverse*):
+**gganimate** allows for the animation of existing ggplot graphics. Once installed, we can load both packages (**ggplot2** is included as part of the **tidyverse**):
 
 ```{r, warning = FALSE, message = FALSE}
 library(gganimate); library(tidyverse)
@@ -45,100 +44,115 @@ library(gganimate); library(tidyverse)
 
 
 ```{r, include = FALSE}
-fifa19 <- as.data.frame(read.csv(file = 'C:/Users/domen/OneDrive/Documents/Kaggle/Football/fifa19data.csv', header = TRUE))
-
-library(stringr)
-numextract <- function(string){ 
-  str_extract(string, "\\-*\\d+\\.*\\d*")
-} 
-
-for (i in seq(from = 1, to = nrow(fifa19), by = 1)){
-  if(grepl(x = fifa19$Value[i], pattern = 'K')){
-    fifa19$NumValue[i] <- as.numeric(numextract(fifa19$Value[i]))*10^-3
-  } else {
-    fifa19$NumValue[i] <- as.numeric(numextract(fifa19$Value[i]))
-  }
-}
-
-fifa19$NumWage <- as.numeric(numextract(fifa19$Wage))
+Accidents_Dec2015 <- read.csv("~/Kaggle/Car Accidents/Accidents0515.csv") %>% 
+  mutate(Date = lubridate::dmy(Date)) %>% 
+  dplyr::filter(Date >= lubridate::ymd(20151201)) %>% 
+  mutate(Accident_Severity = case_when(Accident_Severity == 1 ~ 'Fatal',
+                                       Accident_Severity == 2 ~ 'Serious',
+                                       Accident_Severity == 3 ~ 'Slight'))
 
 ```
 
-The example uses a fifa 19 dataset that I found on [Kaggle](https://www.kaggle.com/karangadiya/fifa19).
+The example uses a car accident dataset that I found on [Kaggle](https://www.kaggle.com/silicon99/dft-accident-data/data#). Here are the first few rows of the variables that we're interested in:
 
 ```{r, warning = FALSE, message = FALSE}
-size <- 500
-fifa19 <- fifa19 %>% arrange(desc(Overall))
-topPlayers <- fifa19[1:size,]
+head(Accidents_Dec2015 %>% 
+       dplyr::select(Date, Longitude, Latitude, Number_of_Casualties, Accident_Severity))
+
 ```
 
-The above filter defines the `topPlayers` dataframe as the highest rated `r size` players on the game.
-
-However, it still has a lot of columns, and we are not interested in them all for now:
+We can plot the coordinates using a map of the UK included in **ggplot2**.
 
 ```{r, warning = FALSE, message = FALSE}
-params <- c('Name', 'Overall', 'NumValue', 'NumWage')
-topPlayers <- topPlayers %>% select(params)
+UK_coords <- ggplot2::map_data(map = 'world', region = 'UK')
 ```
 
-Below shows how we can use ggplot to create a scatterplot comparing the transfer value and weekly wage of the players.
-
-Because I want to label some of the most valuable and highest earning players I will use an additional ggplot extension, *ggrepel*. The function `geom_text_repel()` from this library differs from *ggplot*'s `geom_text()` in that it prevents text labels from overlapping with each other (where possible).
+Before animating we need to create a ggplot that we will work from.
 
 ```{r, warning = FALSE, message = FALSE}
-minValueToLabel <- 75; minWageToLabel <- 300
+accidents_plot <- ggplot(data = UK_coords)+
+  geom_polygon(mapping = aes(x = long, y = lat, group = group), col = 'black', fill = NA)+
+  theme_void(base_size = 12, base_family = 'Bahnschrift')+
+  geom_point(data = Accidents_Dec2015 %>% dplyr::filter(grepl(pattern = 'Slight', x = Accident_Severity)), 
+             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
+             alpha = 0.1)+
+  geom_point(data = Accidents_Dec2015 %>% dplyr::filter(grepl(pattern = 'Serious', x = Accident_Severity)), 
+             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
+             alpha = 0.2)+
+  geom_point(data = Accidents_Dec2015 %>% dplyr::filter(grepl(pattern = 'Fatal', x = Accident_Severity)), 
+             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
+             alpha = 0.4)+
+  theme(legend.position = 'right')+
+  scale_size_continuous(breaks = c(1, 3, 9))+
+  scale_color_manual(values = c('firebrick', 'forestgreen', 'steelblue'))+
+  guides(col = guide_legend(title = element_blank(), ncol = 1),
+         size = guide_legend(title = element_text('Casualties', size = 10), ncol = 1))
 
-topPlayersPlot <- ggplot(topPlayers)+
-   geom_point(aes(x = NumValue, y = NumWage), alpha = 0.5)+
-   ggrepel::geom_text_repel(aes(x = NumValue, y = NumWage, label = Name), 
-                   data = subset(topPlayers, NumValue > minValueToLabel | NumWage > minWageToLabel),
-                   seed = 1008, size = 3, family = 'Trebuchet MS')+
-   xlab('Player Value, $M')+ylab('Player Weekly Wage, $k')+
-   theme_bw(base_size = 9)
-
-topPlayersPlot
-
-```
-
-The text label effectively includes a filter by specifying a subset of data. Only players with a value of at least $`r minValueToLabel`
-M, or a weekly wage of at least $`r minWageToLabel` k.
-
-This plot is the basis for the animation.
-
-Adding a function from *gganimate* and saving as a new variable:
-```{r, warning = FALSE, message = FALSE}
-topPlayersPlotAnim <- topPlayersPlot +
-  transition_states(states = Overall, transition_length = 1, state_length = 4, wrap = FALSE)+
-     ggtitle('Fifa 19 Top Rated Players', subtitle = 'Overall Rating = {closest_state}' )
+accidents_plot
 
 ```
 
-`transition_states()` requires specification of the discrete states that the plot animate sequentially. As shown above, this animation will transition through values of `Overall` i.e. the overall player rating.
+We can now add some functions from **gganimate**, which will describe how  and saving as a new variable:
+```{r, warning = FALSE, message = FALSE, eval = FALSE}
+library(gganimate)
 
-There are numerous alternative types of transition within *gganimate* as detailed [here](https://cran.r-project.org/web/packages/gganimate). Each of these accept some additional arguments to describe the animation. 
+accidents_plot <- accidents_plot +
+  transition_time(time = Date)+
+  shadow_trail()+
+  ggtitle(label = 'UK Car Accidents in December 2015', subtitle = 'Date : {frame_time}')+
+  labs(caption = 'Data from Kaggle: https://www.kaggle.com/silicon99/dft-accident-data/data |  @d73mwf')
+
+```
+
+`transition_time()` requires specification of a time variable that the plot will display sequentially. As shown above, this animation will transition through values of `Date`. There are many more options that allow for animation across different data types in different ways.
+
+`shadow_mark()` has been added to keep accidents from previous dates. Again, there are various methods of showing data from previous states. 
+
+Some of these additional options are detailed [here](https://cran.r-project.org/web/packages/gganimate).
 
 In this case, `transition_length` and `state_length` describe the **relative** amount of time spent displaying the current state, and transitioning to the next state. 
 
-Finally, if `wrap` is set to `TRUE`, the animation will also transition from the final state back to the first state.
-
-This example is certainly not exaustive and there are many additional tweaks available to further customise an animation. Some of those examples are shown in the official [beginner's guide](https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html).
-
 Regardless of the transition function selected, the best way to create the moving plot is to use the `animate` function:
 ```{r, eval = FALSE, warning = FALSE, message = FALSE}
-animate(plot = topPlayersPlotAnim, fps = 20, duration = 60, end_pause = 60)
+animate(plot = accidents_plot, fps = 20, duration = 30, end_pause = 100)
+
 ```
 
 The `animate()` function requires us to specify the plot (to be animated), but includes many additional arguments not all of which are detailed above.
 
 `fps` is the frames per second, `duration` is the length of the animation (in seconds), and `end_pause` is the length of time that the final frame is held for (in number of frames.)
 
-I tried a few alternatives here, In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. However, it does result in a total of 1200 frames in the animation. On my laptop this required approximately 3 minutes to render. A shorter animation could be produced in a few seconds.
+### Final Animation
+I tried a few alternatives here. In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. The trade-off here is the number of frames (and associated processing time and file size). The below allocates approximately `1` second per day and results in a total of 600 frames for the animation. On my (ageing) laptop this required approximately 4 minutes to render.
 
-![Final Animation](/fifa.gif)
+![Animated Map](C:/Users/domen/OneDrive/Documents/GitHub/blog/car_acc_Dec2015.gif)
 
-Once you are happy with your animation you can save it (in various formats) using `anim_save()`.
+### Thoughts on the Animation
 
-**A note on animating text or label geoms from the *ggrepel* library**:
+What does the animation tell us that the stationary plot doesn't?
 
-After my first attempt at this excercise my labels were jumping around erratically, though always in a similar position. As I found out on [stackoverflow](https://stackoverflow.com/questions/55723567/how-to-stop-ggrepel-labels-moving-between-gganimate-frames-in-r-ggplot2), this is because the position of the text was being assigned stochastically and was therefore being re-assigned in each frame.
-Setting the seed value means the position will be the same in each frame. This is done in the `geom_text_repel()` function.
+The final frame is pretty much identical, but the transitions will show when the accidents occurred. From viewing the animation there doesn't appear to be a clear time when accidents were more frequent. We can check this with an additional plot:
+
+```{r, warning = FALSE, message = FALSE}
+Accidents_Dec2015 %>% 
+     dplyr::select(Date, Number_of_Casualties, Accident_Severity) %>% 
+     ggplot(mapping = aes(x = Date))+
+        geom_bar(stat = 'count')+
+        facet_wrap(facets = ~ Accident_Severity, scales = 'free')+
+        ggthemes::theme_tufte(base_size = 12, base_family = 'Bahnschrift')+
+        coord_flip()+
+        theme(axis.title = element_blank())
+```
+
+What isn't shown in the data is the number of cars that were on the road at the time, so it could be that there were a higher proportion of accidents between the `24`th and `31`st December - but that will have to remain speculation for now.
+
+Another slight issue I have with the final animation is the way the points move to the next location. Given the context of the plot, it could be interpreted as the same vehicles having accidents all over the UK. When critically considering this idea it becomes apparent that it cannot be the case (for *many* reasons), but there should be as little ambiguity as possible in a plot like this.
+
+In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a gentle introduction to how the **gganimate** package can automate animated graphics.
+
+### Additional Resources
+
+This example is certainly not exhaustive and there are many additional tweaks available to further customise an animation. I have personally found the below resources to be particularly helpful.
+
+ - The official [beginner's guide](https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html) to **gganimate**.
+ - A tutorial from the [ISU Graphics Group](https://goodekat.github.io/presentations/2019-isugg-gganimate-spooky/slides.html#1).

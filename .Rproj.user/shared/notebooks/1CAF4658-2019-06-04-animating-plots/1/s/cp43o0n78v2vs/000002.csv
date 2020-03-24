@@ -1,0 +1,1 @@
+"0","UK_coords <- ggplot2::map_data(map = 'world', region = 'UK')"

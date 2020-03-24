@@ -1,0 +1,316 @@
+# Bayesian Modelling of Inspection Information
+library(tidyverse); library(copula); library(extrafont)
+
+LNs <- function(m,s) sqrt(log(1+s^2/m^2)); LNm <- function(m,s) log(m)-0.5*LNs(m,s)^2
+Gumbel_scale <- function(s) (1/pi)*s*sqrt(6); Gumbel_location <- function(m,s) m-gamma*Gscale(s)
+
+pr_to_Odds <- function(Pr, form, s.f.) {
+  if(form == 'decimal'){
+    odds <- signif((Pr / (1 - Pr))^-1, s.f.)
+  } else if(form == 'fraction'){
+    odds <- paste(ceiling(10^(s.f.)*(Pr / (1 - Pr))^-1), 'to', 10^(s.f.))
+  }
+  return(odds)
+}
+
+sum_evens <- function (n, evens = TRUE, odds = FALSE) {
+  nums <- 0; for(i in seq(from = 1, to = n, by = 1)){
+    if(evens == TRUE) {
+      if(i %% 2 == 0) {
+        nums <- c(nums, i)
+      }
+    }
+    if (odds == TRUE) {
+      if(i %% 2 == 1) {
+        nums <- c(nums, i)
+      }
+    } 
+  }
+  sum <- sum(nums); return(sum)
+}
+
+
+setwd("~/PhD/Conferences/IFED/Code")
+
+# Running MCMC Sampler
+library(rstan)
+
+rstan_options(auto_write = TRUE)
+options(mc.cores=parallel::detectCores())
+
+n_chains <- 4; iterations <- 6e4; warmup <- 1e4; thinning <- 1 
+
+# pod_data_list <- list(N = nrow(pod_df), det = pod_df$det, depth = pod_df$depth)
+# 
+# pod_model <- stan(file = 'R/Stan/pod.stan', data = pod_data_list, 
+#                   chains = n_chains, iter = iterations, warmup = warmup, thin = thinning)
+
+
+library(lhs)
+
+N <- 1000; rate <-  1/4; WT <- 25.4; pr_mu <- 10; pr_sigma <- 4; error <- 1
+
+pod_df <- ggmcmc::ggs(S = pod_model)
+alpha_mod <- fitdistrplus::fitdist(data = (pod_df %>% dplyr::filter(Parameter == 'alpha'))$value, distr = 'norm')
+beta_mod <- fitdistrplus::fitdist(data = (pod_df %>% dplyr::filter(Parameter == 'beta'))$value, distr = 'norm')
+
+CoF <- 1e6; C_repair <- 5e4; PoF_repair <- 1e-6
+PoF_crit <- (C_repair + PoF_repair * CoF) / CoF
+
+mu_PFI <- 0.5; sigma_PFI <- 0.01
+
+aC <- rnorm(n = (n_chains * (iterations - warmup)), mean = 20, sd = 1)
+
+set.seed(1008); lhs_det <- randomLHS(n = N, k = 1)
+depth_exp_lhs <- qexp(p = lhs_det, rate = rate)
+depth_LN_lhs <- qlnorm(p = lhs_det, meanlog = LNm(m = pr_mu, s = pr_sigma), sdlog = LNs(m = pr_mu, s = pr_sigma))
+
+# LHS Plot ---
+  lhs_df <- data.frame(sampling = ' Latin Hypercube Sampling  ', d_exp = sort(depth_exp_lhs), d_LN = sort(depth_LN_lhs))
+  lhs_df <- lhs_df %>% tibble::rowid_to_column()
+  indep_df <- data.frame(sampling = ' Independent Sampling  ', d_exp = sort(rexp(n = N, rate = 1/4)), d_LN = sort(rlnorm(n = N,  meanlog = LNm(m = pr_mu, s = pr_sigma), sdlog = LNs(m = pr_mu, s = pr_sigma))))
+  indep_df <- indep_df %>% tibble::rowid_to_column()
+  
+  sampling_df <- rbind(lhs_df, indep_df)
+
+  for (i in seq(from = 1, to = nrow(sampling_df), by = 1)){
+    sampling_df$d_exp[i] <- min(WT, sampling_df$d_exp[i])
+    sampling_df$d_LN[i] <- min(WT, sampling_df$d_LN[i])
+  }
+
+  # ggplot(sampling_df)+
+  #   geom_point(mapping = aes(x = rowid, y = d_LN, col = ' ~ LogNormal(\u03BC = 10, \u03C3 = 4) '), shape = 1, size = 1, alpha = 0.4)+
+  #   geom_point(mapping = aes(x = rowid, y = d_exp, col = ' ~ exp (\u03BB = 1/4) '), shape = 1, size = 1, alpha = 0.4)+
+  #   scale_colour_manual(values = c('firebrick', 'forestgreen'))+
+  #   facet_wrap(facets = ~ sampling, ncol = 2)+
+  #   theme_bw(base_size = 8, base_family = 'Trebuchet MS')+
+  #   scale_x_continuous(name = 'Sample Index', limits = c(750, 1e3))+
+  #   scale_y_continuous(name = 'Crack Depth, mm')+
+  #   theme(legend.position = 'top', legend.title = element_blank())
+
+  
+# Setting up data list ----
+
+exp_df <- sampling_df %>%  
+  dplyr::filter(sampling == ' Latin Hypercube Sampling  ' & rowid > 900) %>% 
+  dplyr::select(rowid, d_exp)
+
+ln_df <- sampling_df %>%  
+  dplyr::filter(sampling == ' Latin Hypercube Sampling  ' & rowid > 700) %>% 
+  dplyr::select(rowid, d_LN)
+
+insp_data <- list(N_exp = nrow(exp_df), N_ln = nrow(ln_df), insp_exp = exp_df$d_exp, insp_LN = ln_df$d_LN, error = error, prior_rate = rate, prior_mu = pr_mu, prior_sigma = pr_sigma)
+nd_data <- list(prior_rate = rate, mu_alpha = alpha_mod$estimate[1], sigma_alpha = alpha_mod$estimate[2], 
+                mu_beta = 0.5,#beta_mod$estimate[1], 
+                sigma_beta = beta_mod$estimate[2], prior_mu = pr_mu, prior_sigma = pr_sigma, 
+                mu_PFI = mu_PFI, sigma_PFI = sigma_PFI)
+
+# MCMC for Indication 
+insp_model <- stan(file = 'Stan/inspUpdating.stan', data = insp_data, chains = n_chains, iter = iterations, warmup = warmup, thin = thinning)
+
+library(ggmcmc)
+post_df <- ggs(S = insp_model)
+
+# for (i in seq(from = 1, to = nrow(post_df))){
+#   post_df$insp[i] <- insp_df$depth[ceiling(i/(n_chains * (iterations - warmup)))]
+# }
+
+# ggmcmc::ggs_density(D = post_df, greek = TRUE)+
+#   geom_point(mapping = aes(x = insp_df$depth, y = 0), shape = 1, size = 1)+
+#   facet_wrap(facets = ~ Parameter, ncol = 10)+
+#   stat_function(fun = 'dexp', args = list(rate = 1/4), geom = 'line', aes(linetype = 'Prior'), col = 'black')+
+#   stat_function(fun = 'dnorm', args = list(mean = 20, sd = 1), geom = 'line', aes(linetype = 'aC'), col = 'black')+
+#   scale_linetype_manual(values = c(1, 2))+
+#   scale_x_continuous(limits = c(0, 25.4), name = 'Crack Depth, mm')+
+#   scale_y_continuous(name = 'Probability Density')+
+#   theme_bw(base_size = 11, base_family = 'Trebuchet MS')+
+#   theme(legend.position = 'top') + labs(linetype = element_blank())
+
+# Approximate pFail using initial samples ----
+
+param <- NA -> pFail; pTab_MCMC <- data.frame(param, pFail)
+params <- as.character(sort(unique(post_df$Parameter))); N_mcmc <- (n_chains * (iterations - warmup))
+for (i in seq(from = 1, to = length(unique(post_df$Parameter)), by = 1)) {
+  
+  param[i] <- params[i]
+  df <- post_df %>% dplyr::filter(Parameter == param[i])
+  pFail[i] <- sum(df$value > aC) / N_mcmc
+  
+  newRow <- data.frame(param = param[i], pFail = pFail[i]); pTab_MCMC <- rbind(pTab_MCMC, newRow)
+}
+pTab_MCMC <- pTab_MCMC[-1,]
+pTab_MCMC$aOpt <- NA -> pTab_MCMC$expCost
+
+for (i in seq(from = 1, to = nrow(pTab_MCMC), by = 1)){
+  if(pTab_MCMC$pFail[i] < PoF_crit) {
+    pTab_MCMC$aOpt[i] = 'No Repair'
+    pTab_MCMC$expCost[i] = pTab_MCMC$pFail[i] * CoF
+  } else {
+    pTab_MCMC$aOpt[i] = 'Repair'
+    pTab_MCMC$expCost[i] = C_repair + PoF_repair * CoF
+  }
+}
+
+exp_Post <- pTab_MCMC %>% dplyr::filter(grepl(pattern = 'thetaExp', x = param)); LN_Post <- pTab_MCMC %>% dplyr::filter(grepl(pattern = 'thetaLN', x = param))
+
+exp_det_post_EC <- sum(exp_Post$expCost) / N
+ln_det_post_EC <- sum(LN_Post$expCost) / N
+
+# MCMC for No Indication
+
+nd_model <- stan(file = 'Stan/inspUpdating_2.stan', data = nd_data, chains = n_chains, iter = iterations, warmup = warmup, thin = thinning,
+                 control = list(adapt_delta = 0.99))
+nd_df <- ggmcmc::ggs(S = nd_model)
+ 
+# ggplot(nd_df %>% 
+# #         dplyr::filter(Parameter == 'thetaLN'))+
+#          dplyr::filter(Parameter == 'thetaExp'))+
+#   geom_density(mapping = aes(x = value, fill = 'Posterior - following no indication'), alpha = 0.4)+
+#   geom_density(mapping = aes(x = value, y = ..density.., fill = 'Likelihood, Pr(No Indication)'), alpha = 0.4, data = nd_df %>% dplyr::filter(Parameter == 'lik_PoI'))+
+#   stat_function(fun = 'dexp', geom = 'line', args = list(rate = 0.25), aes(linetype = 'Prior ~ exp(\u03BB = 1/4)'))+
+# #  stat_function(fun = 'dlnorm', geom = 'line', args = list(meanlog = LNm(m = pr_mu, s = pr_sigma), sdlog = LNs(m = pr_mu, s = pr_sigma)), aes(linetype = 'Prior ~ LN(\u03BC = 10, \u03C3 = 5)'))+
+#   scale_linetype_manual(values = c(2))+
+#   scale_fill_manual(values = c('firebrick', 'forestgreen'))+
+#   theme_bw(base_size = 8, base_family = 'Trebuchet MS')+
+#   theme(legend.position = 'top')+
+#   labs(fill = element_blank(), linetype = element_blank())+
+#   scale_x_continuous(name = 'Crack Depth, mm', limits = c(0, 25.4))+
+#   scale_y_continuous(name = 'Probability Density')
+
+post_df_ND <- ggmcmc::ggs(S = nd_model, family = 'theta')
+
+param <- NA -> pFail
+pTab_MCMC_nd <- data.frame(param, pFail)
+for (i in seq(from = 1, to = length(unique(post_df_ND$Parameter)), by = 1)) {
+  
+  param[i] <- as.character(sort(unique(post_df_ND$Parameter))[i])
+  pFail[i] <- sum((post_df_ND %>% dplyr::filter(Parameter == param[i]))$value > aC) / (n_chains * (iterations - warmup))
+  
+  newRow <- data.frame(param = param[i], pFail = pFail[i]); pTab_MCMC_nd <- rbind(pTab_MCMC_nd, newRow)
+}
+pTab_MCMC_nd <- pTab_MCMC_nd[-1,]
+pTab_MCMC_nd$aOpt <- NA -> pTab_MCMC_nd$expCost
+
+for (i in seq(from = 1, to = nrow(pTab_MCMC_nd), by = 1)){
+  if(pTab_MCMC_nd$pFail[i] < PoF_crit) {
+    pTab_MCMC_nd$aOpt[i] = 'No Repair'
+    pTab_MCMC_nd$expCost[i] = pTab_MCMC_nd$pFail[i] * CoF
+  } else {
+    pTab_MCMC_nd$aOpt[i] = 'Repair'
+    pTab_MCMC_nd$expCost[i] = C_repair + PoF_repair * CoF
+  }
+}
+
+exp_nd_post_EC <- (pTab_MCMC_nd %>% dplyr::filter(param == 'thetaExp'))$expCost
+ln_nd_post_EC <- (pTab_MCMC_nd %>% dplyr::filter(param == 'thetaLN'))$expCost
+
+
+pr_I_exp <- sum(rexp(n = (n_chains * (iterations - warmup)), rate = rate) > (nd_df %>% dplyr::filter(Parameter == 'lik_PoI'))$value) / (n_chains * (iterations - warmup))
+pr_I_ln <- sum(rlnorm(n = (n_chains * (iterations - warmup)), meanlog = LNm(m = pr_mu, s = pr_sigma), LNs(m = pr_mu, s = pr_sigma))
+                > (nd_df %>% dplyr::filter(Parameter == 'lik_PoI'))$value) / (n_chains * (iterations - warmup))
+
+exp_post_EC <- pr_I_exp * exp_det_post_EC + (1 - pr_I_exp) * exp_nd_post_EC
+ln_post_EC <- pr_I_ln * ln_det_post_EC + (1 - pr_I_exp) * ln_nd_post_EC
+
+exp_prior_EC <- min((mean(pexp(q = aC, rate = rate, lower.tail = FALSE))* CoF),  C_repair + PoF_repair * CoF)
+ln_prior_EC <- min((mean(plnorm(q = aC, meanlog = LNm(m = pr_mu, s = pr_sigma), sdlog = LNs(m = pr_mu, s = pr_sigma), lower.tail = FALSE)) * CoF), C_repair + PoF_repair * CoF)
+
+exp_VoI <- exp_prior_EC - exp_post_EC
+ln_VoI <- ln_prior_EC - ln_post_EC
+
+# Log Odds Figure ----
+logOdds_df <- data.frame(a = NA, logOdds = NA, PoD = NA)
+
+for(i in seq(from = 0, to = 10, length.out = 20)){
+     a = i
+     logOdds = -1.5 + 2 * log(a)
+     PoD = (exp(-1.5 + 2 * log(a))) / (1 + exp(-1.5 + 2 * log(a)))
+     newRow <- data.frame(a, logOdds, PoD); logOdds_df <- rbind(logOdds_df, newRow)
+ }
+
+logOdds_df <- logOdds_df[-1,]
+
+ggplot(logOdds_df)+
+  geom_point(aes(x = a, y = logOdds, col = ' Log Odds Scale  '), shape = 1, size = 3)+
+  geom_point(mapping = aes(x = a, y = PoD, col = ' Probability Scale  '), shape = 1, size = 3)+
+  scale_colour_manual(values = c('forestgreen', 'firebrick'))+
+  geom_hline(yintercept = c(0, 1), linetype = 2, alpha = 0.25)+
+  geom_segment(mapping = aes(x = a, y = logOdds, xend = a, yend = PoD),
+    arrow = arrow(length = unit(0.15,'cm')), alpha = 0.6)+
+  theme_bw(base_size = 10, base_family = 'Trebuchet MS')+
+  theme(legend.position = 'top', legend.title = element_blank())+
+  scale_y_continuous(name = 'Y') + scale_x_continuous(name = 'Crack Depth, mm')
+# ----
+
+sig_SA <- data.frame(sigma = c(0.1, 0.5, 1, 1.5, 2), LN_prior = c(26536.98, 26431.24, 26119.89, 25317.99, 24761.57), exp_prior = c(32738.27, 32705.88, 32641.27, 32419.54, 32159.69))
+
+sig_SA <- data.frame(sigma = rep(x = c(0.1, 0.5, 1, 1.5, 2), times = 2), Prior = c(rep(x = 'Prior ~ LN( \u03bc = 10, \u03c3 = 4)', times = 5), 
+                                                                                   rep(x = ' Prior ~ exp( \u03bb = 1/4)', times = 5)),
+                     VoI = c(c(20890.06, 20794.25, 20515.73, 20221.69, 16561.82), c(6607.245, 6593.552, 6560.481, 6512.28, 6018.613)))
+
+sig_SA <- data.frame(sigma = rep(x = c(0.1, 0.5, 1, 1.5), times = 2), Prior = c(rep(x = 'Prior ~ LN( \u03bc = 10, \u03c3 = 4)', times = 4), 
+                                                                                   rep(x = ' Prior ~ exp( \u03bb = 1/4)', times = 4)),
+                     VoI = c(c(20890.06, 20794.25, 20515.73, 20221.69), c(6607.245, 6593.552, 6560.481, 6512.28)))
+
+
+main_1 <- ggplot(data = sig_SA)+
+  geom_line(mapping = aes(x = sigma, y = VoI))+
+  geom_point(mapping = aes(x = sigma, y = VoI), shape = 1)+
+  facet_wrap(facets = ~ Prior, scales = 'free', ncol = 1)+
+  theme_bw(base_size = 8, base_family = 'Trebuchet MS')+
+  scale_linetype_manual(values = c(1, 2))+
+  scale_x_continuous(name = 'Sizing Uncertainty Parameter, \u03c3')+
+  scale_y_continuous(name = 'Expected Value of Information, $')+
+  theme(legend.position = 'top', legend.title = element_blank())
+
+sub_3 <- ggplot(data = quantDf)+
+  geom_point(mapping = aes(x = dataPoint, y = med), alpha = 0)+
+  stat_function(geom = 'line', fun = 'dnorm', args = list(mean = 5, sd = 1))+
+  scale_x_continuous(limits = c(0, 10)) + scale_y_continuous(limits = c(0, 0.5))+
+  theme_bw(base_size = 12, base_family = 'Trebuchet MS')+
+  theme(axis.title = element_blank(), axis.text = element_blank())
+
+sub_4 <- ggplot(data = quantDf)+
+  geom_point(mapping = aes(x = dataPoint, y = med), alpha = 0)+
+  stat_function(geom = 'line', fun = 'dnorm', args = list(mean = 5, sd = 2))+
+  scale_x_continuous(limits = c(0, 10)) + scale_y_continuous(limits = c(0, 0.5))+
+  theme_bw(base_size = 12, base_family = 'Trebuchet MS')+
+  theme(axis.title = element_blank(), axis.text = element_blank())
+
+main_1 + 
+  annotation_custom(grob = ggplotGrob(x = sub_3), xmin = 0.05, xmax = 0.45, ymin = 6.51e3, ymax = 6.54e3)+
+  annotation_custom(grob = ggplotGrob(x = sub_4), xmin = 1.05, xmax = 1.45, ymin = 6.51e3, ymax = 6.54e3)+
+  annotation_custom(grob = ggplotGrob(x = sub_3), xmin = 0.05, xmax = 0.45, ymin = 20.205e3, ymax = 20.42e3)+
+  annotation_custom(grob = ggplotGrob(x = sub_4), xmin = 1.05, xmax = 1.45, ymin = 20.205e3, ymax = 20.42e3)
+
+gamma_SA <- data.frame(gamma = rep(x = c(0.5, 1, 1.5, beta_mod$estimate[1]), times = 2), Prior = c(rep(x = 'Prior ~ LN( \u03bc = 10, \u03c3 = 4)', times = 4), 
+                                                                        rep(x = ' Prior ~ exp( \u03bb = 1/4)', times = 4)),
+                                   VoI = c(c(7096.232, 13785.52, 18444.35, 20574.8), c(3150.777, 5394.122, 6366.311, 6561.536)))
+
+main_2 <- ggplot(data = gamma_SA)+
+  geom_line(mapping = aes(x = gamma, y = VoI))+
+  geom_point(mapping = aes(x = gamma, y = VoI), shape = 1)+
+  facet_wrap(facets = ~ Prior, scales = 'free', ncol = 1)+
+  theme_bw(base_size = 8, base_family = 'Trebuchet MS')+
+  scale_linetype_manual(values = c(1, 2))+
+  scale_x_continuous(name = 'PoD Parameter, \u03b3')+
+  scale_y_continuous(name = 'Expected Value of Information, $')+
+  theme(legend.position = 'top', legend.title = element_blank())
+
+sub_1 <- ggplot(data = quantDf)+
+  geom_line(mapping = aes(x = depth, y = lower))+
+  scale_linetype_manual(values = c(2, 1))+
+  theme_bw(base_size = 12, base_family = 'Trebuchet MS')+
+  theme(axis.title = element_blank(), axis.text = element_blank())
+
+sub_2 <- ggplot(data = quantDf)+
+  geom_line(mapping = aes(x = depth, y = higher))+
+  scale_linetype_manual(values = c(2, 1))+
+  theme_bw(base_size = 12, base_family = 'Trebuchet MS')+
+  theme(axis.title = element_blank(), axis.text = element_blank())
+
+main_2 + 
+  annotation_custom(grob = ggplotGrob(x = sub_1), xmin = 0.6, xmax = 0.9, ymin = 3.125e3, ymax = 4.325e3)+
+  annotation_custom(grob = ggplotGrob(x = sub_2), xmin = 1.675, xmax = 1.975, ymin = 3.125e3, ymax = 4.325e3)+
+  annotation_custom(grob = ggplotGrob(x = sub_1), xmin = 0.6, xmax = 0.9, ymin = 7e3, ymax = 11.75e3)+
+  annotation_custom(grob = ggplotGrob(x = sub_2), xmin = 1.675, xmax = 1.975, ymin = 7e3, ymax = 11.75e3)
