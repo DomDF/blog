@@ -27,7 +27,7 @@
 &lt;/div&gt;
 &lt;div id=&#34;introductions&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Introductions&lt;/h3&gt;
-&lt;p&gt;So there are a couple of key topics discussed here: Logistic Regression, and Bayesian Statistics. Before jumping straight into the example application, I’ve provided&lt;/p&gt;
+&lt;p&gt;So there are a couple of key topics discussed here: Logistic Regression, and Bayesian Statistics. Before jumping straight into the example application, I’ve provided some &lt;strong&gt;very&lt;/strong&gt; brief introductions below.&lt;/p&gt;
 &lt;div id=&#34;bayesian-inference&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;Bayesian Inference&lt;/h4&gt;
 &lt;p&gt;At a very high level, Bayesian models quantify (aleatory and epistemic) uncertainty, so that our predictions and decisions take into account the ways in which our knowledge is limited or imperfect. We specify a statistical model, and identify probabilistic estimates for the parameters using a family of sampling algorithms known as Markov Chain Monte Carlo (MCMC). My preferred software for writing a fitting Bayesian models is &lt;a href=&#34;https://mc-stan.org/&#34;&gt;&lt;code&gt;Stan&lt;/code&gt;&lt;/a&gt;. If you are not yet familiar with Bayesian statistics, then I imagine you won’t be fully satisfied with that 3 sentence summary, so I will put together a separate post on the merits and challenges of applied Bayesian inference, which will include much more detail.&lt;/p&gt;
@@ -106,10 +106,10 @@ for (i in seq(from = 1, to = nrow(pod_df), by = 1)) {
 
   int &amp;lt;lower = 0&amp;gt; N; // Defining the number of defects in the test dataset
   int &amp;lt;lower = 0, upper = 1&amp;gt; det [N]; // A variable that describes whether each defect was detected [1]or not [0]
-  vector [N] depth; // A variable that describes the corresponding depth of each defect
+  vector &amp;lt;lower = 0&amp;gt; [N] depth; // A variable that describes the corresponding depth of each defect
   
   int &amp;lt;lower = 0&amp;gt; K; // Defining the number of probabilistic predictions required from the model
-  vector [K] depth_pred;
+  vector &amp;lt;lower = 0&amp;gt; [K] depth_pred;
   
 }
 
@@ -163,7 +163,7 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
                                     K = K, depth_pred = depth_pred), 
                         seed = 1008)
 ## 
-## SAMPLING FOR MODEL &amp;#39;41d120de40f8db19a7d34e80e3451b84&amp;#39; NOW (CHAIN 1).
+## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 1).
 ## Chain 1: 
 ## Chain 1: Gradient evaluation took 0 seconds
 ## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -183,12 +183,12 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.182 seconds (Warm-up)
-## Chain 1:                0.102 seconds (Sampling)
-## Chain 1:                0.284 seconds (Total)
+## Chain 1:  Elapsed Time: 0.063 seconds (Warm-up)
+## Chain 1:                0.06 seconds (Sampling)
+## Chain 1:                0.123 seconds (Total)
 ## Chain 1: 
 ## 
-## SAMPLING FOR MODEL &amp;#39;41d120de40f8db19a7d34e80e3451b84&amp;#39; NOW (CHAIN 2).
+## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 2).
 ## Chain 2: 
 ## Chain 2: Gradient evaluation took 0 seconds
 ## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -208,12 +208,12 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.1 seconds (Warm-up)
-## Chain 2:                0.122 seconds (Sampling)
-## Chain 2:                0.222 seconds (Total)
+## Chain 2:  Elapsed Time: 0.057 seconds (Warm-up)
+## Chain 2:                0.054 seconds (Sampling)
+## Chain 2:                0.111 seconds (Total)
 ## Chain 2: 
 ## 
-## SAMPLING FOR MODEL &amp;#39;41d120de40f8db19a7d34e80e3451b84&amp;#39; NOW (CHAIN 3).
+## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 3).
 ## Chain 3: 
 ## Chain 3: Gradient evaluation took 0 seconds
 ## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -233,12 +233,12 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.116 seconds (Warm-up)
-## Chain 3:                0.097 seconds (Sampling)
-## Chain 3:                0.213 seconds (Total)
+## Chain 3:  Elapsed Time: 0.053 seconds (Warm-up)
+## Chain 3:                0.049 seconds (Sampling)
+## Chain 3:                0.102 seconds (Total)
 ## Chain 3: 
 ## 
-## SAMPLING FOR MODEL &amp;#39;41d120de40f8db19a7d34e80e3451b84&amp;#39; NOW (CHAIN 4).
+## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 4).
 ## Chain 4: 
 ## Chain 4: Gradient evaluation took 0 seconds
 ## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -258,9 +258,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.094 seconds (Warm-up)
-## Chain 4:                0.087 seconds (Sampling)
-## Chain 4:                0.181 seconds (Total)
+## Chain 4:  Elapsed Time: 0.053 seconds (Warm-up)
+## Chain 4:                0.051 seconds (Sampling)
+## Chain 4:                0.104 seconds (Total)
 ## Chain 4:&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:I’ve not included any detail here on the checks we need to do on our samples. There are some common challenges associated with MCMC methods, each with plenty of associated guidance on how to diagnose and resolve them. For now, let’s assume everything has gone to plan.&lt;/p&gt;
 &lt;p&gt;Now, there are a few options for extracting samples from a stanfit object such as &lt;code&gt;PoD_samples&lt;/code&gt;, including &lt;code&gt;rstan::extract()&lt;/code&gt;. However, these usually require a little post-processing to get them into a tidy format - no big deal, but a hassle I’d rather avoid. That’s why I like to use the &lt;code&gt;ggmcmc&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/ggmcmc/&#34;&gt;package&lt;/a&gt;, which we can use to create a data frame that specifies the iteration, parameter value and chain associated with each data point:&lt;/p&gt;

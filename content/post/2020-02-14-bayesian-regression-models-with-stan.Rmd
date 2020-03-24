@@ -137,7 +137,7 @@ Logistic regression is a popular machine learning model. One application of it i
 
 ### Introductions
 
-So there are a couple of key topics discussed here: Logistic Regression, and Bayesian Statistics. Before jumping straight into the example application, I've provided
+So there are a couple of key topics discussed here: Logistic Regression, and Bayesian Statistics. Before jumping straight into the example application, I've provided some **very** brief introductions below.
 
 #### Bayesian Inference
 
@@ -274,10 +274,10 @@ data {
 
   int <lower = 0> N; // Defining the number of defects in the test dataset
   int <lower = 0, upper = 1> det [N]; // A variable that describes whether each defect was detected [1]or not [0]
-  vector [N] depth; // A variable that describes the corresponding depth of each defect
+  vector <lower = 0> [N] depth; // A variable that describes the corresponding depth of each defect
   
   int <lower = 0> K; // Defining the number of probabilistic predictions required from the model
-  vector [K] depth_pred;
+  vector <lower = 0> [K] depth_pred;
   
 }
 
