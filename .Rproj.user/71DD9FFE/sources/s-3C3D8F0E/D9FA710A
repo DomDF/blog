@@ -5,17 +5,17 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "36|1|127|0|\n",
-    "hash" : "2129923278",
+    "hash" : "0",
     "id" : "D9FA710A",
-    "lastKnownWriteTime" : 1585088277,
-    "last_content_update" : 1585088277794,
-    "path" : "~/GitHub/blog/content/post/2020-02-14-bayesian-regression-models-with-stan.Rmd",
-    "project_path" : "content/post/2020-02-14-bayesian-regression-models-with-stan.Rmd",
+    "lastKnownWriteTime" : 1585088848,
+    "last_content_update" : 1585088848639,
+    "path" : "~/GitHub/blog/content/post/2020-02-14-bayesian-logistic-regression-with-stan.Rmd",
+    "project_path" : "content/post/2020-02-14-bayesian-logistic-regression-with-stan.Rmd",
     "properties" : {
-        "cursorPosition" : "279,24",
+        "cursorPosition" : "33,0",
         "ignored_words" : "u,bc\n",
         "last_setup_crc32" : "3C3D8F0Edc5b7381",
-        "scrollLine" : "267"
+        "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [

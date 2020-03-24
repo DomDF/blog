@@ -28,7 +28,8 @@
   
     
   
-  <meta name="description" content="">
+  <meta name="description" content="TLDRLogistic regression is a popular machine learning model. One application of it in an engineering context is quantifying the effectiveness of inspection technologies at detecting damage. This post describes the additional information provided by a Bayesian application of logistic regression (and how it can be implemented using the Stan probabilistic programming language). Finally, I’ve also included some recommendations for making sense of our priors.
+IntroductionsSo there are a couple of key topics discussed here: Logistic Regression, and Bayesian Statistics.">
 
   
   <link rel="alternate" hreflang="en-uk" href="/post/bayesian-regression-models-with-stan/">
@@ -123,25 +124,26 @@
   
   <meta property="og:site_name" content="All Your Bayes">
   <meta property="og:url" content="/post/bayesian-regression-models-with-stan/">
-  <meta property="og:title" content="Bayesian Regression Models with Stan | All Your Bayes">
-  <meta property="og:description" content=""><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:title" content="Bayesian Logistic Regression with Stan | All Your Bayes">
+  <meta property="og:description" content="TLDRLogistic regression is a popular machine learning model. One application of it in an engineering context is quantifying the effectiveness of inspection technologies at detecting damage. This post describes the additional information provided by a Bayesian application of logistic regression (and how it can be implemented using the Stan probabilistic programming language). Finally, I’ve also included some recommendations for making sense of our priors.
+IntroductionsSo there are a couple of key topics discussed here: Logistic Regression, and Bayesian Statistics."><meta property="og:image" content="/img/icon-192.png">
   <meta property="og:locale" content="en-uk">
   
-  <meta property="article:published_time" content="2020-02-14T00:00:00&#43;00:00">
+  <meta property="article:published_time" content="2020-02-15T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2020-02-14T10:30:10&#43;00:00">
+  <meta property="article:modified_time" content="2020-02-15T10:30:10&#43;00:00">
   
-
-  
-
 
   
 
 
+  
 
 
 
-  <title>Bayesian Regression Models with Stan | All Your Bayes</title>
+
+
+  <title>Bayesian Logistic Regression with Stan | All Your Bayes</title>
 
 </head>
 
@@ -379,8 +381,10 @@
   
   
 <div class="article-container pt-3">
-  <h1 itemprop="name">Bayesian Regression Models with Stan</h1>
+  <h1 itemprop="name">Bayesian Logistic Regression with Stan</h1>
 
+  
+  <p class="page-subtitle">Modelling the Probability of Detecting Damage</p>
   
 
   
@@ -388,8 +392,8 @@
 
 
 
-<meta content="2020-02-14 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-<meta content="2020-02-14 10:30:10 &#43;0000 UTC" itemprop="dateModified">
+<meta content="2020-02-15 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+<meta content="2020-02-15 10:30:10 &#43;0000 UTC" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -404,7 +408,7 @@
           Last updated on
       
     
-    <time>Feb 14, 2020</time>
+    <time>Feb 15, 2020</time>
   </span>
   
 
@@ -413,7 +417,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    0 min read
+    17 min read
   </span>
   
 
@@ -422,6 +426,11 @@
 
   
   
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    <a href="/categories/bayesian/">Bayesian</a>, <a href="/categories/mcmc/">MCMC</a>, <a href="/categories/stan/">Stan</a>, <a href="/categories/logistic-regression/">Logistic Regression</a>, <a href="/categories/inspection-reliability/">Inspection Reliability</a>, <a href="/categories/probability-of-detection/">Probability of Detection</a></span>
+  
 
   
     
@@ -429,7 +438,7 @@
   <ul class="share">
     <li>
       <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=Bayesian%20Regression%20Models%20with%20Stan&amp;url=%2fpost%2fbayesian-regression-models-with-stan%2f"
+         href="https://twitter.com/intent/tweet?text=Bayesian%20Logistic%20Regression%20with%20Stan&amp;url=%2fpost%2fbayesian-regression-models-with-stan%2f"
          target="_blank" rel="noopener">
         <i class="fab fa-twitter"></i>
       </a>
@@ -443,21 +452,21 @@
     </li>
     <li>
       <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fbayesian-regression-models-with-stan%2f&amp;title=Bayesian%20Regression%20Models%20with%20Stan"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fbayesian-regression-models-with-stan%2f&amp;title=Bayesian%20Logistic%20Regression%20with%20Stan"
          target="_blank" rel="noopener">
         <i class="fab fa-linkedin-in"></i>
       </a>
     </li>
     <li>
       <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=%2fpost%2fbayesian-regression-models-with-stan%2f&amp;title=Bayesian%20Regression%20Models%20with%20Stan"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fbayesian-regression-models-with-stan%2f&amp;title=Bayesian%20Logistic%20Regression%20with%20Stan"
          target="_blank" rel="noopener">
         <i class="fab fa-weibo"></i>
       </a>
     </li>
     <li>
       <a class="email"
-         href="mailto:?subject=Bayesian%20Regression%20Models%20with%20Stan&amp;body=%2fpost%2fbayesian-regression-models-with-stan%2f">
+         href="mailto:?subject=Bayesian%20Logistic%20Regression%20with%20Stan&amp;body=%2fpost%2fbayesian-regression-models-with-stan%2f">
         <i class="fas fa-envelope"></i>
       </a>
     </li>
@@ -493,9 +502,342 @@
 
     <div class="article-style" itemprop="articleBody">
       
+
+
+<div id="tldr" class="section level3">
+<h3>TLDR</h3>
+<p>Logistic regression is a popular machine learning model. One application of it in an engineering context is quantifying the effectiveness of inspection technologies at detecting damage. This post describes the additional information provided by a Bayesian application of logistic regression (and how it can be implemented using the <code>Stan</code> probabilistic programming language). Finally, I’ve also included some recommendations for making sense of our priors.</p>
+<hr />
+</div>
+<div id="introductions" class="section level3">
+<h3>Introductions</h3>
+<p>So there are a couple of key topics discussed here: Logistic Regression, and Bayesian Statistics. Before jumping straight into the example application, I’ve provided some <strong>very</strong> brief introductions below.</p>
+<div id="bayesian-inference" class="section level4">
+<h4>Bayesian Inference</h4>
+<p>At a very high level, Bayesian models quantify (aleatory and epistemic) uncertainty, so that our predictions and decisions take into account the ways in which our knowledge is limited or imperfect. We specify a statistical model, and identify probabilistic estimates for the parameters using a family of sampling algorithms known as Markov Chain Monte Carlo (MCMC). My preferred software for writing a fitting Bayesian models is <a href="https://mc-stan.org/"><code>Stan</code></a>. If you are not yet familiar with Bayesian statistics, then I imagine you won’t be fully satisfied with that 3 sentence summary, so I will put together a separate post on the merits and challenges of applied Bayesian inference, which will include much more detail.</p>
+</div>
+<div id="logistic-regression" class="section level4">
+<h4>Logistic Regression</h4>
+<p>Logistic regression is used to estimate the probability of a binary outcome, such as <em>Pass</em> or <em>Fail</em> (though it can be extended for <code>&gt; 2</code> outcomes). This is achieved by transforming a standard reression using the logit function, shown below. The term in the bracks may be familiar to gamblers as it is how odds are calculated from probabilities. You may see <em>logit</em> and <em>log-odds</em> used exchangeably for this reason.</p>
+<p><span class="math display">\[
+Logit (x) = \log\Bigg({\frac{x}{1 - x}}\Bigg)
+\]</span></p>
+<p>Since the logit function transformed data <em>from</em> a probability scale, the inverse logit function transforms data <em>to</em> a probability scale. Therefore, as shown in the below plot, it’s values range from <code>0</code> to <code>1</code>, and this feature is very useful when we are interested the probability of <em>Pass</em>/<em>Fail</em> type outcomes.</p>
+<p><span class="math display">\[
+Inverse\;Logit (x) = \frac{1}{1 + \exp(-x)}
+\]</span></p>
+<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Before moving on, some terminology that you may find when reading about logistic regression elsewhere:
+* When a linear regression is combined with a re-scaling function such as this, it is known as a Generalised Linear Model (<strong>GLM</strong>).
+* The logit function is known as a <strong>link function</strong> in this context.
+* Logistic regression is a Bernoulli regression with a logit link function, or a Bernoulli-Logit GLM.</p>
+<p>You may be familiar with libraries that automate the fitting of logistic regression models, either in <code>Python</code> (via <code>sklearn</code>):</p>
+<pre class="python"><code>from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression()
+model.fit(X = dataset[&#39;input_variables&#39;], y = dataset[&#39;predictions&#39;])
+</code></pre>
+<p>…or in <code>R</code>:</p>
+<pre class="r"><code>model_fit &lt;- glm(formula = preditions ~ input_variables,
+                 data = dataset, family = binomial(link = &#39;logit&#39;))
+</code></pre>
+</div>
+</div>
+<div id="example-application-probability-of-detection" class="section level3">
+<h3>Example Application: Probability of Detection</h3>
+<p>To demonstrate how a Bayesian logistic regression model can be fit (and utilised), I’ve included an example from one of my papers. Engineers make use of data from inspections to understand the condition of structures. Modern inspection methods, whether remote, autonomous or manual application of sensor technologies, are very good. They are generally evaluated in terms of the accuracy and reliability with which they size damage. Engineers never receive perfect information from an inspection, such as:</p>
+<ul>
+<li>There is a crack of <strong>exact</strong> length <code>30 mm</code> and <strong>exact</strong> depth <code>5 mm</code> at this <strong>exact</strong> location, or</li>
+<li>There is <strong>definitely</strong> no damage at this location.</li>
+</ul>
+<p>For various reasons, the information we receive from inspections is imperfect and this is something that engineers need to deal with. As a result, providers of inspection services are requested to provide some measure of how good their product is. This typically includes some measure of how accurately damage is sized and how reliable an outcome (detection or no detection) is.</p>
+<p>This example will consider trials of an inspection tool looking for damage of varying size, to fit a model that will predict the probability of detection for any size of damage. Since various forms of damage can initiate in structures, each requiring inspection methods that are suitable, let’s avoid ambiguity and imagine we are only looking for cracks.</p>
+<div class="figure">
+<img src="https://media.giphy.com/media/42wQXwITfQbDGKqUP7/giphy.gif" alt="Detecting Damage: Never 100% Reliable" />
+<p class="caption">Detecting Damage: Never 100% Reliable</p>
+</div>
+<div id="test-data" class="section level4">
+<h4>Test Data</h4>
+<p>For the purposes of this example we will simulate some data. Let’s imagine we have introduced some cracks (of known size) into some test specimens and then arranged for some blind trials to test whether an inspection technology is able to detect them.</p>
+<pre class="r"><code>set.seed(1008)
+
+N &lt;- 30; lower &lt;- 0; upper &lt;- 10; alpha_true &lt;- -1; beta_true &lt;- 1
+
+depth &lt;- runif(n = N, min = lower, max = upper)
+
+PoD_1D &lt;- function(depth, alpha_1D, beta_1D){
+  PoD &lt;- exp(alpha_1D + beta_1D * log(depth)) / (1 + exp(alpha_1D + beta_1D * log(depth)))
+  return (PoD)
+}
+
+pod_df &lt;- data.frame(depth = depth, det = double(length = N))
+
+for (i in seq(from = 1, to = nrow(pod_df), by = 1)) {
+  
+  pod_df$det[i] = rbernoulli(n = 1, 
+                             p = PoD_1D(depth = pod_df$depth[i], 
+                                       alpha_1D = alpha_true, 
+                                       beta_1D = beta_true))
+  
+}</code></pre>
+<p>The above code is used to create 30 crack sizes (depths) between 0 and 10 mm. We then use a log-odds model to back calculate a probability of detection for each. This is based on some fixed values for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. In a real trial, these would not be known, but since we are inventing the data we can see how successful our model ends up being in estimating these values.</p>
+<p>The below plot shows the size of each crack, and whether or not it was detected (in our simulation). The smallest crack that was detected was 2.2210205 mm deep, and the largest undetected crack was 5.692122 mm deep Even so, it’s already clear that larger cracks are more likely to be detected than smaller cracks, but just about all we can say at this stage.</p>
+<p>After fitting our model, we will be able to predict the probability of detection for any crack size.</p>
+<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><code>Stan</code> is a <a href="https://en.wikipedia.org/wiki/Probabilistic_programming">probabilistic programming language</a>. In a future post I will explain why it has been my preferred software for statistical inference throughout my PhD.</p>
+<p>The below is a simple <code>Stan</code> program to fit a Bayesian Probability of Detection (PoD) model:</p>
+<pre class="stan"><code>data {
+
+  int &lt;lower = 0&gt; N; // Defining the number of defects in the test dataset
+  int &lt;lower = 0, upper = 1&gt; det [N]; // A variable that describes whether each defect was detected [1]or not [0]
+  vector &lt;lower = 0&gt; [N] depth; // A variable that describes the corresponding depth of each defect
+  
+  int &lt;lower = 0&gt; K; // Defining the number of probabilistic predictions required from the model
+  vector &lt;lower = 0&gt; [K] depth_pred;
+  
+}
+
+parameters {
+  
+  // The (unobserved) model parameters that we want to recover
+  real alpha;
+  real beta;
+  
+}
+
+model {
+
+  // A logistic regression model relating the defect depth to whether it will be detected
+  det ~ bernoulli_logit(alpha + beta * log(depth));
+  
+  // Prior models for the unobserved parameters
+  alpha ~ normal(0, 1);
+  beta ~ normal(1, 1);
+
+}
+
+generated quantities {
+  
+  // Using the fitted model for probabilistic predicition
+  // K posterior predictive distributions will be estimated for a corresponding crack depth
+  vector [K] postpred_pr;
+  
+  for (k in 1:K) {
+    
+    postpred_pr[k] = inv_logit(alpha + beta * log(depth_pred[k]));
+    
+  }
+  
+}</code></pre>
+<p>I’ve extended the above model to also included a probability of false indication in a recent piece of work.</p>
+</div>
+<div id="fitting-the-model" class="section level4">
+<h4>Fitting the model</h4>
+<p>Data can be pre-processed in any language for which a <code>Stan</code> interface has been developed. This includes, <code>R</code>, <code>Python</code>, and <code>Julia</code>. In this example we will use <code>R</code> and the accompanying package, <code>rstan</code>.</p>
+<p>Our <code>Stan</code> model is expecting data for three variables: <strong>N</strong>, <strong>det</strong>, <strong>depth</strong>, <strong>K</strong> and <strong>depth_pred</strong> and <code>rstan</code> requires this in the form of a list.</p>
+<pre class="r"><code>K &lt;- 50; depth_pred &lt;- seq(from = lower, to = upper, length.out = K)</code></pre>
+</div>
+<div id="results" class="section level4">
+<h4>Results</h4>
+<p>Once we have our data, and are happy with our model, we can set off the Markov chains. There are plenty of opportunities to control the way that the <code>Stan</code> algorithm will run, but I won’t include that here, rather we will mostly stick with the default arguments in <code>rstan</code>.</p>
+<pre class="r"><code>library(rstan)
+
+PoD_samples &lt;- sampling(object = PoD_model, 
+                        data = list(N = N, det = pod_df$det, depth = pod_df$depth,
+                                    K = K, depth_pred = depth_pred), 
+                        seed = 1008)
+## 
+## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 1).
+## Chain 1: 
+## Chain 1: Gradient evaluation took 0 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+## Chain 1: Adjust your expectations accordingly!
+## Chain 1: 
+## Chain 1: 
+## Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 1: 
+## Chain 1:  Elapsed Time: 0.056 seconds (Warm-up)
+## Chain 1:                0.067 seconds (Sampling)
+## Chain 1:                0.123 seconds (Total)
+## Chain 1: 
+## 
+## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 2).
+## Chain 2: 
+## Chain 2: Gradient evaluation took 0 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+## Chain 2: Adjust your expectations accordingly!
+## Chain 2: 
+## Chain 2: 
+## Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 2: 
+## Chain 2:  Elapsed Time: 0.07 seconds (Warm-up)
+## Chain 2:                0.066 seconds (Sampling)
+## Chain 2:                0.136 seconds (Total)
+## Chain 2: 
+## 
+## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 3).
+## Chain 3: 
+## Chain 3: Gradient evaluation took 0 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+## Chain 3: Adjust your expectations accordingly!
+## Chain 3: 
+## Chain 3: 
+## Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 3: 
+## Chain 3:  Elapsed Time: 0.068 seconds (Warm-up)
+## Chain 3:                0.072 seconds (Sampling)
+## Chain 3:                0.14 seconds (Total)
+## Chain 3: 
+## 
+## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 4).
+## Chain 4: 
+## Chain 4: Gradient evaluation took 0 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+## Chain 4: Adjust your expectations accordingly!
+## Chain 4: 
+## Chain 4: 
+## Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 4: 
+## Chain 4:  Elapsed Time: 0.055 seconds (Warm-up)
+## Chain 4:                0.052 seconds (Sampling)
+## Chain 4:                0.107 seconds (Total)
+## Chain 4:</code></pre>
+<p><strong>Note</strong>:I’ve not included any detail here on the checks we need to do on our samples. There are some common challenges associated with MCMC methods, each with plenty of associated guidance on how to diagnose and resolve them. For now, let’s assume everything has gone to plan.</p>
+<p>Now, there are a few options for extracting samples from a stanfit object such as <code>PoD_samples</code>, including <code>rstan::extract()</code>. However, these usually require a little post-processing to get them into a tidy format - no big deal, but a hassle I’d rather avoid. That’s why I like to use the <code>ggmcmc</code> <a href="https://cran.r-project.org/web/packages/ggmcmc/">package</a>, which we can use to create a data frame that specifies the iteration, parameter value and chain associated with each data point:</p>
+<pre class="r"><code>library(ggmcmc)
+
+PoD_extracted_samples &lt;- ggs(S = PoD_samples)
+
+head(x = PoD_extracted_samples, n = 5)
+## # A tibble: 5 x 4
+##   Iteration Chain Parameter  value
+##       &lt;dbl&gt; &lt;int&gt; &lt;fct&gt;      &lt;dbl&gt;
+## 1         1     1 alpha     -1.35 
+## 2         2     1 alpha     -1.13 
+## 3         3     1 alpha     -0.537
+## 4         4     1 alpha     -0.304
+## 5         5     1 alpha     -0.679</code></pre>
+<p>We have sampled from a 2-dimensional posterior distribution of the unobserved parameters in the model: <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. Below is a density plot of their corresponding marginal distributions based on the <code>1000</code> samples collected from each of the <code>4</code> Markov chains that have been run.</p>
+<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>So our estimates are beginning to converge on the values that were used to generate the data, but this plot also shows that there is still plenty of uncertainty in the results. Unlike many alternative approaches, Bayesian models account for the statistical uncertainty associated with our limited dataset - remember that we are estimating these values from 30 trials. These results describe the possible values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> in our model that are consistent with the limited available evidence. If more data was available, we could expect the uncertainty in our results to decrease. I think there are some great reasons to keep track of this statistical (sometimes called <em>epistemic</em>) uncertainty - a primary example being that we should be interested in how confident our predictive models are in their own results!
+…but I’ll leave it at that for now, and try to stay on topic.</p>
+<p>How do we know what do these estimates of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> mean for the PoD (what we are ultimately interested in)?
+We can check this using the posterior predictive distributions that we have (thanks to the <code>generated quantities</code> block of the <code>Stan</code> program).</p>
+<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>One thing to note from these results is that the model is able to make much more confident predictions for larger crack sizes. The increased uncertainty associated with shallow cracks reflects the lack of data available in this region - this could be useful information for a decision maker!</p>
+<p>There are only 3 trials in our dataset considering cracks shallower than 3 mm (and only 1 for crack depths <code>&lt; 2</code> mm). If we needed to make predictions for shallow cracks, this analysis could be extended to quantify the value of future tests in this region.</p>
+</div>
+<div id="final-thought-where-did-those-priors-come-from-and-are-they-any-good" class="section level4">
+<h4>Final Thought: Where Did Those Priors Come From and Are They Any Good?</h4>
+<p>There are many approaches for specifying prior models in Bayesian statistics. <em>Weakly informative</em> and <em>MaxEnt</em> priors are advocated by various authors. Unfortunately, <em>Flat Priors</em> are sometimes proposed too, particularly (but not exclusively) in older books. A flat prior is a wide distribution - in the extreme this would be a uniform distribution across all real numbers, but in practice distribution functions with very large variance parameters are sometimes used. In either case, a very large range prior of credible outcomes for our parameters is introduced the model. This may sound innocent enough, and in many cases could be harmless.</p>
+<p>Flat priors have the appeal of describing a state of complete uncertainty, which we may believe we are in before seeing any data - but is this really the case?</p>
+<div class="figure">
+<img src="https://media.giphy.com/media/UgM7H8OEmf4mQ/giphy.gif" alt="Prior Expectations: Can We Do Better?" />
+<p class="caption">Prior Expectations: Can We Do Better?</p>
+</div>
+<p>Suppose you are using Bayesian methods to model the speed of some athletes. Even before seeing any data, there is some information that we can build into the model. For instance, we can discount negative speeds. We also wouldn’t need to know anything about the athletes to know that they would not be travelling faster than the speed of light. This may sound facetious, but flat priors are implying that we should treat all outcomes as equally likely. In fact, there are some cases where flat priors cause models to require large amounts of data to make good predictions (meaning we are failing to take advantage of Bayesian statistics ability to work with limited data).</p>
+<p>In this example, we would probably just want to constrain outcomes to the range of metres per second, but the amount of information we choose to include is ultimately a modelling choice. Another helpful feature of Bayesian models is that the priors are part of the model, and so must be made explicit - fully visible and ready to be scrutinised.</p>
+<p>A common challenge, which was evident in the above PoD example, is lacking an intuitive understanding of the meaning of our model parameters. Here <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> required prior models, but I don’t think there is an obvious way to relate their values to the result we were interested in. They are linear regression parameters on a log-odds scale, but this is then transformed into a probability scale using the logit function.</p>
+<p>This problem can be addressed using a process known as <strong>Prior Predictive Simulation</strong>, which I was first introduced to in Richard McElreath’s <a href="https://www.crcpress.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919">fantastic book</a>. This involves evaluating the predictions that our model would make, based only on the information in our priors. Relating our predictions to our parameters provides a clearer understanding of the implications of our priors.</p>
+<p>Back to our PoD parameters - both <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> can take positive or negative values, but I could not immediately tell you a sensible range for them. Based on our lack of intuition it may be tempting to use a variance for both, right? Well, before making that decision, we can always simulate some predictions from these priors. The below code is creating a data frame of prior predictions for the PoD (<code>PoD_pr</code>) for many possible crack sizes.
+<span class="math display">\[
+\alpha \sim N(\mu_{\alpha}, \sigma_{\alpha})
+\]</span>
+<span class="math display">\[
+\beta \sim N(\mu_{\beta}, \sigma_{\beta})
+\]</span></p>
+<pre class="r"><code>x &lt;- seq(from = min_depth, to = max_depth, length.out = N_samples)
+prPrSim_df &lt;- data.frame(depth = x)
+
+for (i in seq(from = 1, to = nrow(prPrSim_df), by = 1)) {
+  
+  alpha = rnorm(n = N_samples, mean = mu_alpha, sd = sigma_alpha)
+  beta = rnorm(n = N_samples, mean = mu_beta, sd = sigma_beta)
+  prPrSim_df$PoD_pr[i] &lt;- exp(alpha + beta * log(prPrSim_df$depth[i]))/(1 + exp(alpha + beta * log(prPrSim_df$depth[i])))
+
+}
+
+head(prPrSim_df)
+##        depth       PoD_pr
+## 1 0.00000000 0.000000e+00
+## 2 0.01001001 4.085619e-05
+## 3 0.02002002 5.966123e-02
+## 4 0.03003003 4.766970e-05
+## 5 0.04004004 4.532144e-03
+## 6 0.05005005 2.997338e-03</code></pre>
+<p>And we can visualise the information contained within our priors for a couple of different cases.</p>
+<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>Our wide, supposedly <em>non</em>-informative priors result in some pretty useless predictions. I’ve suggested some more sensible priors that suggest that larger cracks are more likely to be detected than small cracks, without overly constraining our outcome (see that there is still prior credible that very small cracks are detected reliabily and that very large cracks are often missed).</p>
+<p>Why did our predictions end up looking like this?</p>
+<p>Borrowing from McElreath’s explantion, it’s because <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are linear regression parameters on a log-odds (logit) scale. Since we are estimating a PoD we end up transforming out predictions onto a probability scale. Flat priors for our parameters imply that extreme values of log-odds are credible. All that prior credibility of values <code>&lt; - 3</code> and <code>&gt; 3</code> ends up getting concentrated at probabilities near <code>0</code> and <code>1</code>. I think this is a really good example of flat priors containing a lot more information than they appear to.</p>
+<p>I’ll end by directing you towards some additional (generally non-technical) discussion of choosing priors, written by the <code>Stan</code> development team <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations">(link)</a>. It provides a definition of <em>weakly informative priors</em>, some words of warning against <em>flat priors</em> and more general detail than this humble footnote.</p>
+<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+</div>
+
     </div>
 
     
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/bayesian/">Bayesian</a>
+  
+  <a class="badge badge-light" href="/tags/mcmc/">MCMC</a>
+  
+  <a class="badge badge-light" href="/tags/stan/">Stan</a>
+  
+  <a class="badge badge-light" href="/tags/logistic-regression/">Logistic Regression</a>
+  
+  <a class="badge badge-light" href="/tags/inspection-reliability/">Inspection Reliability</a>
+  
+  <a class="badge badge-light" href="/tags/probability-of-detection/">Probability of Detection</a>
+  
+</div>
 
 
 
