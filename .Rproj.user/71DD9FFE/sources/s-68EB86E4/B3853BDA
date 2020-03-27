@@ -2,18 +2,18 @@
     "collab_server" : "",
     "contents" : "",
     "created" : 1585094114273.000,
-    "dirty" : true,
+    "dirty" : false,
     "encoding" : "UTF-8",
-    "folds" : "34|1|125|0|\n",
-    "hash" : "135047802",
+    "folds" : "",
+    "hash" : "0",
     "id" : "B3853BDA",
-    "lastKnownWriteTime" : 1585295058,
-    "last_content_update" : 1585295087489,
+    "lastKnownWriteTime" : 1585296979,
+    "last_content_update" : 1585296979462,
     "path" : "~/GitHub/blog/content/post/2020-03-24-why-go-bayesian.Rmd",
     "project_path" : "content/post/2020-03-24-why-go-bayesian.Rmd",
     "properties" : {
-        "cursorPosition" : "201,0",
-        "scrollLine" : "190"
+        "cursorPosition" : "126,134",
+        "scrollLine" : "112"
     },
     "read_only" : false,
     "read_only_alternatives" : [
