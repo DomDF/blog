@@ -6,10 +6,101 @@
     <description>Recent content in Stan on All Your Bayes</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-uk</language>
-    <lastBuildDate>Sat, 15 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="/categories/stan/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Why Go Bayesian?</title>
+      <link>/post/why-go-bayesian/</link>
+      <pubDate>Tue, 24 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/why-go-bayesian/</guid>
+      <description>
+
+
+&lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;TLDR&lt;/h3&gt;
+&lt;p&gt;This post is intended to be a high-level discussion of the merits and challenges of applied Bayesian statistics. It is intended to help the reader answer: &lt;em&gt;Is it worth me learning Bayesian statistics?&lt;/em&gt; or &lt;em&gt;Should I look into using Bayesian statistics in my project?&lt;/em&gt; Maths, code and technical details have all been left out.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;div id=&#34;bayes&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Bayes&lt;/h4&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://media.giphy.com/media/TJBbXQooivUNq/giphy.gif&#34; alt=&#34;Bayes&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Bayes&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;introduction&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;Firstly, Bayesian…&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Statistics&lt;/li&gt;
+&lt;li&gt;Inference&lt;/li&gt;
+&lt;li&gt;Modelling&lt;/li&gt;
+&lt;li&gt;Updating&lt;/li&gt;
+&lt;li&gt;Data Analysis&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;…can be considered the same thing (certainly for the purposes of this post): &lt;strong&gt;the application of Bayes theorem to quantify uncertainty&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;So Bayesian statistics may be of interest to you if you are dealing with a problem associated with uncertainty - either due to some underlying variability, or due to limitations of your data.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-does-a-bayesian-approach-provide&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;What does a Bayesian Approach Provide?&lt;/h3&gt;
+&lt;p&gt;Bayesian statistics is not the only way to account for uncertainty in calculations. The below points describe what Bayesian approach offers that others don’t. Note that I am only really discussing methods involving probability here, though &lt;a href=&#34;https://www.springer.com/gp/book/9783540402947&#34;&gt;alternative approaches are available&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;interpretation-of-results&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Interpretation of Results&lt;/h4&gt;
+&lt;p&gt;The outcome of a Bayesian model is a posterior distribution. This describes the joint uncertainty in all the parameters we are trying to estimate. A posterior predictive distribution uses this information to describe uncertainty in a prediction that this model would make for some new input data. By comparison, alternative (frequentist) statistical analysis typically describes uncertainty in predictions using confidence intervals, which are widely used but easy to misinterpret.&lt;/p&gt;
+&lt;p&gt;Confidence intervals are calculated so that they will contain the &lt;strong&gt;true&lt;/strong&gt; value of whatever you are trying to predict with some desired frequency. They provide no information (in the absence of additional assumptions) on how credible various possible results are. The Bayesian equivalent (sometimes called credible intervals) can be drawn anywhere on a predictive distribution. &lt;a href=&#34;https://mitpress.mit.edu/books/introduction-statistical-decision-theory&#34;&gt;Pratt, Raiffa and Schlaiffer&lt;/a&gt; provide the following summary of the two approaches:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Imagine the plight of the manager who exclaims, ‘I understand [does he?] the meaning that the demand for XYZ will lie in the interval 973 to 1374 with confidence .90. However, I am particularly interested in the interval 1300 to 1500. What confidence can I place on that interval?’&lt;/em&gt;
+&lt;em&gt;Unfortunately, this question cannot be answered. Of course, however, it is possible to give a posterior probability to that particular interval - or any other - based on the sample data and on a codification of the manager’s prior judgements.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;And a more succinct description of the same view is presented in &lt;a href=&#34;https://www.weirdfishes.blog/&#34;&gt;Dan Ovando’s fishery statistics blog&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Bayesian credible intervals mean what we’d like Frequentist confidence intervals to mean.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;seamless-integration-with-decision-analysis&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Seamless Integration with Decision Analysis&lt;/h4&gt;
+&lt;p&gt;Following on from the previous point, an analysis that directly describes the probability of any outcome is fully compatible with a decision analysis. After completing a Bayesian analysis, identifying the optimal strategy implied by your model becomes simpler and more understandable.&lt;/p&gt;
+&lt;p&gt;As stated in &lt;a href=&#34;https://www.springer.com/gp/book/9780387960982&#34;&gt;James Berger’s (quite theoretical) book on Bayesian statistics&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Bayesian analysis and decision theory go rather naturally together, partly because of their common goal of utilizing non-experimental sources of information, and partly because of deep theoretical ties.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;flexible-modelling&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Flexible Modelling&lt;/h4&gt;
+&lt;p&gt;So this one is based on a point made in &lt;a href=&#34;https://uk.sagepub.com/en-gb/eur/a-student%E2%80%99s-guide-to-bayesian-statistics/book245409&#34;&gt;Ben Lambert’s book on Bayesian statistics&lt;/a&gt;. It is regarding how modern Bayesian statistics is achieved in practice The computational methods require some effort to pick up, especially if you do not have experience with programming (though Ben Lambert’s book gives a nice introduction to &lt;a href=&#34;https://mc-stan.org/&#34;&gt;Stan&lt;/a&gt;). However, they can be extended to larger and more complex models in an intuitive way.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://media.giphy.com/media/WiyczarN2XMm4/giphy.gif&#34; alt=&#34;Some Compelling Arguments&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Some Compelling Arguments&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;challenges-difficulties&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Challenges &amp;amp; Difficulties&lt;/h3&gt;
+&lt;p&gt;So why would anyone ever &lt;em&gt;not&lt;/em&gt; use Bayesian models when making predictions?&lt;/p&gt;
+&lt;div id=&#34;subjectivity&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Subjectivity&lt;/h4&gt;
+&lt;p&gt;Perhaps the most common criticism of Bayesian statistics is the requirement for prior models. An initial estimate of uncertainty is a term in Bayes’ theorem - but how can you estimate the extent of variability before you see it in your data? This will surely be completely subjective, so the results will vary depending on who is doing the analysis. This, understandably, doesn’t seem right with a lot of casual enquirers.&lt;/p&gt;
+&lt;p&gt;A common response to this accusation is that subjectivity is not an exclusive feature of Bayesian analysis (how about the whole structure of the model you are trying to fit, by any means?) &lt;em&gt;but&lt;/em&gt; at least Bayesians are required to be explicit about it. Priors are part of the model with no-where to hide (in the code or the reporting) and so they are open to criticism. This point is discussed in &lt;strong&gt;much&lt;/strong&gt; more detail in this paper from &lt;a href=&#34;http://www.stat.columbia.edu/~gelman/research/published/gelman_hennig_full_discussion.pdf&#34;&gt;Colombia University&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Priors can contain, as much or as little, information as desired. However, even in instances where you may feel you don’t have any upfront knowledge of a problem, they represent a valuable opportunity for introducing regularisation (which protects against bad predictions due to overfitting). This idea is discussed in detail in &lt;a href=&#34;https://www.crcpress.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919&#34;&gt;Richard McElreath’s textbook&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;computational-requirements&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Computational Requirements&lt;/h4&gt;
+&lt;p&gt;In practice, statisticians estimate Bayesian posterior distributions using Markov Chain Monte Carlo (MCMC) sampling algorithms. This approach is slower, more complicated and less informative than standard, independent Monte Carlo sampling. The models that I have worked with during my PhD have taken several hours to finish sampling from. Following this, there are checks that need to be completed as there are plenty of things that can go wrong with MCMC.&lt;/p&gt;
+&lt;p&gt;My background is in mechanical and civil engineering. In my discussions with engineering researchers at conferences I have often been told that the errors and complications they encountered when using MCMC methods had made them believe that Bayesian statistics wasn’t for them. These are challenges that I imagine everyone who has attempted modern Bayesian statistics will have encountered and resolving them requires a deeper understanding of your model. Both domain-specific and statistical knowledge is required to help ensure the model you are trying to fit is justified. In addition some programming &lt;em&gt;tricks&lt;/em&gt; like reparameterisation can be of great help to your software, which sometimes needs equivalent, but easier to interpret instructions.&lt;/p&gt;
+&lt;p&gt;With all that in mind, when is it ever worthwhile?&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;conclusions&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Conclusions&lt;/h3&gt;
+&lt;p&gt;Regardless of whether you believe we exist in a deterministic universe or not, you will never have perfect state of knowledge describing your problem: uncertainty exists, so are you sure that your approach is sensible or safe?&lt;/p&gt;
+&lt;p&gt;I believe that Bayesian statistics is actually well suited to traditional engineering problems, as we are concerned with managing risk when confronted with small, messy datasets and models with plenty of uncertainty. As suggested in the earlier description of confidence interval, frequentist statistics defines probability based on occurrences of events following a large number of trials or samples. When only limited data is available, Bayesian statistics shines by comparison.&lt;/p&gt;
+&lt;p&gt;Very large datasets may contain enough information to precisely estimate parameters in a model using standard machine learning methods, and so it becomes less worthwhile running simulations to characterise variability. But how common are these big data problems in science and engineering? Sometimes large populations of data are better descrbed as many smaller groups, after accounting for key differences between them. Bayesian statistics has a very useful way of managing such problems by structuring models hierarchically. This method allows for &lt;strong&gt;partial pooling of information&lt;/strong&gt; between groups, so that predictions account for the variability and commonality between groups. I will provide a detailed example of this in a future post.&lt;/p&gt;
+&lt;p&gt;In conclusion, Bayesian statistics requires (computational and personal) effort to apply. But it provides results that are (usually) more intrepretable and closely linked to questions we want to answer. Whether or not these methods are worth learning of course depend on your personal circumstances. I encountered Bayesian statistcs during my PhD, and so had plenty of time to read up and I have personally found this to be very rewarding and enjoyable…&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://media.giphy.com/media/WPLPEu0GUp41W/giphy.gif&#34; alt=&#34;Boring, isn’t it? Writing, Fitting and Evaluating Bayesian Models All Day….&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Boring, isn’t it? Writing, Fitting and Evaluating Bayesian Models All Day….&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Bayesian Logistic Regression with Stan</title>
@@ -34,7 +125,7 @@
 &lt;/div&gt;
 &lt;div id=&#34;logistic-regression&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;Logistic Regression&lt;/h4&gt;
-&lt;p&gt;Logistic regression is used to estimate the probability of a binary outcome, such as &lt;em&gt;Pass&lt;/em&gt; or &lt;em&gt;Fail&lt;/em&gt; (though it can be extended for &lt;code&gt;&amp;gt; 2&lt;/code&gt; outcomes). This is achieved by transforming a standard reression using the logit function, shown below. The term in the bracks may be familiar to gamblers as it is how odds are calculated from probabilities. You may see &lt;em&gt;logit&lt;/em&gt; and &lt;em&gt;log-odds&lt;/em&gt; used exchangeably for this reason.&lt;/p&gt;
+&lt;p&gt;Logistic regression is used to estimate the probability of a binary outcome, such as &lt;em&gt;Pass&lt;/em&gt; or &lt;em&gt;Fail&lt;/em&gt; (though it can be extended for &lt;code&gt;&amp;gt; 2&lt;/code&gt; outcomes). This is achieved by transforming a standard regression using the logit function, shown below. The term in the brackets may be familiar to gamblers as it is how odds are calculated from probabilities. You may see &lt;em&gt;logit&lt;/em&gt; and &lt;em&gt;log-odds&lt;/em&gt; used exchangeably for this reason.&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 Logit (x) = \log\Bigg({\frac{x}{1 - x}}\Bigg)
 \]&lt;/span&gt;&lt;/p&gt;
@@ -43,10 +134,12 @@ Logit (x) = \log\Bigg({\frac{x}{1 - x}}\Bigg)
 Inverse\;Logit (x) = \frac{1}{1 + \exp(-x)}
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Before moving on, some terminology that you may find when reading about logistic regression elsewhere:
-* When a linear regression is combined with a re-scaling function such as this, it is known as a Generalised Linear Model (&lt;strong&gt;GLM&lt;/strong&gt;).
-* The logit function is known as a &lt;strong&gt;link function&lt;/strong&gt; in this context.
-* Logistic regression is a Bernoulli regression with a logit link function, or a Bernoulli-Logit GLM.&lt;/p&gt;
+&lt;p&gt;Before moving on, some terminology that you may find when reading about logistic regression elsewhere:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;When a linear regression is combined with a re-scaling function such as this, it is known as a Generalised Linear Model (&lt;strong&gt;GLM&lt;/strong&gt;).&lt;/li&gt;
+&lt;li&gt;The logit function is known as a &lt;strong&gt;link function&lt;/strong&gt; in this context.&lt;/li&gt;
+&lt;li&gt;Logistic regression is a Bernoulli regression with a logit link function, or a Bernoulli-Logit GLM.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;You may be familiar with libraries that automate the fitting of logistic regression models, either in &lt;code&gt;Python&lt;/code&gt; (via &lt;code&gt;sklearn&lt;/code&gt;):&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;from sklearn.linear_model import LogisticRegression
 
@@ -97,8 +190,8 @@ for (i in seq(from = 1, to = nrow(pod_df), by = 1)) {
   
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The above code is used to create 30 crack sizes (depths) between 0 and 10 mm. We then use a log-odds model to back calculate a probability of detection for each. This is based on some fixed values for &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;. In a real trial, these would not be known, but since we are inventing the data we can see how successful our model ends up being in estimating these values.&lt;/p&gt;
-&lt;p&gt;The below plot shows the size of each crack, and whether or not it was detected (in our simulation). The smallest crack that was detected was 2.2210205 mm deep, and the largest undetected crack was 5.692122 mm deep Even so, it’s already clear that larger cracks are more likely to be detected than smaller cracks, but just about all we can say at this stage.&lt;/p&gt;
-&lt;p&gt;After fitting our model, we will be able to predict the probability of detection for any crack size.&lt;/p&gt;
+&lt;p&gt;The below plot shows the size of each crack, and whether or not it was detected (in our simulation). The smallest crack that was detected was 2.22 mm deep, and the largest undetected crack was 5.69 mm deep. Even so, it’s already clear that larger cracks are more likely to be detected than smaller cracks, though that’s just about all we can say at this stage.&lt;/p&gt;
+&lt;p&gt;After fitting our model, we will be able to predict the probability of detection for a crack of any size.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Stan&lt;/code&gt; is a &lt;a href=&#34;https://en.wikipedia.org/wiki/Probabilistic_programming&#34;&gt;probabilistic programming language&lt;/a&gt;. In a future post I will explain why it has been my preferred software for statistical inference throughout my PhD.&lt;/p&gt;
 &lt;p&gt;The below is a simple &lt;code&gt;Stan&lt;/code&gt; program to fit a Bayesian Probability of Detection (PoD) model:&lt;/p&gt;
@@ -183,9 +276,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.056 seconds (Warm-up)
-## Chain 1:                0.067 seconds (Sampling)
-## Chain 1:                0.123 seconds (Total)
+## Chain 1:  Elapsed Time: 0.066 seconds (Warm-up)
+## Chain 1:                0.063 seconds (Sampling)
+## Chain 1:                0.129 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 2).
@@ -208,9 +301,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.07 seconds (Warm-up)
-## Chain 2:                0.066 seconds (Sampling)
-## Chain 2:                0.136 seconds (Total)
+## Chain 2:  Elapsed Time: 0.063 seconds (Warm-up)
+## Chain 2:                0.063 seconds (Sampling)
+## Chain 2:                0.126 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 3).
@@ -233,9 +326,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.068 seconds (Warm-up)
-## Chain 3:                0.072 seconds (Sampling)
-## Chain 3:                0.14 seconds (Total)
+## Chain 3:  Elapsed Time: 0.064 seconds (Warm-up)
+## Chain 3:                0.055 seconds (Sampling)
+## Chain 3:                0.119 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 4).
@@ -258,9 +351,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.055 seconds (Warm-up)
-## Chain 4:                0.052 seconds (Sampling)
-## Chain 4:                0.107 seconds (Total)
+## Chain 4:  Elapsed Time: 0.065 seconds (Warm-up)
+## Chain 4:                0.081 seconds (Sampling)
+## Chain 4:                0.146 seconds (Total)
 ## Chain 4:&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:I’ve not included any detail here on the checks we need to do on our samples. There are some common challenges associated with MCMC methods, each with plenty of associated guidance on how to diagnose and resolve them. For now, let’s assume everything has gone to plan.&lt;/p&gt;
 &lt;p&gt;Now, there are a few options for extracting samples from a stanfit object such as &lt;code&gt;PoD_samples&lt;/code&gt;, including &lt;code&gt;rstan::extract()&lt;/code&gt;. However, these usually require a little post-processing to get them into a tidy format - no big deal, but a hassle I’d rather avoid. That’s why I like to use the &lt;code&gt;ggmcmc&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/ggmcmc/&#34;&gt;package&lt;/a&gt;, which we can use to create a data frame that specifies the iteration, parameter value and chain associated with each data point:&lt;/p&gt;
@@ -298,7 +391,7 @@ We can check this using the posterior predictive distributions that we have (tha
 &lt;p&gt;Suppose you are using Bayesian methods to model the speed of some athletes. Even before seeing any data, there is some information that we can build into the model. For instance, we can discount negative speeds. We also wouldn’t need to know anything about the athletes to know that they would not be travelling faster than the speed of light. This may sound facetious, but flat priors are implying that we should treat all outcomes as equally likely. In fact, there are some cases where flat priors cause models to require large amounts of data to make good predictions (meaning we are failing to take advantage of Bayesian statistics ability to work with limited data).&lt;/p&gt;
 &lt;p&gt;In this example, we would probably just want to constrain outcomes to the range of metres per second, but the amount of information we choose to include is ultimately a modelling choice. Another helpful feature of Bayesian models is that the priors are part of the model, and so must be made explicit - fully visible and ready to be scrutinised.&lt;/p&gt;
 &lt;p&gt;A common challenge, which was evident in the above PoD example, is lacking an intuitive understanding of the meaning of our model parameters. Here &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; required prior models, but I don’t think there is an obvious way to relate their values to the result we were interested in. They are linear regression parameters on a log-odds scale, but this is then transformed into a probability scale using the logit function.&lt;/p&gt;
-&lt;p&gt;This problem can be addressed using a process known as &lt;strong&gt;Prior Predictive Simulation&lt;/strong&gt;, which I was first introduced to in Richard McElreath’s &lt;a href=&#34;https://www.crcpress.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919&#34;&gt;fantastic book&lt;/a&gt;. This involves evaluating the predictions that our model would make, based only on the information in our priors. Relating our predictions to our parameters provides a clearer understanding of the implications of our priors.&lt;/p&gt;
+&lt;p&gt;This problem can be addressed using a process known as &lt;strong&gt;Prior Predictive Simulation&lt;/strong&gt;, which I was first introduced to in &lt;a href=&#34;https://www.crcpress.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919&#34;&gt;Richard McElreath’s fantastic book&lt;/a&gt;. This involves evaluating the predictions that our model would make, based only on the information in our priors. Relating our predictions to our parameters provides a clearer understanding of the implications of our priors.&lt;/p&gt;
 &lt;p&gt;Back to our PoD parameters - both &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; can take positive or negative values, but I could not immediately tell you a sensible range for them. Based on our lack of intuition it may be tempting to use a variance for both, right? Well, before making that decision, we can always simulate some predictions from these priors. The below code is creating a data frame of prior predictions for the PoD (&lt;code&gt;PoD_pr&lt;/code&gt;) for many possible crack sizes.
 &lt;span class=&#34;math display&#34;&gt;\[
 \alpha \sim N(\mu_{\alpha}, \sigma_{\alpha})
@@ -327,9 +420,9 @@ head(prPrSim_df)
 ## 6 0.05005005 2.997338e-03&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;And we can visualise the information contained within our priors for a couple of different cases.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Our wide, supposedly &lt;em&gt;non&lt;/em&gt;-informative priors result in some pretty useless predictions. I’ve suggested some more sensible priors that suggest that larger cracks are more likely to be detected than small cracks, without overly constraining our outcome (see that there is still prior credible that very small cracks are detected reliabily and that very large cracks are often missed).&lt;/p&gt;
+&lt;p&gt;Our wide, supposedly &lt;em&gt;non&lt;/em&gt;-informative priors result in some pretty useless predictions. I’ve suggested some more sensible priors that suggest that larger cracks are more likely to be detected than small cracks, without overly constraining our outcome (see that there is still prior credible that very small cracks are detected reliably and that very large cracks are often missed).&lt;/p&gt;
 &lt;p&gt;Why did our predictions end up looking like this?&lt;/p&gt;
-&lt;p&gt;Borrowing from McElreath’s explantion, it’s because &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; are linear regression parameters on a log-odds (logit) scale. Since we are estimating a PoD we end up transforming out predictions onto a probability scale. Flat priors for our parameters imply that extreme values of log-odds are credible. All that prior credibility of values &lt;code&gt;&amp;lt; - 3&lt;/code&gt; and &lt;code&gt;&amp;gt; 3&lt;/code&gt; ends up getting concentrated at probabilities near &lt;code&gt;0&lt;/code&gt; and &lt;code&gt;1&lt;/code&gt;. I think this is a really good example of flat priors containing a lot more information than they appear to.&lt;/p&gt;
+&lt;p&gt;Borrowing from McElreath’s explanation, it’s because &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; are linear regression parameters on a log-odds (logit) scale. Since we are estimating a PoD we end up transforming out predictions onto a probability scale. Flat priors for our parameters imply that extreme values of log-odds are credible. All that prior credibility of values &lt;code&gt;&amp;lt; - 3&lt;/code&gt; and &lt;code&gt;&amp;gt; 3&lt;/code&gt; ends up getting concentrated at probabilities near &lt;code&gt;0&lt;/code&gt; and &lt;code&gt;1&lt;/code&gt;. I think this is a really good example of flat priors containing a lot more information than they appear to.&lt;/p&gt;
 &lt;p&gt;I’ll end by directing you towards some additional (generally non-technical) discussion of choosing priors, written by the &lt;code&gt;Stan&lt;/code&gt; development team &lt;a href=&#34;https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations&#34;&gt;(link)&lt;/a&gt;. It provides a definition of &lt;em&gt;weakly informative priors&lt;/em&gt;, some words of warning against &lt;em&gt;flat priors&lt;/em&gt; and more general detail than this humble footnote.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;

@@ -504,13 +504,13 @@
 
 <div id="tldr" class="section level3">
 <h3>TLDR</h3>
-<p>There are many instances where it may be useful to animate graphical representations of data, perhaps to add an additional dimension to a plot. The below example builds a cumulative map of car accidents in the UK using some of the functionality of the <a href="https://cran.r-project.org/web/packages/gganimate"><strong>gganimate</strong></a> package.</p>
+<p>There are many instances where it may be useful to animate graphical representations of data, perhaps to add an additional dimension to a plot. The below example builds a cumulative map of car accidents in the UK using some of the functionality of the <code>gganimate</code> <a href="https://cran.r-project.org/web/packages/gganimate">package</a>.</p>
 <hr />
 </div>
 <div id="making-moving-plots-with-gganimate" class="section level3">
-<h3>Making Moving Plots with <strong>gganimate</strong></h3>
-<p>Graphics made using the ggplot2 package are already extremely customisable. They can be further enhanced using some of the <a href="http://ggplot2-exts.org/gallery/">extensions that have been developed</a>. These include providing access to new themes, as well as entirely new functionality.</p>
-<p><strong>gganimate</strong> allows for the animation of existing ggplot graphics. Once installed, we can load both packages (<strong>ggplot2</strong> is included as part of the <strong>tidyverse</strong>):</p>
+<h3>Making Moving Plots with <code>gganimate</code></h3>
+<p>Graphics made using the <code>ggplot2</code> package are already extremely customisable. They can be further enhanced using some of the <a href="http://ggplot2-exts.org/gallery/">extensions that have been developed</a>. These include providing access to new themes, as well as entirely new functionality.</p>
+<p><code>gganimate</code> allows for the animation of existing ggplot graphics. Once installed, we can load both packages (<code>ggplot2</code> is included as part of the <code>tidyverse</code>):</p>
 <pre class="r"><code>library(gganimate); library(tidyverse)</code></pre>
 <p>The example uses a car accident dataset that I found on <a href="https://www.kaggle.com/silicon99/dft-accident-data/data#">Kaggle</a>. Here are the first few rows of the variables that we’re interested in:</p>
 <pre class="r"><code>head(Accidents_Dec2015 %&gt;% 
@@ -522,7 +522,7 @@
 ## 4 2015-12-03 -0.156754 51.49293                    1            Slight
 ## 5 2015-12-03 -0.159124 51.50205                    1            Slight
 ## 6 2015-12-04 -0.197452 51.49104                    1            Slight</code></pre>
-<p>We can plot the coordinates using a map of the UK included in <strong>ggplot2</strong>.</p>
+<p>We can plot the coordinates using a map of the UK included in <code>ggplot2</code>.</p>
 <pre class="r"><code>UK_coords &lt;- ggplot2::map_data(map = &#39;world&#39;, region = &#39;UK&#39;)</code></pre>
 <p>Before animating we need to create a ggplot that we will work from.</p>
 <pre class="r"><code>accidents_plot &lt;- ggplot(data = UK_coords)+
@@ -545,7 +545,7 @@
 
 accidents_plot</code></pre>
 <p><img src="/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>We can now add some functions from <strong>gganimate</strong>, which will describe how and saving as a new variable:</p>
+<p>We can now add some functions from <code>gganimate</code>, which will describe how and saving as a new variable:</p>
 <pre class="r"><code>library(gganimate)
 
 accidents_plot &lt;- accidents_plot +
@@ -566,7 +566,7 @@ accidents_plot &lt;- accidents_plot +
 <h3>Final Animation</h3>
 <p>I tried a few alternatives here. In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. The trade-off here is the number of frames (and associated processing time and file size). The below allocates approximately <code>1</code> second per day and results in a total of 600 frames for the animation. On my (ageing) laptop this required approximately 4 minutes to render.</p>
 <div class="figure">
-<img src="C:/Users/domen/OneDrive/Documents/GitHub/blog/car_acc_Dec2015.gif" alt="Animated Map" />
+<img src="/post/2019-06-04-animating-plots_files/car_acc_Dec2015.gif" alt="Animated Map" />
 <p class="caption">Animated Map</p>
 </div>
 </div>
@@ -577,21 +577,22 @@ accidents_plot &lt;- accidents_plot +
 <pre class="r"><code>Accidents_Dec2015 %&gt;% 
      dplyr::select(Date, Number_of_Casualties, Accident_Severity) %&gt;% 
      ggplot(mapping = aes(x = Date))+
-        geom_bar(stat = &#39;count&#39;)+
+        geom_bar(stat = &#39;count&#39;, fill = &#39;grey80&#39;)+
         facet_wrap(facets = ~ Accident_Severity, scales = &#39;free&#39;)+
-        ggthemes::theme_tufte(base_size = 12, base_family = &#39;Bahnschrift&#39;)+
+        #ggthemes::theme_tufte(base_size = 12, base_family = &#39;Bahnschrift&#39;)+
+        theme_ddf_light()+
         coord_flip()+
         theme(axis.title = element_blank())</code></pre>
 <p><img src="/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>What isn’t shown in the data is the number of cars that were on the road at the time, so it could be that there were a higher proportion of accidents between the <code>24</code>th and <code>31</code>st December - but that will have to remain speculation for now.</p>
 <p>Another slight issue I have with the final animation is the way the points move to the next location. Given the context of the plot, it could be interpreted as the same vehicles having accidents all over the UK. When critically considering this idea it becomes apparent that it cannot be the case (for <em>many</em> reasons), but there should be as little ambiguity as possible in a plot like this.</p>
-<p>In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a gentle introduction to how the <strong>gganimate</strong> package can automate animated graphics.</p>
+<p>In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a gentle introduction to how the <code>gganimate</code> package can automate animated graphics.</p>
 </div>
 <div id="additional-resources" class="section level3">
 <h3>Additional Resources</h3>
 <p>This example is certainly not exhaustive and there are many additional tweaks available to further customise an animation. I have personally found the below resources to be particularly helpful.</p>
 <ul>
-<li>The official <a href="https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html">beginner’s guide</a> to <strong>gganimate</strong>.</li>
+<li>The official <a href="https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html">beginner’s guide</a> to <code>gganimate</code>.</li>
 <li>A tutorial from the <a href="https://goodekat.github.io/presentations/2019-isugg-gganimate-spooky/slides.html#1">ISU Graphics Group</a>.</li>
 </ul>
 </div>

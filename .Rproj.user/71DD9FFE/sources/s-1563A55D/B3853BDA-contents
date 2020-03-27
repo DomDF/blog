@@ -1,0 +1,221 @@
+---
+title: "Why Go Bayesian?"
+author: ''
+date: '2020-03-24'
+categories:
+- Bayesian
+- R
+- Stan
+- Decision Analysis
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+lastmod: '2020-03-24T23:55:13Z'
+projects: []
+slug: why-go-bayesian
+subtitle: A Non-Technical Discussion
+summary: ''
+tags:
+- Bayesian
+- R
+- Stan
+- Bayesian Decision Analysis
+authors: []
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+
+library(extrafont); library(tidyverse)
+
+theme_ddf_light <- function (base_size = 12, base_family = extrafont::choose_font(fonts = 'Bahnschrift')) 
+{
+  
+  half_line <- base_size
+  
+  background <- 'white'; foreground <- 'grey20'
+  # params <- ls(pattern = '^geom_', env = as.environment('package:ggplot2')); geoms <- gsub('geom_', '', params)
+  # lapply(X = unlist(geoms), FUN = update_geom_defaults(list(col = 'foreground', fill = 'foreground')))
+
+  update_geom_defaults(geom = 'point', list(col = foreground, fill = foreground))
+#  update_geom_defaults(geom = 'jitter', list(col = foreground, fill = foreground))
+#  update_geom_defaults(geom = 'count', list(col = foreground, fill = foreground))
+  
+  update_geom_defaults(geom = 'line', list(col = foreground))
+  update_geom_defaults(geom = 'path', list(col = foreground))
+  update_geom_defaults(geom = 'errorbar', list(col = foreground))
+  update_geom_defaults(geom = 'curve', list(col = foreground))
+  update_geom_defaults(geom = 'polygon', list(col = foreground))
+  
+  update_geom_defaults(geom = 'contour', list(col = foreground))
+#  update_geom_defaults(geom = 'contour_filled', list(col = foreground, fill = foreground))
+  update_geom_defaults(geom = 'density', list(col = foreground))
+  update_geom_defaults(geom = 'density_2d', list(col = foreground))
+  
+  update_geom_defaults(geom = 'bar', list(col = foreground, fill = foreground))
+  update_geom_defaults(geom = 'col', list(col = foreground, fill = foreground))
+#  update_geom_defaults(geom = 'histogram', list(col = foreground, fill = foreground))
+  
+  update_geom_defaults(geom = 'text', list(col = foreground))
+
+  theme(
+    line = element_line(colour = 'black', size = 0.5, 
+                        linetype = 1, lineend = 'round'), 
+    rect = element_rect(fill = background, colour = NA),
+    text = element_text(family = base_family, face = 'plain',
+                        colour = foreground, size = base_size,
+                        lineheight = 0.9,  hjust = 0.5,
+                        vjust = 0.5, angle = 0, 
+                        margin = margin(), debug = FALSE), 
+    
+    axis.line = element_blank(), 
+    axis.text = element_text(size = base_size*2/3, family = base_family, colour = foreground),
+    axis.text.x = element_text(margin = margin(t = 0.8 * half_line/2), 
+                               vjust = 1, angle = 30), 
+    axis.text.y = element_text(margin = margin(r = 0.8 * half_line/2),
+                               hjust = 1, angle = 30),
+    axis.ticks = element_line(colour = foreground), 
+    axis.ticks.length = unit(half_line / 2, 'pt'), 
+    axis.title.x = element_text(margin = margin(t = 0.8 * half_line/3,
+                                                b = 0.8 * half_line/2)),
+    axis.title.y = element_text(angle = 90, 
+                                margin = margin(r = 0.8 * half_line/3,
+                                                l = 0.8 * half_line/2)),
+    
+    legend.background = element_rect(colour = background), 
+    #legend.margin = unit(0.2, 'cm'), 
+    legend.key = element_rect(fill = background, colour = NA),
+    legend.key.size = unit(1.2, 'lines'), 
+    legend.key.height = NULL,
+    legend.key.width = NULL, 
+    legend.text = element_text(colour = foreground, family = base_family, size = base_size*2/3),
+    legend.text.align = NULL,
+    legend.title = element_blank(), #text(hjust = 0), 
+    legend.title.align = NULL, 
+    legend.position = 'top', 
+    legend.direction = NULL,
+    legend.justification = 'center', 
+    legend.box = NULL, 
+    
+    panel.background = element_rect(fill = background, colour = NA),
+    panel.border = element_blank(), 
+    panel.grid.major = element_blank(), #element_line(colour = background, linetype = 2, size = 0.1), 
+    panel.grid.minor = element_blank(), 
+    #panel.margin = unit(half_line, "pt"), panel.margin.x = NULL, 
+    #panel.margin.y = NULL, panel.ontop = FALSE, 
+    
+    strip.background = element_blank(), #element_rect(fill = "grey85", colour = NA),
+    strip.text = element_text(family = base_family, colour = foreground, size = rel(0.8)),
+    strip.text.x = element_text(margin = margin(t = half_line/2,
+                                                b = 0)),#half_line/4)), 
+    strip.text.y = element_text(angle = -90, 
+                                margin = margin(l = half_line/2, 
+                                                r = 0)),#half_line/4)),
+    strip.switch.pad.grid = unit(0.1, "cm"),
+    strip.switch.pad.wrap = unit(0.1, "cm"), 
+    
+    #    plot.background = element_rect(colour = foreground), 
+    plot.title = element_text(size = rel(1.2), 
+                              margin = margin(b = half_line, unit = 'pt'),
+                              hjust = 0),
+    plot.margin = margin(t = half_line/2, r = half_line/2, b = half_line/2, l = half_line/2),
+    complete = TRUE)
+}
+
+```
+
+### TLDR
+
+This post is intended to be a high-level discussion of the merits and challenges of applied Bayesian statistics. It is intended to help the reader answer: *Is it worth me learning Bayesian statistics?* or *Should I look into using Bayesian statistics in my project?* Maths, code and technical details have all been left out. 
+
+---
+
+#### Bayes
+![Bayes](https://media.giphy.com/media/TJBbXQooivUNq/giphy.gif)
+
+### Introduction
+
+Firstly, Bayesian...
+
+ * Statistics
+ * Inference
+ * Modelling
+ * Updating
+ * Data Analysis
+  
+...can be considered the same thing (certainly for the purposes of this post): **the application of Bayes theorem to quantify uncertainty**. 
+
+So Bayesian statistics may be of interest to you if you are dealing with a problem associated with uncertainty - either due to some underlying variability, or due to limitations of your data.
+
+### What does a Bayesian Approach Provide?
+
+Bayesian statistics is not the only way to account for uncertainty in calculations. The below points describe what Bayesian approach offers that others don't. Note that I am only really discussing methods involving probability here, though [alternative approaches are available](https://www.springer.com/gp/book/9783540402947). 
+
+#### Interpretation of Results
+
+The outcome of a Bayesian model is a posterior distribution. This describes the joint uncertainty in all the parameters we are trying to estimate. A posterior predictive distribution uses this information to describe uncertainty in a prediction that this model would make for some new input data. By comparison, alternative (frequentist) statistical analysis typically describes uncertainty in predictions using confidence intervals, which are widely used but easy to misinterpret.
+
+Confidence intervals are calculated so that they will contain the **true** value of whatever you are trying to predict with some desired frequency. They provide no information (in the absence of additional assumptions) on how credible various possible results are. The Bayesian equivalent (sometimes called credible intervals) can be drawn anywhere on a predictive distribution. [Pratt, Raiffa and Schlaiffer](https://mitpress.mit.edu/books/introduction-statistical-decision-theory) provide the following summary of the two approaches:
+
+*Imagine the plight of the manager who exclaims, 'I understand [does he?] the meaning that the demand for XYZ will lie in the interval 973 to 1374 with confidence .90. However, I am particularly interested in the interval 1300 to 1500. What confidence can I place on that interval?'*
+*Unfortunately, this question cannot be answered. Of course, however, it is possible to give a posterior probability to that particular interval - or any other - based on the sample data and on a codification of the manager's prior judgements.*
+
+And a more succinct description of the same view is presented in [Dan Ovando's fishery statistics blog](https://www.weirdfishes.blog/):
+
+*Bayesian credible intervals mean what we’d like Frequentist confidence intervals to mean.*
+
+#### Seamless Integration with Decision Analysis
+
+Following on from the previous point, an analysis that directly describes the probability of any outcome is fully compatible with a decision analysis. After completing a Bayesian analysis, identifying the optimal strategy implied by your model becomes simpler and more understandable.
+
+As stated in [James Berger's (quite theoretical) book on Bayesian statistics](https://www.springer.com/gp/book/9780387960982):
+
+*Bayesian analysis and decision theory go rather naturally together, partly because of their common goal of utilizing non-experimental sources of information, and partly because of deep theoretical ties.*
+
+#### Flexible Modelling
+
+So this one is based on a point made in [Ben Lambert's book on Bayesian statistics](https://uk.sagepub.com/en-gb/eur/a-student%E2%80%99s-guide-to-bayesian-statistics/book245409). It is regarding how modern Bayesian statistics is achieved in practice The computational methods require some effort to pick up, especially if you do not have experience with programming (though Ben Lambert's book gives a nice introduction to [Stan](https://mc-stan.org/)). However, they can be extended to larger and more complex models in an intuitive way.
+
+```{r,echo = FALSE, message = FALSE, warning = FALSE}
+
+library(giphyr)
+
+```
+
+![Some Compelling Arguments](https://media.giphy.com/media/WiyczarN2XMm4/giphy.gif)
+
+
+### Challenges & Difficulties
+
+So why would anyone ever *not* use Bayesian models when making predictions?
+
+#### Subjectivity
+
+Perhaps the most common criticism of Bayesian statistics is the requirement for prior models. An initial estimate of uncertainty is a term in Bayes' theorem - but how can you estimate the extent of variability before you see it in your data? This will surely be completely subjective, so the results will vary depending on who is doing the analysis. This, understandably, doesn't seem right with a lot of casual enquirers.
+
+A common response to this accusation is that subjectivity is not an exclusive feature of Bayesian analysis (how about the whole structure of the model you are trying to fit, by any means?) *but* at least Bayesians are required to be explicit about it. Priors are part of the model with no-where to hide (in the code or the reporting) and so they are open to criticism. This point is discussed in **much** more detail in this paper from [Colombia University](http://www.stat.columbia.edu/~gelman/research/published/gelman_hennig_full_discussion.pdf).
+
+Priors can contain, as much or as little, information as desired. However, even in instances where you may feel you don't have any upfront knowledge of a problem, they represent a valuable opportunity for introducing regularisation (which protects against bad predictions due to overfitting). This idea is discussed in detail in [Richard McElreath's textbook](https://www.crcpress.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919).
+
+#### Computational Requirements
+
+In practice, statisticians estimate Bayesian posterior distributions using Markov Chain Monte Carlo (MCMC) sampling algorithms. This approach is slower, more complicated and less informative than standard, independent Monte Carlo sampling. The models that I have worked with during my PhD have taken several hours to finish sampling from. Following this, there are checks that need to be completed as there are plenty of things that can go wrong with MCMC.
+
+My background is in mechanical and civil engineering. In my discussions with engineering researchers at conferences I have often been told that the errors and complications they encountered when using MCMC methods had made them believe that Bayesian statistics wasn't for them. These are challenges that I imagine everyone who has attempted modern Bayesian statistics will have encountered and resolving them requires a deeper understanding of your model. Both domain-specific and statistical knowledge is required to help ensure the model you are trying to fit is justified. In addition some programming *tricks* like reparameterisation can be of great help to your software, which sometimes needs equivalent, but easier to interpret instructions. 
+
+With all that in mind, when would this ever be worthwhile?
+
+### Conclusions
+
+Regardless of whether you believe we exist in a deterministic universe or not, you will never have perfect state of knowledge describing your problem: uncertainty exists, so are you sure that your approach is sensible or safe?
+
+I believe that Bayesian statistics is actually well suited to traditional engineering problems, as we are concerned with managing risk when confronted with small, messy datasets and models with plenty of uncertainty. As suggested in the earlier description of confidence interval, frequentist statistics defines probability based on occurrences of events following a large number of trials or samples. When only limited data is available, Bayesian statistics shines by comparison. 
+
+Very large datasets may contain enough information to precisely estimate parameters in a model using standard machine learning methods, and so it becomes less worthwhile running simulations to characterise variability. But how common are these big data problems in science and engineering? Sometimes large populations of data are better descrbed as many smaller groups, after accounting for key differences between them. Bayesian statistics has a very useful way of managing such problems by structuring models hierarchically. This method allows for **partial pooling of information** between groups, so that predictions account for the variability and commonality between groups. I will provide a detailed example of this in a future post.
+
+In conclusion, Bayesian statistics requires (computational and personal) effort to apply. But it provides results that are (usually) more intrepretable and closely linked to questions we want to answer. Whether or not these methods are worth learning of course depend on your personal circumstances. I encountered Bayesian statistcs during my PhD, and so had plenty of time to read up and I have personally found this to be very rewarding and enjoyable...
+
+![Boring, isn't it? Writing, Fitting and Evaluating Bayesian Models All Day....](https://media.giphy.com/media/WPLPEu0GUp41W/giphy.gif)
