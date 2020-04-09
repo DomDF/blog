@@ -165,23 +165,20 @@ UK_coords <- ggplot2::map_data(map = 'world', region = 'UK')
 Before animating we need to create a ggplot that we will work from.
 
 ```{r, warning = FALSE, message = FALSE}
+
 accidents_plot <- ggplot(data = UK_coords)+
   geom_polygon(mapping = aes(x = long, y = lat, group = group), col = 'black', fill = NA)+
   theme_void(base_size = 12, base_family = 'Bahnschrift')+
-  geom_point(data = Accidents_Dec2015 %>% dplyr::filter(grepl(pattern = 'Slight', x = Accident_Severity)), 
-             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
-             alpha = 0.1)+
-  geom_point(data = Accidents_Dec2015 %>% dplyr::filter(grepl(pattern = 'Serious', x = Accident_Severity)), 
-             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
-             alpha = 0.2)+
-  geom_point(data = Accidents_Dec2015 %>% dplyr::filter(grepl(pattern = 'Fatal', x = Accident_Severity)), 
-             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), size = Number_of_Casualties), 
-             alpha = 0.4)+
+  geom_point(data = Accidents_Dec2015, 
+             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), 
+                           alpha = as.factor(Accident_Severity), size = Number_of_Casualties,
+             group = seq_len(length.out = nrow(Accidents_Dec2015))))+
   theme(legend.position = 'right')+
   scale_size_continuous(breaks = c(1, 3, 9))+
   scale_color_manual(values = c('firebrick', 'forestgreen', 'steelblue'))+
+  scale_alpha_manual(values = c(0.4, 0.2, 0.1), guide = 'none')+
   guides(col = guide_legend(title = element_blank(), ncol = 1),
-         size = guide_legend(title = element_text('Casualties', size = 10), ncol = 1))
+         size = guide_legend(title = element_text('Casualties', size = 10), ncol = 1, alpha = 0.4))
 
 accidents_plot
 
@@ -194,7 +191,8 @@ library(gganimate)
 
 accidents_plot <- accidents_plot +
   transition_time(time = Date)+
-  shadow_trail()+
+  enter_grow()+
+  shadow_mark()+
   ggtitle(label = 'UK Car Accidents in December 2015', subtitle = 'Date : {frame_time}')+
   labs(caption = 'Data from Kaggle: https://www.kaggle.com/silicon99/dft-accident-data/data |  @d73mwf')
 
@@ -202,7 +200,9 @@ accidents_plot <- accidents_plot +
 
 `transition_time()` requires specification of a time variable that the plot will display sequentially. As shown above, this animation will transition through values of `Date`. There are many more options that allow for animation across different data types in different ways.
 
-`shadow_mark()` has been added to keep accidents from previous dates. Again, there are various methods of showing data from previous states. 
+`shadow_mark()` has been added to keep accidents from previous dates. Again, there are various methods of showing data from previous states.
+
+`enter_grow()` means that when new data first appear on the plot, they will emerge by growing into their final size.
 
 Some of these additional options are detailed [here](https://cran.r-project.org/web/packages/gganimate).
 
@@ -221,7 +221,7 @@ The `animate()` function requires us to specify the plot (to be animated), but i
 ### Final Animation
 I tried a few alternatives here. In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. The trade-off here is the number of frames (and associated processing time and file size). The below allocates approximately `1` second per day and results in a total of 600 frames for the animation. On my (ageing) laptop this required approximately 4 minutes to render.
 
-![Animated Map](/post/2019-06-04-animating-plots_files/car_acc_Dec2015.gif)
+![Animated Map](/post/2019-06-04-animating-plots_files/UK_car_acc_Dec2015.gif)
 
 
 ### Thoughts on the Animation
@@ -244,13 +244,13 @@ Accidents_Dec2015 %>%
 
 What isn't shown in the data is the number of cars that were on the road at the time, so it could be that there were a higher proportion of accidents between the `24`th and `31`st December - but that will have to remain speculation for now.
 
-Another slight issue I have with the final animation is the way the points move to the next location. Given the context of the plot, it could be interpreted as the same vehicles having accidents all over the UK. When critically considering this idea it becomes apparent that it cannot be the case (for *many* reasons), but there should be as little ambiguity as possible in a plot like this.
+One tip that I picked up from the [package developer](https://github.com/thomasp85/gganimate/) was the need to group data in the geom to avoid new points *travelling* from the location of other points. Given the context of the plot, that could have been interpreted as the same vehicles having accidents all over the UK. I'm glad that I was able to avoid this ambiguity in the plot.
 
-In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a gentle introduction to how the `gganimate` package can automate animated graphics.
+In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a helpful introduction to how the `gganimate` package can automate animated graphics.
 
 ### Additional Resources
 
 This example is certainly not exhaustive and there are many additional tweaks available to further customise an animation. I have personally found the below resources to be particularly helpful.
 
  - The official [beginner's guide](https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html) to `gganimate`.
- - A tutorial from the [ISU Graphics Group](https://goodekat.github.io/presentations/2019-isugg-gganimate-spooky/slides.html#1).
+ - A tutorial from the [ISU Graphics Group](https://goodekat.github.io/presentations/2019-isugg-gganimate-spooky/slides.html).

@@ -1,0 +1,70 @@
+# App ('app.R' (or 'ui.R' AND 'server.R') file and any associated datasets, images etc) should be saved in the same directory
+
+library(shiny); library(rsconnect); library(ggplot2); library(dplyr); library(readxl); library(ggthemes); library(extrafont)
+#rsconnect::deployApp('path/to/the/App')
+SerieA16_17 <- read_excel("~/R/Football Data/SerieA16-17.xlsx")
+Teams <- unique(SerieA16_17$HomeTeam); Teams <- sort(Teams)
+
+ui <- fluidPage(
+  'Displays the Odds of Home Victories in Serie A (2016-17 Season)', tags$hr(),
+  # Input() functions
+  selectInput(inputId = 'SelectedHomeTeam', label = 'Select Home Team', choices = Teams, selected = 'Atalanta'),
+  
+    # submitButton(inputId='')
+  # ?submitButton
+  # checkboxGroupInput(), dateRangeInput(), selectInput()
+  # radioButtons(), fileInput(), numericInput(), passwordInput()
+  
+  # Output() functions
+  plotOutput('Plot'),
+  tableOutput('stats')
+  # dataTableOutput(), imageOutput()
+  # htmlOutput(), uiOutput()
+  
+  )
+
+server<-function(input, output) {
+  
+  # Output objects need to be saved to 'output$...'
+  # Outputs are created using the 'render()' function
+  
+  # Input values need to be saved as 'input$...'
+  
+  # Reactive Toolkit (buliding and re-building objects)
+  # 1. 'render()' functions
+  # 2. 'reactive()' functions
+  
+  
+  data <- reactive({
+    SerieA16_17 %>% 
+      dplyr::filter(HomeTeam == input$SelectedHomeTeam) 
+  })
+  
+  SerieA16_17Table <- reactive({
+    SerieA16_17 %>% 
+      dplyr::filter(HomeTeam == input$SelectedHomeTeam) %>% 
+      dplyr::select(HomeTeam, AwayTeam, FTHG, FTAG, HTR, B365H, LBH, WHH)
+    })
+  
+  output$Plot <- renderPlot({
+    print((ggplot(data())+
+             geom_point(aes(x = data()$FTHG-data()$FTAG, y = data()$B365H, col = 'Bet365', shape = data()$FTR))+
+             theme_minimal(base_size = 12, base_family = 'Bahnschrift')+
+             xlab('Home Team Winning Margin') + ylab('Odds - Home Team Win')+
+             labs(shape = 'Full Time Result')+
+             geom_point(aes(x = data()$FTHG-data()$FTAG, y = data()$LBH, col = 'Ladbrokes', shape = data()$FTR),size = 4)+
+             geom_point(aes(x = data()$FTHG-data()$FTAG, y = data()$WHH, col = 'William Hill', shape = data()$FTR),size = 4)+
+             geom_smooth(aes(x = data()$FTHG-data()$FTAG, y = data()$B365H,col = 'Bet365'))+
+             geom_smooth(aes(x = data()$FTHG-data()$FTAG, y = data()$LBH, col = 'Ladbrokes'))+
+             geom_smooth(aes(x = data()$FTHG-data()$FTAG, y = data()$WHH, col = 'William Hill'))))
+  })
+  
+  output$stats <- renderTable({
+    SerieA16_17Table()
+   })
+  
+  # renderDataTable(), renderImage(), renderPlot(), renderUI()
+
+}
+
+shinyApp(ui=ui, server=server)

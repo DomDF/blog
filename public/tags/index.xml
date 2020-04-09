@@ -21,20 +21,11 @@
     </item>
     
     <item>
-      <title>Bayesian Decision Analysis</title>
-      <link>/tags/bayesian-decision-analysis/</link>
+      <title>Decision Analysis</title>
+      <link>/tags/decision-analysis/</link>
       <pubDate>Tue, 24 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/bayesian-decision-analysis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/tags/r/</link>
-      <pubDate>Tue, 24 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/r/</guid>
+      <guid>/tags/decision-analysis/</guid>
       <description></description>
     </item>
     
@@ -80,6 +71,24 @@
       <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/probability-of-detection/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bayesian Decision Analysis</title>
+      <link>/tags/bayesian-decision-analysis/</link>
+      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/bayesian-decision-analysis/</guid>
       <description></description>
     </item>
     

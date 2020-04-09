@@ -1,5 +1,6 @@
 "0","knitr::opts_chunk$set(echo = TRUE); library(extrafont)"
-"0",""
+"2","Registering fonts with R
+"
 "0","theme_ddf_light <- function (base_size = 12, base_family = extrafont::choose_font(fonts = 'Bahnschrift')) "
 "0","{"
 "0","  "
@@ -94,5 +95,3 @@
 "0","    complete = TRUE)"
 "0","}"
 "0",""
-"0","setwd(""~/GitHub/blog"")"
-"2","The working directory was changed to C:/Users/domen/OneDrive/Documents/GitHub/blog inside a notebook chunk. The working directory will be reset when the chunk is finished running. Use the knitr root.dir option in the setup chunk to change the working directory for notebook chunks."

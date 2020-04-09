@@ -5,6 +5,7 @@ date: '2020-02-15'
 categories:
 - Bayesian
 - MCMC
+- R
 - Stan
 - Logistic Regression
 - Inspection Reliability
@@ -21,6 +22,7 @@ subtitle: Modelling the Probability of Detecting Damage
 tags:
 - Bayesian
 - MCMC
+- R
 - Stan
 - Logistic Regression
 - Inspection Reliability
@@ -131,7 +133,7 @@ theme_ddf_light <- function (base_size = 12, base_family = extrafont::choose_fon
 
 ### TLDR
 
-Logistic regression is a popular machine learning model. One application of it in an engineering context is quantifying the effectiveness of inspection technologies at detecting damage. This post describes the additional information provided by a Bayesian application of logistic regression (and how it can be implemented using the `Stan` probabilistic programming language). Finally, I've also included some recommendations for making sense of our priors.
+Logistic regression is a popular machine learning model. One application of it in an engineering context is quantifying the effectiveness of inspection technologies at detecting damage. This post describes the additional information provided by a Bayesian application of logistic regression (and how it can be implemented using the `Stan` probabilistic programming language). Finally, I've also included some recommendations for making sense of priors.
 
 ---
 
@@ -177,8 +179,8 @@ ggplot(data = data.frame(x = x, y = y), mapping = aes(x = x, y = y))+
 Before moving on, some terminology that you may find when reading about logistic regression elsewhere: 
 
   * When a linear regression is combined with a re-scaling function such as this, it is known as a Generalised Linear Model (**GLM**).
-  * The logit function is known as a **link function** in this context.
-  * Logistic regression is a Bernoulli regression with a logit link function, or a Bernoulli-Logit GLM.
+  * The re-scaling (in this case, the logit) function is known as a **link function** in this context.
+  * Logistic regression is a **Bernoulli-Logit GLM**.
 
 
 You may be familiar with libraries that automate the fitting of logistic regression models, either in `Python` (via `sklearn`):
@@ -316,8 +318,14 @@ generated quantities {
 }
 ```
 
-I've extended the above model to also included a probability of false indication in a recent piece of work.
+The `generated quantities` block will be used to make predictions for the `K` values of `depth_pred` that we provide.
 
+```{r, message = FALSE, warning = FALSE}
+K <- 50; depth_pred <- seq(from = lower, to = upper, length.out = K)
+
+```
+
+The above code generates `r K` evenly spaced values, which we will eventually combine in a plot. In some instances we may have specific values that we want to generate probabilistic predictions for, and this can be achieved in the same way.
 
 #### Fitting the model
 
@@ -325,10 +333,6 @@ Data can be pre-processed in any language for which a `Stan` interface has been 
 
 Our `Stan` model is expecting data for three variables: **N**, **det**, **depth**, **K** and **depth_pred** and `rstan` requires this in the form of a list. 
 
-```{r, message = FALSE, warning = FALSE}
-K <- 50; depth_pred <- seq(from = lower, to = upper, length.out = K)
-
-```
 
 
 #### Results

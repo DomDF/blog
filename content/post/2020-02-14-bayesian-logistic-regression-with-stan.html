@@ -5,6 +5,7 @@ date: '2020-02-15'
 categories:
 - Bayesian
 - MCMC
+- R
 - Stan
 - Logistic Regression
 - Inspection Reliability
@@ -21,6 +22,7 @@ subtitle: Modelling the Probability of Detecting Damage
 tags:
 - Bayesian
 - MCMC
+- R
 - Stan
 - Logistic Regression
 - Inspection Reliability
@@ -32,7 +34,7 @@ authors: []
 
 <div id="tldr" class="section level3">
 <h3>TLDR</h3>
-<p>Logistic regression is a popular machine learning model. One application of it in an engineering context is quantifying the effectiveness of inspection technologies at detecting damage. This post describes the additional information provided by a Bayesian application of logistic regression (and how it can be implemented using the <code>Stan</code> probabilistic programming language). Finally, I’ve also included some recommendations for making sense of our priors.</p>
+<p>Logistic regression is a popular machine learning model. One application of it in an engineering context is quantifying the effectiveness of inspection technologies at detecting damage. This post describes the additional information provided by a Bayesian application of logistic regression (and how it can be implemented using the <code>Stan</code> probabilistic programming language). Finally, I’ve also included some recommendations for making sense of priors.</p>
 <hr />
 </div>
 <div id="introductions" class="section level3">
@@ -56,8 +58,8 @@ Inverse\;Logit (x) = \frac{1}{1 + \exp(-x)}
 <p>Before moving on, some terminology that you may find when reading about logistic regression elsewhere:</p>
 <ul>
 <li>When a linear regression is combined with a re-scaling function such as this, it is known as a Generalised Linear Model (<strong>GLM</strong>).</li>
-<li>The logit function is known as a <strong>link function</strong> in this context.</li>
-<li>Logistic regression is a Bernoulli regression with a logit link function, or a Bernoulli-Logit GLM.</li>
+<li>The re-scaling (in this case, the logit) function is known as a <strong>link function</strong> in this context.</li>
+<li>Logistic regression is a <strong>Bernoulli-Logit GLM</strong>.</li>
 </ul>
 <p>You may be familiar with libraries that automate the fitting of logistic regression models, either in <code>Python</code> (via <code>sklearn</code>):</p>
 <pre class="python"><code>from sklearn.linear_model import LogisticRegression
@@ -157,13 +159,14 @@ generated quantities {
   }
   
 }</code></pre>
-<p>I’ve extended the above model to also included a probability of false indication in a recent piece of work.</p>
+<p>The <code>generated quantities</code> block will be used to make predictions for the <code>K</code> values of <code>depth_pred</code> that we provide.</p>
+<pre class="r"><code>K &lt;- 50; depth_pred &lt;- seq(from = lower, to = upper, length.out = K)</code></pre>
+<p>The above code generates 50 evenly spaced values, which we will eventually combine in a plot. In some instances we may have specific values that we want to generate probabilistic predictions for, and this can be achieved in the same way.</p>
 </div>
 <div id="fitting-the-model" class="section level4">
 <h4>Fitting the model</h4>
 <p>Data can be pre-processed in any language for which a <code>Stan</code> interface has been developed. This includes, <code>R</code>, <code>Python</code>, and <code>Julia</code>. In this example we will use <code>R</code> and the accompanying package, <code>rstan</code>.</p>
 <p>Our <code>Stan</code> model is expecting data for three variables: <strong>N</strong>, <strong>det</strong>, <strong>depth</strong>, <strong>K</strong> and <strong>depth_pred</strong> and <code>rstan</code> requires this in the form of a list.</p>
-<pre class="r"><code>K &lt;- 50; depth_pred &lt;- seq(from = lower, to = upper, length.out = K)</code></pre>
 </div>
 <div id="results" class="section level4">
 <h4>Results</h4>
@@ -195,9 +198,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.066 seconds (Warm-up)
-## Chain 1:                0.063 seconds (Sampling)
-## Chain 1:                0.129 seconds (Total)
+## Chain 1:  Elapsed Time: 0.063 seconds (Warm-up)
+## Chain 1:                0.058 seconds (Sampling)
+## Chain 1:                0.121 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 2).
@@ -220,9 +223,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.063 seconds (Warm-up)
-## Chain 2:                0.063 seconds (Sampling)
-## Chain 2:                0.126 seconds (Total)
+## Chain 2:  Elapsed Time: 0.061 seconds (Warm-up)
+## Chain 2:                0.059 seconds (Sampling)
+## Chain 2:                0.12 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 3).
@@ -245,9 +248,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.064 seconds (Warm-up)
-## Chain 3:                0.055 seconds (Sampling)
-## Chain 3:                0.119 seconds (Total)
+## Chain 3:  Elapsed Time: 0.136 seconds (Warm-up)
+## Chain 3:                0.146 seconds (Sampling)
+## Chain 3:                0.282 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 4).
@@ -270,9 +273,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.065 seconds (Warm-up)
-## Chain 4:                0.081 seconds (Sampling)
-## Chain 4:                0.146 seconds (Total)
+## Chain 4:  Elapsed Time: 0.235 seconds (Warm-up)
+## Chain 4:                0.079 seconds (Sampling)
+## Chain 4:                0.314 seconds (Total)
 ## Chain 4:</code></pre>
 <p><strong>Note</strong>:I’ve not included any detail here on the checks we need to do on our samples. There are some common challenges associated with MCMC methods, each with plenty of associated guidance on how to diagnose and resolve them. For now, let’s assume everything has gone to plan.</p>
 <p>Now, there are a few options for extracting samples from a stanfit object such as <code>PoD_samples</code>, including <code>rstan::extract()</code>. However, these usually require a little post-processing to get them into a tidy format - no big deal, but a hassle I’d rather avoid. That’s why I like to use the <code>ggmcmc</code> <a href="https://cran.r-project.org/web/packages/ggmcmc/">package</a>, which we can use to create a data frame that specifies the iteration, parameter value and chain associated with each data point:</p>
