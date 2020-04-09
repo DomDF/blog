@@ -564,7 +564,7 @@ accidents_plot &lt;- accidents_plot +
 <h3>Final Animation</h3>
 <p>I tried a few alternatives here. In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. The trade-off here is the number of frames (and associated processing time and file size). The below allocates approximately <code>1</code> second per day and results in a total of 600 frames for the animation. On my (ageing) laptop this required approximately 4 minutes to render.</p>
 <div class="figure">
-<img src="/post/2019-06-04-animating-plots_files/UK_car_acc_Dec2015.gif" alt="Animated Map" />
+<img src="/post/2019-06-04-animating-plots_files/UK_Car_Acc_Dec_2015.gif" alt="Animated Map" />
 <p class="caption">Animated Map</p>
 </div>
 </div>
@@ -577,7 +577,6 @@ accidents_plot &lt;- accidents_plot +
      ggplot(mapping = aes(x = Date))+
         geom_bar(stat = &#39;count&#39;, fill = &#39;grey80&#39;)+
         facet_wrap(facets = ~ Accident_Severity, scales = &#39;free&#39;)+
-        #ggthemes::theme_tufte(base_size = 12, base_family = &#39;Bahnschrift&#39;)+
         theme_ddf_light()+
         coord_flip()+
         theme(axis.title = element_blank())</code></pre>

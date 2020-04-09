@@ -556,7 +556,7 @@ accidents_plot &amp;lt;- accidents_plot +
 &lt;h3&gt;Final Animation&lt;/h3&gt;
 &lt;p&gt;I tried a few alternatives here. In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. The trade-off here is the number of frames (and associated processing time and file size). The below allocates approximately &lt;code&gt;1&lt;/code&gt; second per day and results in a total of 600 frames for the animation. On my (ageing) laptop this required approximately 4 minutes to render.&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/post/2019-06-04-animating-plots_files/UK_car_acc_Dec2015.gif&#34; alt=&#34;Animated Map&#34; /&gt;
+&lt;img src=&#34;/post/2019-06-04-animating-plots_files/UK_Car_Acc_Dec_2015.gif&#34; alt=&#34;Animated Map&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Animated Map&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -569,7 +569,6 @@ accidents_plot &amp;lt;- accidents_plot +
      ggplot(mapping = aes(x = Date))+
         geom_bar(stat = &amp;#39;count&amp;#39;, fill = &amp;#39;grey80&amp;#39;)+
         facet_wrap(facets = ~ Accident_Severity, scales = &amp;#39;free&amp;#39;)+
-        #ggthemes::theme_tufte(base_size = 12, base_family = &amp;#39;Bahnschrift&amp;#39;)+
         theme_ddf_light()+
         coord_flip()+
         theme(axis.title = element_blank())&lt;/code&gt;&lt;/pre&gt;

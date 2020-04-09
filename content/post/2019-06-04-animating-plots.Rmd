@@ -221,7 +221,7 @@ The `animate()` function requires us to specify the plot (to be animated), but i
 ### Final Animation
 I tried a few alternatives here. In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. The trade-off here is the number of frames (and associated processing time and file size). The below allocates approximately `1` second per day and results in a total of 600 frames for the animation. On my (ageing) laptop this required approximately 4 minutes to render.
 
-![Animated Map](/post/2019-06-04-animating-plots_files/UK_car_acc_Dec2015.gif)
+![Animated Map](/post/2019-06-04-animating-plots_files/UK_Car_Acc_Dec_2015.gif)
 
 
 ### Thoughts on the Animation
@@ -236,7 +236,6 @@ Accidents_Dec2015 %>%
      ggplot(mapping = aes(x = Date))+
         geom_bar(stat = 'count', fill = 'grey80')+
         facet_wrap(facets = ~ Accident_Severity, scales = 'free')+
-        #ggthemes::theme_tufte(base_size = 12, base_family = 'Bahnschrift')+
         theme_ddf_light()+
         coord_flip()+
         theme(axis.title = element_blank())
