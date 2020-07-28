@@ -1,24 +1,24 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1595911048125.000,
+    "created" : 1595913396572.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "0",
-    "id" : "A236BFE4",
-    "lastKnownWriteTime" : 1595911704,
-    "last_content_update" : 1595911704478,
-    "path" : "~/GitHub/blog/content/publication/RESS/index.md",
-    "project_path" : "content/publication/RESS/index.md",
+    "id" : "D42DBE31",
+    "lastKnownWriteTime" : 1559498696,
+    "last_content_update" : 1559498696,
+    "path" : "~/GitHub/blog/content/home/featured.md",
+    "project_path" : "content/home/featured.md",
     "properties" : {
-        "cursorPosition" : "8,7",
+        "cursorPosition" : "34,13",
         "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [
     ],
-    "relative_order" : 5,
+    "relative_order" : 7,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "markdown"

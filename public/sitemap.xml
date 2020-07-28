@@ -8,7 +8,7 @@
   </url>
   
   <url>
-    <loc>/publication_types/1/</loc>
+    <loc>/publication_types/2/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -90,6 +90,12 @@
   </url>
   
   <url>
+    <loc>/publication_types/1/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/publication/omae/</loc>
     <lastmod>2020-08-03T00:00:00+00:00</lastmod>
   </url>
@@ -131,13 +137,13 @@
   </url>
   
   <url>
-    <loc>/categories/maximum-likelihood-estimation/</loc>
+    <loc>/tags/maximum-likelihood-estimation/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/maximum-likelihood-estimation/</loc>
+    <loc>/categories/maximum-likelihood-estimation/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -148,13 +154,13 @@
   </url>
   
   <url>
-    <loc>/categories/parameter-estimation/</loc>
+    <loc>/tags/parameter-estimation/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/parameter-estimation/</loc>
+    <loc>/categories/parameter-estimation/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -165,19 +171,13 @@
   </url>
   
   <url>
-    <loc>/categories/python/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/python/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
+    <loc>/categories/python/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -189,7 +189,7 @@
   </url>
   
   <url>
-    <loc>/categories/scipy/</loc>
+    <loc>/categories/r/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -201,8 +201,8 @@
   </url>
   
   <url>
-    <loc>/categories/bayesian/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
+    <loc>/categories/scipy/</loc>
+    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -213,7 +213,7 @@
   </url>
   
   <url>
-    <loc>/categories/decision-analysis/</loc>
+    <loc>/categories/bayesian/</loc>
     <lastmod>2020-03-24T23:55:13+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -225,13 +225,19 @@
   </url>
   
   <url>
-    <loc>/categories/uncertainty/</loc>
+    <loc>/categories/decision-analysis/</loc>
     <lastmod>2020-03-24T23:55:13+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/uncertainty/</loc>
+    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/uncertainty/</loc>
     <lastmod>2020-03-24T23:55:13+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -247,19 +253,13 @@
   </url>
   
   <url>
-    <loc>/categories/inspection-reliability/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/inspection-reliability/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/logistic-regression/</loc>
+    <loc>/categories/inspection-reliability/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -271,7 +271,7 @@
   </url>
   
   <url>
-    <loc>/categories/mcmc/</loc>
+    <loc>/categories/logistic-regression/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -283,7 +283,7 @@
   </url>
   
   <url>
-    <loc>/categories/probability-of-detection/</loc>
+    <loc>/categories/mcmc/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -295,7 +295,7 @@
   </url>
   
   <url>
-    <loc>/categories/stan/</loc>
+    <loc>/categories/probability-of-detection/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -307,13 +307,19 @@
   </url>
   
   <url>
-    <loc>/categories/scikit-learn/</loc>
+    <loc>/categories/stan/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/scikit-learn/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/scikit-learn/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -381,13 +387,13 @@
   </url>
   
   <url>
-    <loc>/categories/gganimate/</loc>
+    <loc>/tags/gganimate/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/gganimate/</loc>
+    <loc>/categories/gganimate/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
     <priority>0</priority>
   </url>

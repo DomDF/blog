@@ -23,7 +23,7 @@ projects:
 publication: In Journal of Reliability Engineering & System Safety
 publication_short: Vol. 204C
 publication_types:
-- "1"
+- "2"
 publishDate: "2020-12-01"
 
 
