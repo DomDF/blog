@@ -13,7 +13,6 @@ image:
   focal_point: ""
   preview_only: false
 
-
 links:
 - name: Journal Website
   url: https://www.sciencedirect.com/science/article/pii/S0951832020306189
