@@ -3,8 +3,124 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/authors/admin/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/publication_types/1/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/authors/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/bayesian-data-analysis/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/publication/ress/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/fatigue-crack-growth/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/authors/marios-chryssanthopoulos/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/authors/michael-havbro-faber/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/model-evaluation/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/model-uncertainty/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/publication_types/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/publication/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/authors/ujjwal-bharadwaj/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/publication/omae/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/bayesian-statistics/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/corrosion-growth/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/information-pooling/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/markov-chain-monte-carlo-sampling/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/multi-level-modelling/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -92,12 +208,6 @@
   
   <url>
     <loc>/tags/scipy/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -221,23 +331,6 @@
   </url>
   
   <url>
-    <loc>/authors/admin/</loc>
-    <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/publication_types/1/</loc>
-    <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/authors/</loc>
-    <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/bayesian-decision-analysis/</loc>
     <lastmod>2019-12-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -246,35 +339,6 @@
   <url>
     <loc>/publication/ifed/</loc>
     <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/authors/marios-chryssanthopoulos/</loc>
-    <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/authors/michael-havbro-faber/</loc>
-    <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/publication_types/</loc>
-    <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/publication/</loc>
-    <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/authors/ujjwal-bharadwaj/</loc>
-    <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -296,12 +360,6 @@
   
   <url>
     <loc>/tags/fracture-fatigue/</loc>
-    <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/markov-chain-monte-carlo-sampling/</loc>
     <lastmod>2019-09-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>

@@ -1,4 +1,0 @@
-"0","n_samples <- 25; true_rate <- 1; set.seed(1)"
-"0",""
-"0","exp_samples <- rexp(n = n_samples,"
-"0","                    rate = true_rate)"

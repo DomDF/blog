@@ -6,10 +6,91 @@
     <description>Recent content in Tags on All Your Bayes</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-uk</language>
-    <lastBuildDate>Tue, 28 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Dec 2020 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Bayesian Data Analysis</title>
+      <link>/tags/bayesian-data-analysis/</link>
+      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/bayesian-data-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Fatigue Crack Growth</title>
+      <link>/tags/fatigue-crack-growth/</link>
+      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/fatigue-crack-growth/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Model Evaluation</title>
+      <link>/tags/model-evaluation/</link>
+      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/model-evaluation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Model Uncertainty</title>
+      <link>/tags/model-uncertainty/</link>
+      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/model-uncertainty/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bayesian Statistics</title>
+      <link>/tags/bayesian-statistics/</link>
+      <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/bayesian-statistics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Corrosion Growth</title>
+      <link>/tags/corrosion-growth/</link>
+      <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/corrosion-growth/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Information Pooling</title>
+      <link>/tags/information-pooling/</link>
+      <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/information-pooling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Markov Chain Monte Carlo Sampling</title>
+      <link>/tags/markov-chain-monte-carlo-sampling/</link>
+      <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/markov-chain-monte-carlo-sampling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Multi-Level Modelling</title>
+      <link>/tags/multi-level-modelling/</link>
+      <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/multi-level-modelling/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Frequentist Statistics</title>
@@ -179,15 +260,6 @@
       <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/fracture-fatigue/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Markov Chain Monte Carlo Sampling</title>
-      <link>/tags/markov-chain-monte-carlo-sampling/</link>
-      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/markov-chain-monte-carlo-sampling/</guid>
       <description></description>
     </item>
     
