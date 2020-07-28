@@ -15,7 +15,7 @@ image:
 
 
 links:
-- name: Conference website
+- name: Conference Website
   url: http://ifedforum.weebly.com/ifed2019.html
 projects:
 - 

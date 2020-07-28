@@ -20,7 +20,7 @@ links:
 projects:
 - 
 
-publication: Proceedings of the ASME 2020 39th International Conference on Ocean, Offshore and Arctic Engineering
+publication: In Proceedings of the ASME 2020 39th International Conference on Ocean, Offshore and Arctic Engineering
 publication_short:  OMAE2020
 publication_types:
 - "1"
