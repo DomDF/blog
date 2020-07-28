@@ -7,12 +7,12 @@
     "folds" : "",
     "hash" : "0",
     "id" : "2500F54E",
-    "lastKnownWriteTime" : 1595910324,
-    "last_content_update" : 1595910324,
+    "lastKnownWriteTime" : 1595912733,
+    "last_content_update" : 1595912733885,
     "path" : "~/GitHub/blog/content/post/2020-07-28-maximum-likelihood-estimation.Rmd",
     "project_path" : "content/post/2020-07-28-maximum-likelihood-estimation.Rmd",
     "properties" : {
-        "cursorPosition" : "20,1",
+        "cursorPosition" : "25,18",
         "scrollLine" : "0"
     },
     "read_only" : false,

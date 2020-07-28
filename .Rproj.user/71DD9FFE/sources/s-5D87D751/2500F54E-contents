@@ -4,14 +4,12 @@ author: ''
 date: '2020-07-28'
 slug: maximum-likelihood-estimation
 categories:
-  - Frequentist Statistics
   - Parameter Estimation
   - Maximum Likelihood Estimation
   - R
   - Python
   - SciPy
 tags:
-  - Frequentist Statistics
   - Parameter Estimation
   - Maximum Likelihood Estimation
   - R
