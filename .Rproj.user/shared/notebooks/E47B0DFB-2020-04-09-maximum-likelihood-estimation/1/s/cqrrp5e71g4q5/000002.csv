@@ -1,0 +1,5 @@
+"0","library(ggmcmc)"
+"0",""
+"0","extracted_samples <- ggs(S = exp_posterior_samples)"
+"0",""
+"0","head(x = extracted_samples, n = 5)"

@@ -186,9 +186,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.063 seconds (Warm-up)
-## Chain 1:                0.058 seconds (Sampling)
-## Chain 1:                0.121 seconds (Total)
+## Chain 1:  Elapsed Time: 0.131 seconds (Warm-up)
+## Chain 1:                0.208 seconds (Sampling)
+## Chain 1:                0.339 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 2).
@@ -211,9 +211,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.061 seconds (Warm-up)
-## Chain 2:                0.059 seconds (Sampling)
-## Chain 2:                0.12 seconds (Total)
+## Chain 2:  Elapsed Time: 0.265 seconds (Warm-up)
+## Chain 2:                0.154 seconds (Sampling)
+## Chain 2:                0.419 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 3).
@@ -236,9 +236,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.136 seconds (Warm-up)
-## Chain 3:                0.146 seconds (Sampling)
-## Chain 3:                0.282 seconds (Total)
+## Chain 3:  Elapsed Time: 0.22 seconds (Warm-up)
+## Chain 3:                0.267 seconds (Sampling)
+## Chain 3:                0.487 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 4).
@@ -261,9 +261,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.235 seconds (Warm-up)
-## Chain 4:                0.079 seconds (Sampling)
-## Chain 4:                0.314 seconds (Total)
+## Chain 4:  Elapsed Time: 0.256 seconds (Warm-up)
+## Chain 4:                0.289 seconds (Sampling)
+## Chain 4:                0.545 seconds (Total)
 ## Chain 4:&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:I’ve not included any detail here on the checks we need to do on our samples. There are some common challenges associated with MCMC methods, each with plenty of associated guidance on how to diagnose and resolve them. For now, let’s assume everything has gone to plan.&lt;/p&gt;
 &lt;p&gt;Now, there are a few options for extracting samples from a stanfit object such as &lt;code&gt;PoD_samples&lt;/code&gt;, including &lt;code&gt;rstan::extract()&lt;/code&gt;. However, these usually require a little post-processing to get them into a tidy format - no big deal, but a hassle I’d rather avoid. That’s why I like to use the &lt;code&gt;ggmcmc&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/ggmcmc/&#34;&gt;package&lt;/a&gt;, which we can use to create a data frame that specifies the iteration, parameter value and chain associated with each data point:&lt;/p&gt;

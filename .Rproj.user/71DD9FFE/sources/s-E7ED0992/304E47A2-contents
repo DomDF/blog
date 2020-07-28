@@ -1,0 +1,213 @@
+library(tidyverse); library(extrafont)
+
+shannon <- function (p) 
+{
+  H = -sum(ifelse(test = p == 0, 
+                  yes = 0, 
+                  no = p * log(p)))
+  return (H)
+}
+
+#####
+#
+# Information Entropy
+#
+#####
+
+tot_fail <- 6
+failures <- tribble(
+  
+  ~Case, ~Group_A, ~Group_B, ~Group_C,
+  'Case 1', 0, 6, 0,
+  'Case 2', 1, 4, 1, 
+  'Case 3', 2, 2, 2
+  
+)
+
+failures <- failures %>% 
+  mutate(Group_A = Group_A / tot_fail,
+         Group_B = Group_B / tot_fail,
+         Group_C = Group_C / tot_fail) %>% 
+  group_by(Case) %>% 
+  mutate(entropy = shannon(p = c(Group_A, Group_B, Group_C))) %>% 
+  ungroup() %>% 
+  tidyr::gather(key = Group, value = p_fail, Group_A:Group_C)
+
+ggplot(data = failures)+
+  geom_col(mapping = aes(x = Group, y = p_fail * tot_fail, alpha = as.factor(x = signif(x = entropy, digits = 2))), col = 'black')+
+  facet_wrap(facets = ~ Case)+
+  labs(y = 'Number of Failures', alpha = 'Entropy')+
+  ggthemes::theme_base(base_size = 12, base_family = 'Cambria') + 
+  theme(axis.title.x = element_blank(), axis.text.x = element_text(angle = 90), legend.position = 'top', plot.background = element_rect(colour = NA))
+
+min_X <- -100; max_X <- -min_X; N <- 1e3
+ent_df <- data.frame(sigma = double(), entropy = double())
+x <- seq(from = min_X, to = max_X, by = 1)
+for(i in seq(from = 1, to = 40, by = 0.1)){
+  set.seed(1008)
+  ent_df <- rbind(ent_df, data.frame(sigma = i, entropy = shannon(p = dnorm(x = x, mean = 0, sd = i))))
+}
+ggplot(data = ent_df)+
+  geom_point(mapping = aes(x = sigma, y = entropy))+
+  geom_hline(mapping = aes(yintercept = shannon(p = dunif(x = x, min = min_X, max = max_x)), 
+                           linetype = 'Uniform Distribution'))+
+  scale_linetype_manual(values = 2)
+
+#####
+#
+# Pugsley SRA
+#
+#####
+
+Pugsley <- dplyr::tribble(
+  
+  ~wing_strength_lower, ~wing_strength_upper, ~number_of_wings, ~load_freq, ~failures,
+  0, 2, 0, NA, 0,
+  2, 4, 0, 30000, 0,
+  4, 6, 0, 5000, 0,
+  6, 8, 0, 100, 0,
+  8, 10, 2, 10, 20, 
+  10, 12, 12, 1, 12,
+  12, 14, 74, 0, 0,
+  14, 16, 12, 0, 0,
+  16, 18, 2, 0, 0
+  
+)
+
+# load_freq = 'frequency of loads sufficient to break wings in each interval (in 10^4 flying hours)'
+# failures = 'wing failures in 10^6 hours'
+Pugsley %>% 
+  ggplot()+
+  geom_col(mapping = aes(x = wing_strength_upper, y = number_of_wings, alpha = 'Wing Strength'), col = 'black', size = 0.1)+
+  geom_col(mapping = aes(x = wing_strength_upper, y = log(load_freq), alpha = 'Load Cycles to Failure'), col = 'black', size = 0.1)+
+  scale_y_continuous(name = 'Number of Wings',
+                     sec.axis = sec_axis(~.*10, name = expression(Log[]('Cycles to Failure'))))+
+  scale_x_continuous(name = 'Wing Strength')+
+  scale_alpha_manual(values = c(0.4, 0.1))+
+  ggthemes::theme_base(base_size = 12, base_family = 'Cambria')+
+  theme(legend.position = 'top', legend.title = element_blank(), plot.background = element_rect(color = NA))
+
+#####
+#
+# MLE Example - dexp
+#
+#####
+
+N_samples <- 25; true_rate <- 1; set.seed(1); exp_samples <- rexp(n = N_samples, rate = true_rate)
+exp_lik_df <- data.frame(rate = double(), lik = double())
+
+for (i in seq(from = 0.2, to = 2, by = 0.2)){
+  
+  exp_lik_df <- rbind(exp_lik_df, data.frame(rate = i, lik = prod(dexp(x = exp_samples, rate = i))))
+  
+}
+
+max_lik <- exp_lik_df[which.max(x = exp_lik_df$lik),]
+
+p1 <- ggplot(data = as_tibble(exp_samples), mapping = aes(x = value, y = 0))+
+  geom_point(shape = 1)+
+  stat_function(fun = dexp, geom = 'line', args = list(rate = 0.2))+
+  geom_segment(mapping = aes(xend = value, yend = dexp(x = value, rate = 0.2)), 
+                             arrow = arrow(length = unit(x = 0.1, units = 'cm')),
+               alpha = 0.4)+
+  scale_y_continuous(name = 'y', limits = c(0, 2))+
+  ggthemes::theme_base(base_size = 11, base_family = 'Cambria')+
+  theme(axis.title.x = element_blank(), plot.background = element_rect(colour = NA))+
+  labs(subtitle = paste('y ~ exp(\u03bb = 0.2), \nLog Likelihood = ', signif(x = log(exp_lik_df$lik[exp_lik_df$rate == 0.2]), digits = 2)))
+
+p2 <- ggplot(data = as_tibble(exp_samples), mapping = aes(x = value, y = 0))+
+  geom_point(shape = 1)+
+  stat_function(fun = dexp, geom = 'line', args = list(rate = 1.0))+
+  geom_segment(mapping = aes(xend = value, yend = dexp(x = value, rate = 1.0)), 
+               arrow = arrow(length = unit(x = 0.1, units = 'cm')),
+               alpha = 0.4)+
+  scale_y_continuous(limits = c(0, 2))+
+  ggthemes::theme_base(base_size = 11, base_family = 'Cambria')+
+  theme(axis.title = element_blank(), plot.background = element_rect(colour = NA))+
+  labs(subtitle = paste('y ~ exp(\u03bb = 1.0), \nLog Likelihood = ', signif(x = log(exp_lik_df$lik[exp_lik_df$rate == 1.0]), digits = 2)))
+
+p3 <- ggplot(data = as_tibble(exp_samples), mapping = aes(x = value, y = 0))+
+  geom_point(shape = 1)+
+  stat_function(fun = dexp, geom = 'line', args = list(rate = 2.0))+
+  geom_segment(mapping = aes(xend = value, yend = dexp(x = value, rate = 2.0)), 
+               arrow = arrow(length = unit(x = 0.1, units = 'cm')),
+               alpha = 0.4)+
+  scale_y_continuous(limits = c(0, 2))+
+  ggthemes::theme_base(base_size = 11, base_family = 'Cambria')+
+  theme(axis.title = element_blank(), plot.background = element_rect(colour = NA))+
+  labs(subtitle = paste('y ~ exp(\u03bb = 2.0), \nLog Likelihood = ', signif(x = log(exp_lik_df$lik[exp_lik_df$rate == 2.0]), digits = 2)))
+
+
+p4 <- ggplot(data = exp_lik_df)+
+  geom_point(mapping = aes(x = rate, y = log(lik)), shape = 1)+
+  geom_line(mapping = aes(x = rate, y = log(lik)))+
+  scale_x_continuous(name = '\u03bb') + scale_y_continuous(name = 'Log Likelihood')+
+  ggthemes::theme_base(base_size = 12, base_family = 'Cambria') + theme(plot.background = element_rect(colour = NA))
+
+library(patchwork)
+  
+MLE_plot <- ((p1 + p2 + p3) / p4)
+
+
+#####
+#
+# MCMC
+#
+#####
+
+y <- c(-5, 5, 0)
+sigma <- 1
+mu <- 0
+tau <- 2
+
+d <- 1
+niter <- 1e3
+theta_1 <- rep(0,niter); theta_2 <- rep(0, niter) -> theta_3
+
+theta_1[1] <- y[1]; theta_2[1] <- y[2]; theta_3[1] <- y[3]
+
+hist_df <- data.frame(theta_1 = double(), theta_2 = double(), theta_3 = double(), sample = integer())
+
+for (i in 2:niter){
+  theta_1.p <- theta_1[i-1] + rnorm(1,0,d)
+  theta_2.p <- theta_2[i-1] + rnorm(1,0,d)
+  theta_3.p <- theta_2[i-1] + rnorm(1,0,d)
+  
+  r_1 <- dnorm(theta_1.p, mu, tau) / dnorm(theta_1[i-1], mu, tau) 
+  r_2 <- dnorm(theta_2.p, mu, tau) / dnorm(theta_2[i-1], mu, tau)
+  r_3 <- dnorm(theta_3.p, mu, tau) / dnorm(theta_3[i-1], mu, tau)
+  
+  flip_1 <- rbinom(n = 1, size = 1, prob = min(r_1,1))
+  flip_2 <- rbinom(n = 1, size = 1, prob = min(r_2,1))
+  flip_3 <- rbinom(n = 1, size = 1, prob = min(r_3,1))
+  
+  theta_1[i] <- if(flip_1 == 1) theta_1.p else theta_1[i-1]
+  theta_2[i] <- if(flip_2 == 1) theta_2.p else theta_2[i-1]
+  theta_3[i] <- if(flip_3 == 1) theta_3.p else theta_3[i-1]
+  
+  hist_df <- rbind(hist_df, 
+                   data.frame(theta_1 = theta_1, 
+                              theta_2 = theta_2, 
+                              theta_3 = theta_3, 
+                              sample = i))
+  
+}
+
+
+theta <- data.frame(theta_1, theta_2, theta_3) %>% 
+  tidyr::gather(key = param, value = value) %>% 
+  mutate(sample = rep(x = seq(from = 1, to = niter, by = 1), times = length(unique(param)))) 
+
+samples_plot <- ggplot(data = theta, mapping = aes(x = sample, y = value))+
+  geom_line(mapping = aes(col = param))+
+  theme_bw()+ theme(legend.position = 'top', legend.title = element_blank())+
+  labs(x = 'Iteration', y = 'Value')
+
+library(gganimate)  
+
+samples_plot+
+  transition_reveal(along = sample)
+
+ggplot(data = theta)+
+  geom_histogram(mapping = aes(x = value, y = ..density..))+
+  transition_reveal(along = sample)

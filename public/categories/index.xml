@@ -6,10 +6,64 @@
     <description>Recent content in Categories on All Your Bayes</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-uk</language>
-    <lastBuildDate>Tue, 24 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 28 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Frequentist Statistics</title>
+      <link>/categories/frequentist-statistics/</link>
+      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/frequentist-statistics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Maximum Likelihood Estimation</title>
+      <link>/categories/maximum-likelihood-estimation/</link>
+      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/maximum-likelihood-estimation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Parameter Estimation</title>
+      <link>/categories/parameter-estimation/</link>
+      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/parameter-estimation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>/categories/python/</link>
+      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/categories/r/</link>
+      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SciPy</title>
+      <link>/categories/scipy/</link>
+      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/scipy/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Bayesian</title>
@@ -30,11 +84,11 @@
     </item>
     
     <item>
-      <title>Stan</title>
-      <link>/categories/stan/</link>
+      <title>Uncertainty</title>
+      <link>/categories/uncertainty/</link>
       <pubDate>Tue, 24 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>/categories/stan/</guid>
+      <guid>/categories/uncertainty/</guid>
       <description></description>
     </item>
     
@@ -75,11 +129,20 @@
     </item>
     
     <item>
-      <title>R</title>
-      <link>/categories/r/</link>
+      <title>Stan</title>
+      <link>/categories/stan/</link>
       <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/categories/r/</guid>
+      <guid>/categories/stan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>scikit-learn</title>
+      <link>/categories/scikit-learn/</link>
+      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/scikit-learn/</guid>
       <description></description>
     </item>
     
