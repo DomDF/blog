@@ -295,6 +295,9 @@ However, MLE is primarily used as a point estimate solution and the information 
 
 An intuitive method for quantifying this *epistemic* (statistical) uncertainty in parameter estimation is Bayesian inference. This removes requirements for a sufficient sample size, while providing more information (a full *posterior* distribution) of credible values for each parameter. If multiple parameters are being simultaneously estimated, then the posterior distribution will be a joint probabilistic model of all parameters, accounting for any inter-dependencies too. Finally, it also provides the opportunity to build in prior knowledge, which we may have available, before evaluating the data.
 
+Take it from `Stan` himself:
+![Stan's advice](https://media.giphy.com/media/3o6Zt7NrhNRgdFkBeU/source.gif)
+
 Returning to the challenge of estimating the rate parameter for an exponential model, based on the same `r n_samples` observations:
 
 ```{r, message = FALSE, warning = FALSE}
@@ -302,7 +305,7 @@ summary(exp_samples)
 
 ```
 
-We will now consider a Bayesian approach, by writing a Stan file that describes this exponential model:
+We will now consider a Bayesian approach, by writing a `Stan` file that describes this exponential model:
 
 ```{stan, output.var = "exp_model"}
 data {
