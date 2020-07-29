@@ -151,8 +151,8 @@ np.sum(np.log(stats.expon.pdf(x = sample_data,
 &lt;p&gt;However, MLE is primarily used as a point estimate solution and the information contained in a single value will always be limited. Likelihoods will not necessarily be symmetrically dispersed around the point of maximum likelihood. We may be interested in the full distribution of credible parameter values, so that we can perform sensitivity analyses and understand the possible outcomes or optimal decisions associated with particular credible intervals. See below for a proposed approach for overcoming these limitations.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id=&#34;limitations-how-to-do-better-wit-bayesian-methods&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Limitations (‘How to do better wit Bayesian methods’)&lt;/h3&gt;
+&lt;div id=&#34;limitations-or-how-to-do-better-with-bayesian-methods&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Limitations (or ‘How to do better with Bayesian methods’)&lt;/h3&gt;
 &lt;p&gt;An intuitive method for quantifying this &lt;em&gt;epistemic&lt;/em&gt; (statistical) uncertainty in parameter estimation is Bayesian inference. This removes requirements for a sufficient sample size, while providing more information (a full &lt;em&gt;posterior&lt;/em&gt; distribution) of credible values for each parameter. If multiple parameters are being simultaneously estimated, then the posterior distribution will be a joint probabilistic model of all parameters, accounting for any inter-dependencies too. Finally, it also provides the opportunity to build in prior knowledge, which we may have available, before evaluating the data.&lt;/p&gt;
 &lt;p&gt;Returning to the challenge of estimating the rate parameter for an exponential model, based on the same 25 observations:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(exp_samples)
@@ -208,9 +208,9 @@ exp_posterior_samples &amp;lt;- sampling(object = exp_model,
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.014 seconds (Warm-up)
-## Chain 1:                0.012 seconds (Sampling)
-## Chain 1:                0.026 seconds (Total)
+## Chain 1:  Elapsed Time: 0.025 seconds (Warm-up)
+## Chain 1:                0.02 seconds (Sampling)
+## Chain 1:                0.045 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;5328d75314acb3313bc7fa418eeb08c2&amp;#39; NOW (CHAIN 2).
@@ -233,9 +233,9 @@ exp_posterior_samples &amp;lt;- sampling(object = exp_model,
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.016 seconds (Warm-up)
-## Chain 2:                0.014 seconds (Sampling)
-## Chain 2:                0.03 seconds (Total)
+## Chain 2:  Elapsed Time: 0.024 seconds (Warm-up)
+## Chain 2:                0.018 seconds (Sampling)
+## Chain 2:                0.042 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;5328d75314acb3313bc7fa418eeb08c2&amp;#39; NOW (CHAIN 3).
@@ -258,9 +258,9 @@ exp_posterior_samples &amp;lt;- sampling(object = exp_model,
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.016 seconds (Warm-up)
-## Chain 3:                0.02 seconds (Sampling)
-## Chain 3:                0.036 seconds (Total)
+## Chain 3:  Elapsed Time: 0.022 seconds (Warm-up)
+## Chain 3:                0.025 seconds (Sampling)
+## Chain 3:                0.047 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;5328d75314acb3313bc7fa418eeb08c2&amp;#39; NOW (CHAIN 4).
@@ -283,9 +283,9 @@ exp_posterior_samples &amp;lt;- sampling(object = exp_model,
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.023 seconds (Warm-up)
-## Chain 4:                0.023 seconds (Sampling)
-## Chain 4:                0.046 seconds (Total)
+## Chain 4:  Elapsed Time: 0.014 seconds (Warm-up)
+## Chain 4:                0.016 seconds (Sampling)
+## Chain 4:                0.03 seconds (Total)
 ## Chain 4:&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: We have not specified a prior model for the rate parameter. &lt;code&gt;Stan&lt;/code&gt; responds to this by setting what is known as an &lt;em&gt;improper&lt;/em&gt; prior (a uniform distribution bounded only by any upper and lower limits that were listed when the parameter was declared). For real-world problems, there are many reasons to avoid uniform priors. Partly because they are no longer ‘non-informative’ when there are transformations, such as in generalised linear models, and partly because there will always be some prior information to help direct you towards more credible outcomes. However, this data has been introduced without any context and by using uniform priors, we should be able to recover the same maximum likelihood estimate as the non-Bayesian approaches above.&lt;/p&gt;
 &lt;p&gt;Extracting the results from our model:&lt;/p&gt;

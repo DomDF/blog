@@ -291,7 +291,7 @@ The `method` argument in `R`'s `fitdistrplus::fitdist()` function also accepts `
 
 However, MLE is primarily used as a point estimate solution and the information contained in a single value will always be limited. Likelihoods will not necessarily be symmetrically dispersed around the point of maximum likelihood. We may be interested in the full distribution of credible parameter values, so that we can perform sensitivity analyses and understand the possible outcomes or optimal decisions associated with particular credible intervals. See below for a proposed approach for overcoming these limitations.
 
-### Limitations ('How to do better wit Bayesian methods')
+### Limitations (or 'How to do better with Bayesian methods')
 
 An intuitive method for quantifying this *epistemic* (statistical) uncertainty in parameter estimation is Bayesian inference. This removes requirements for a sufficient sample size, while providing more information (a full *posterior* distribution) of credible values for each parameter. If multiple parameters are being simultaneously estimated, then the posterior distribution will be a joint probabilistic model of all parameters, accounting for any inter-dependencies too. Finally, it also provides the opportunity to build in prior knowledge, which we may have available, before evaluating the data.
 

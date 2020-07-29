@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2880928278",
+    "hash" : "0",
     "id" : "2500F54E",
-    "lastKnownWriteTime" : 1595912733,
-    "last_content_update" : 1595912733885,
+    "lastKnownWriteTime" : 1595987417,
+    "last_content_update" : 1595987417975,
     "path" : "~/GitHub/blog/content/post/2020-07-28-maximum-likelihood-estimation.Rmd",
     "project_path" : "content/post/2020-07-28-maximum-likelihood-estimation.Rmd",
     "properties" : {
-        "cursorPosition" : "27,0",
-        "scrollLine" : "0"
+        "cursorPosition" : "295,604",
+        "scrollLine" : "278"
     },
     "read_only" : false,
     "read_only_alternatives" : [
