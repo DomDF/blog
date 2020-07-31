@@ -1,159 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on All Your Bayes</title>
+    <title>Categories | All Your Bayes</title>
     <link>/categories/</link>
-    <description>Recent content in Categories on All Your Bayes</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
-    <language>en-uk</language>
-    <lastBuildDate>Tue, 28 Jul 2020 00:00:00 +0000</lastBuildDate>
-    
-	    <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Maximum Likelihood Estimation</title>
-      <link>/categories/maximum-likelihood-estimation/</link>
-      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/maximum-likelihood-estimation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Parameter Estimation</title>
-      <link>/categories/parameter-estimation/</link>
-      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/parameter-estimation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>/categories/python/</link>
-      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/categories/r/</link>
-      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>SciPy</title>
-      <link>/categories/scipy/</link>
-      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/scipy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Bayesian</title>
-      <link>/categories/bayesian/</link>
-      <pubDate>Tue, 24 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/bayesian/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Decision Analysis</title>
-      <link>/categories/decision-analysis/</link>
-      <pubDate>Tue, 24 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/decision-analysis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Uncertainty</title>
-      <link>/categories/uncertainty/</link>
-      <pubDate>Tue, 24 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/uncertainty/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Inspection Reliability</title>
-      <link>/categories/inspection-reliability/</link>
-      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/inspection-reliability/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Logistic Regression</title>
-      <link>/categories/logistic-regression/</link>
-      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/logistic-regression/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>MCMC</title>
-      <link>/categories/mcmc/</link>
-      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/mcmc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Probability of Detection</title>
-      <link>/categories/probability-of-detection/</link>
-      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/probability-of-detection/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Stan</title>
-      <link>/categories/stan/</link>
-      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/stan/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>scikit-learn</title>
-      <link>/categories/scikit-learn/</link>
-      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/scikit-learn/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>gganimate</title>
-      <link>/categories/gganimate/</link>
-      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/gganimate/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>wordcloud</title>
-      <link>/categories/wordcloud/</link>
-      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/wordcloud/</guid>
-      <description></description>
-    </item>
+      <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    <description>Categories</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-uk</language><lastBuildDate>Tue, 28 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Categories</title>
+      <link>/categories/</link>
+    </image>
     
   </channel>
 </rss>

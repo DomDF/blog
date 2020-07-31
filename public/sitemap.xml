@@ -1,34 +1,55 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/authors/admin/</loc>
-    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+    <loc>/courses/example/example1/</loc>
+    <lastmod>2019-05-05T00:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/publication_types/2/</loc>
-    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
+    <loc>/courses/example/</loc>
+    <lastmod>2018-09-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/courses/example/example2/</loc>
+    <lastmod>2019-05-05T00:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>/</loc>
+    <lastmod>2030-06-01T13:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/example/</loc>
+    <lastmod>2030-06-01T13:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/</loc>
+    <lastmod>2030-06-01T13:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/author/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/publication-type/2/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/authors/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/bayesian-data-analysis/</loc>
+    <loc>/tag/bayesian-data-analysis/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -37,39 +58,33 @@
   </url>
   
   <url>
-    <loc>/tags/fatigue-crack-growth/</loc>
+    <loc>/tag/fatigue-crack-growth/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/authors/marios-chryssanthopoulos/</loc>
+    <loc>/author/marios-chryssanthopoulos/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/authors/michael-havbro-faber/</loc>
+    <loc>/author/michael-havbro-faber/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/model-evaluation/</loc>
+    <loc>/tag/model-evaluation/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/model-uncertainty/</loc>
+    <loc>/tag/model-uncertainty/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/publication_types/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -80,19 +95,16 @@
   <url>
     <loc>/tags/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/authors/ujjwal-bharadwaj/</loc>
+    <loc>/author/ujjwal-bharadwaj/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/publication_types/1/</loc>
+    <loc>/publication-type/1/</loc>
     <lastmod>2020-08-03T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -101,51 +113,43 @@
   </url>
   
   <url>
-    <loc>/tags/bayesian-statistics/</loc>
+    <loc>/tag/bayesian-statistics/</loc>
     <lastmod>2020-08-03T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/corrosion-growth/</loc>
+    <loc>/tag/corrosion-growth/</loc>
     <lastmod>2020-08-03T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/information-pooling/</loc>
+    <loc>/tag/information-pooling/</loc>
     <lastmod>2020-08-03T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/markov-chain-monte-carlo-sampling/</loc>
+    <loc>/tag/markov-chain-monte-carlo-sampling/</loc>
     <lastmod>2020-08-03T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/multi-level-modelling/</loc>
+    <loc>/tag/multi-level-modelling/</loc>
     <lastmod>2020-08-03T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/maximum-likelihood-estimation/</loc>
+    <loc>/tag/maximum-likelihood-estimation/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/maximum-likelihood-estimation/</loc>
+    <loc>/category/maximum-likelihood-estimation/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -154,15 +158,13 @@
   </url>
   
   <url>
-    <loc>/categories/parameter-estimation/</loc>
+    <loc>/tag/parameter-estimation/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/parameter-estimation/</loc>
+    <loc>/category/parameter-estimation/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -171,163 +173,113 @@
   </url>
   
   <url>
-    <loc>/categories/python/</loc>
+    <loc>/tag/python/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/python/</loc>
+    <loc>/category/python/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
+    <loc>/tag/r/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
+    <loc>/category/r/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/scipy/</loc>
+    <loc>/tag/scipy/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/scipy/</loc>
+    <loc>/category/scipy/</loc>
     <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/bayesian/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/bayesian/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/decision-analysis/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/decision-analysis/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/uncertainty/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/uncertainty/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/why-go-bayesian/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/bayesian-regression-models-with-stan/</loc>
+    <loc>/tag/bayesian/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/inspection-reliability/</loc>
+    <loc>/category/bayesian/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/inspection-reliability/</loc>
+    <loc>/post/2020-02-14-bayesian-logistic-regression-with-stan/bayesian-regression-models-with-stan/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/logistic-regression/</loc>
+    <loc>/tag/inspection-reliability/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/logistic-regression/</loc>
+    <loc>/category/inspection-reliability/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/mcmc/</loc>
+    <loc>/tag/logistic-regression/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/mcmc/</loc>
+    <loc>/category/logistic-regression/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/probability-of-detection/</loc>
+    <loc>/tag/mcmc/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/probability-of-detection/</loc>
+    <loc>/category/mcmc/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/stan/</loc>
+    <loc>/tag/probability-of-detection/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/stan/</loc>
+    <loc>/category/probability-of-detection/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/scikit-learn/</loc>
+    <loc>/tag/scikit-learn/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/scikit-learn/</loc>
+    <loc>/category/scikit-learn/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/bayesian-decision-analysis/</loc>
+    <loc>/tag/stan/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/stan/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/bayesian-decision-analysis/</loc>
     <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -336,9 +288,8 @@
   </url>
   
   <url>
-    <loc>/tags/value-of-information/</loc>
+    <loc>/tag/value-of-information/</loc>
     <lastmod>2019-12-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -347,67 +298,78 @@
   </url>
   
   <url>
-    <loc>/tags/bayesian-modelling/</loc>
+    <loc>/tag/bayesian-modelling/</loc>
     <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/fracture-fatigue/</loc>
+    <loc>/tag/fracture-fatigue/</loc>
     <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/post/animating-plots/</loc>
+    <loc>/post/2020-03-24-why-go-bayesian/</loc>
+    <lastmod>2019-07-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2019-06-04-animating-plots/animating-plots/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/r-markdown/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/wordcloud/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/31.05.19-wordcloud/</loc>
+    <loc>/tag/dplyr/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/dplyr/</loc>
+    <loc>/tag/gganimate/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/gganimate/</loc>
+    <loc>/category/gganimate/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/gganimate/</loc>
+    <loc>/tag/ggplot2/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/ggplot2/</loc>
+    <loc>/tag/r-markdown/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/wordcloud/</loc>
+    <loc>/tag/wordcloud/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/category/wordcloud/</loc>
+    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2019-06-04-wordcloud/31.05.19-wordcloud/</loc>
+    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/courses/</loc>
+    <lastmod>2019-05-05T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/slides/</loc>
+    <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/slides/example/</loc>
+    <lastmod>2019-02-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -416,15 +378,18 @@
   </url>
   
   <url>
-    <loc>/tags/deep-learning/</loc>
-    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-    <priority>0</priority>
+    <loc>/terms/</loc>
+    <lastmod>2018-06-28T00:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/demo/</loc>
+    <loc>/tag/deep-learning/</loc>
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tag/demo/</loc>
+    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -440,7 +405,10 @@
   <url>
     <loc>/project/</loc>
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/author/%E5%90%B3%E6%81%A9%E9%81%94/</loc>
   </url>
   
 </urlset>

@@ -1,52 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Authors on All Your Bayes</title>
+    <title>Authors | All Your Bayes</title>
     <link>/authors/</link>
-    <description>Recent content in Authors on All Your Bayes</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
-    <language>en-uk</language>
-    <lastBuildDate>Tue, 01 Dec 2020 00:00:00 +0000</lastBuildDate>
-    
-	    <atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title></title>
-      <link>/authors/admin/</link>
-      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/authors/admin/</guid>
-      <description>&lt;p&gt;My research interests include Bayesian methods of degradation modelling and it&amp;rsquo;s decision theoretic applications including quantification of the expected value of information. I also work in football analytics.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Marios Chryssanthopoulos</title>
-      <link>/authors/marios-chryssanthopoulos/</link>
-      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/authors/marios-chryssanthopoulos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Michael Havbro Faber</title>
-      <link>/authors/michael-havbro-faber/</link>
-      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/authors/michael-havbro-faber/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ujjwal Bharadwaj</title>
-      <link>/authors/ujjwal-bharadwaj/</link>
-      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/authors/ujjwal-bharadwaj/</guid>
-      <description></description>
-    </item>
+      <atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
+    <description>Authors</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-uk</language><lastBuildDate>Tue, 01 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Authors</title>
+      <link>/authors/</link>
+    </image>
     
   </channel>
 </rss>

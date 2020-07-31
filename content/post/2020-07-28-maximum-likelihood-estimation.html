@@ -219,9 +219,9 @@ exp_posterior_samples &lt;- sampling(object = exp_model,
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.017 seconds (Warm-up)
-## Chain 1:                0.01 seconds (Sampling)
-## Chain 1:                0.027 seconds (Total)
+## Chain 1:  Elapsed Time: 0.013 seconds (Warm-up)
+## Chain 1:                0.013 seconds (Sampling)
+## Chain 1:                0.026 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;5328d75314acb3313bc7fa418eeb08c2&#39; NOW (CHAIN 2).
@@ -244,9 +244,9 @@ exp_posterior_samples &lt;- sampling(object = exp_model,
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.01 seconds (Warm-up)
-## Chain 2:                0.019 seconds (Sampling)
-## Chain 2:                0.029 seconds (Total)
+## Chain 2:  Elapsed Time: 0.025 seconds (Warm-up)
+## Chain 2:                0.016 seconds (Sampling)
+## Chain 2:                0.041 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;5328d75314acb3313bc7fa418eeb08c2&#39; NOW (CHAIN 3).
@@ -269,8 +269,8 @@ exp_posterior_samples &lt;- sampling(object = exp_model,
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.02 seconds (Warm-up)
-## Chain 3:                0.016 seconds (Sampling)
+## Chain 3:  Elapsed Time: 0.016 seconds (Warm-up)
+## Chain 3:                0.02 seconds (Sampling)
 ## Chain 3:                0.036 seconds (Total)
 ## Chain 3: 
 ## 
@@ -294,9 +294,9 @@ exp_posterior_samples &lt;- sampling(object = exp_model,
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.013 seconds (Warm-up)
-## Chain 4:                0.01 seconds (Sampling)
-## Chain 4:                0.023 seconds (Total)
+## Chain 4:  Elapsed Time: 0.016 seconds (Warm-up)
+## Chain 4:                0.011 seconds (Sampling)
+## Chain 4:                0.027 seconds (Total)
 ## Chain 4:</code></pre>
 <p><strong>Note</strong>: We have not specified a prior model for the rate parameter. <code>Stan</code> responds to this by setting what is known as an <em>improper</em> prior (a uniform distribution bounded only by any upper and lower limits that were listed when the parameter was declared). For real-world problems, there are many reasons to avoid uniform priors. Partly because they are no longer ‘non-informative’ when there are transformations, such as in generalised linear models, and partly because there will always be some prior information to help direct you towards more credible outcomes. However, this data has been introduced without any context and by using uniform priors, we should be able to recover the same maximum likelihood estimate as the non-Bayesian approaches above.</p>
 <p>Extracting the results from our model:</p>
