@@ -23,7 +23,7 @@
   
   
 
-  <meta name="author" content="Nelson Bighetti">
+  
 
   
   
@@ -222,6 +222,44 @@
 
 
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141247809-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'UA-141247809-1', {});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
   
 
 
@@ -252,9 +290,9 @@
   <meta property="twitter:site" content="@Domenic_DF">
   <meta property="twitter:creator" content="@Domenic_DF">
   
-  <meta property="og:site_name" content="Academic">
+  <meta property="og:site_name" content="All Your Bayes">
   <meta property="og:url" content="/post/bayesian-regression-models-with-stan/">
-  <meta property="og:title" content="Bayesian Logistic Regression with Stan | Academic">
+  <meta property="og:title" content="Bayesian Logistic Regression with Stan | All Your Bayes">
   <meta property="og:description" content="TLDRLogistic regression is a popular machine learning model. One application of it in an engineering context is quantifying the effectiveness of inspection technologies at detecting damage. This post describes the additional information provided by a Bayesian application of logistic regression (and how it can be implemented using the Stan probabilistic programming language)."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-uk">
   
@@ -292,14 +330,9 @@
   "datePublished": "2020-02-15T00:00:00Z",
   "dateModified": "2020-02-15T10:30:10Z",
   
-  "author": {
-    "@type": "Person",
-    "name": "Nelson Bighetti"
-  },
-  
   "publisher": {
     "@type": "Organization",
-    "name": "Academic",
+    "name": "All Your Bayes",
     "logo": {
       "@type": "ImageObject",
       "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
@@ -323,7 +356,7 @@
 
 
 
-  <title>Bayesian Logistic Regression with Stan | Academic</title>
+  <title>Bayesian Logistic Regression with Stan | All Your Bayes</title>
 
 </head>
 <body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
@@ -474,6 +507,28 @@
 
         <li class="nav-item">
           <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/files/Domenic-Di-Francesco.pdf"><span>CV</span></a>
         </li>
 
         
@@ -637,7 +692,7 @@ Logit (x) = \log\Bigg({\frac{x}{1 - x}}\Bigg)
 <p><span class="math display">\[
 Inverse\;Logit (x) = \frac{1}{1 + \exp(-x)}
 \]</span></p>
-<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="//post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Before moving on, some terminology that you may find when reading about logistic regression elsewhere:</p>
 <ul>
 <li>When a linear regression is combined with a re-scaling function such as this, it is known as a Generalised Linear Model (<strong>GLM</strong>).</li>
@@ -696,7 +751,7 @@ for (i in seq(from = 1, to = nrow(pod_df), by = 1)) {
 <p>The above code is used to create 30 crack sizes (depths) between 0 and 10 mm. We then use a log-odds model to back calculate a probability of detection for each. This is based on some fixed values for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. In a real trial, these would not be known, but since we are inventing the data we can see how successful our model ends up being in estimating these values.</p>
 <p>The below plot shows the size of each crack, and whether or not it was detected (in our simulation). The smallest crack that was detected was 2.22 mm deep, and the largest undetected crack was 5.69 mm deep. Even so, it’s already clear that larger cracks are more likely to be detected than smaller cracks, though that’s just about all we can say at this stage.</p>
 <p>After fitting our model, we will be able to predict the probability of detection for a crack of any size.</p>
-<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="//post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p><code>Stan</code> is a <a href="https://en.wikipedia.org/wiki/Probabilistic_programming">probabilistic programming language</a>. In a future post I will explain why it has been my preferred software for statistical inference throughout my PhD.</p>
 <p>The below is a simple <code>Stan</code> program to fit a Bayesian Probability of Detection (PoD) model:</p>
 <pre class="stan"><code>data {
@@ -781,9 +836,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.084 seconds (Warm-up)
-## Chain 1:                0.079 seconds (Sampling)
-## Chain 1:                0.163 seconds (Total)
+## Chain 1:  Elapsed Time: 0.069 seconds (Warm-up)
+## Chain 1:                0.067 seconds (Sampling)
+## Chain 1:                0.136 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 2).
@@ -806,9 +861,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.084 seconds (Warm-up)
-## Chain 2:                0.091 seconds (Sampling)
-## Chain 2:                0.175 seconds (Total)
+## Chain 2:  Elapsed Time: 0.06 seconds (Warm-up)
+## Chain 2:                0.069 seconds (Sampling)
+## Chain 2:                0.129 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 3).
@@ -831,15 +886,15 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.083 seconds (Warm-up)
-## Chain 3:                0.068 seconds (Sampling)
-## Chain 3:                0.151 seconds (Total)
+## Chain 3:  Elapsed Time: 0.055 seconds (Warm-up)
+## Chain 3:                0.049 seconds (Sampling)
+## Chain 3:                0.104 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 0.001 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+## Chain 4: Gradient evaluation took 0 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -856,9 +911,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.066 seconds (Warm-up)
-## Chain 4:                0.06 seconds (Sampling)
-## Chain 4:                0.126 seconds (Total)
+## Chain 4:  Elapsed Time: 0.058 seconds (Warm-up)
+## Chain 4:                0.064 seconds (Sampling)
+## Chain 4:                0.122 seconds (Total)
 ## Chain 4:</code></pre>
 <p><strong>Note</strong>:I’ve not included any detail here on the checks we need to do on our samples. There are some common challenges associated with MCMC methods, each with plenty of associated guidance on how to diagnose and resolve them. For now, let’s assume everything has gone to plan.</p>
 <p>Now, there are a few options for extracting samples from a stanfit object such as <code>PoD_samples</code>, including <code>rstan::extract()</code>. However, these usually require a little post-processing to get them into a tidy format - no big deal, but a hassle I’d rather avoid. That’s why I like to use the <code>ggmcmc</code> <a href="https://cran.r-project.org/web/packages/ggmcmc/">package</a>, which we can use to create a data frame that specifies the iteration, parameter value and chain associated with each data point:</p>
@@ -876,12 +931,12 @@ head(x = PoD_extracted_samples, n = 5)
 ## 4         4     1 alpha     -1.36  
 ## 5         5     1 alpha     -1.54</code></pre>
 <p>We have sampled from a 2-dimensional posterior distribution of the unobserved parameters in the model: <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. Below is a density plot of their corresponding marginal distributions based on the <code>1000</code> samples collected from each of the <code>4</code> Markov chains that have been run.</p>
-<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="//post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>So our estimates are beginning to converge on the values that were used to generate the data, but this plot also shows that there is still plenty of uncertainty in the results. Unlike many alternative approaches, Bayesian models account for the statistical uncertainty associated with our limited dataset - remember that we are estimating these values from 30 trials. These results describe the possible values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> in our model that are consistent with the limited available evidence. If more data was available, we could expect the uncertainty in our results to decrease. I think there are some great reasons to keep track of this statistical (sometimes called <em>epistemic</em>) uncertainty - a primary example being that we should be interested in how confident our predictive models are in their own results!
 …but I’ll leave it at that for now, and try to stay on topic.</p>
 <p>How do we know what do these estimates of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> mean for the PoD (what we are ultimately interested in)?
 We can check this using the posterior predictive distributions that we have (thanks to the <code>generated quantities</code> block of the <code>Stan</code> program).</p>
-<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="//post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>One thing to note from these results is that the model is able to make much more confident predictions for larger crack sizes. The increased uncertainty associated with shallow cracks reflects the lack of data available in this region - this could be useful information for a decision maker!</p>
 <p>There are only 3 trials in our dataset considering cracks shallower than 3 mm (and only 1 for crack depths <code>&lt; 2</code> mm). If we needed to make predictions for shallow cracks, this analysis could be extended to quantify the value of future tests in this region.</p>
 </div>
@@ -924,12 +979,12 @@ head(prPrSim_df)
 ## 5 0.04004004 4.532144e-03
 ## 6 0.05005005 2.997338e-03</code></pre>
 <p>And we can visualise the information contained within our priors for a couple of different cases.</p>
-<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="//post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>Our wide, supposedly <em>non</em>-informative priors result in some pretty useless predictions. I’ve suggested some more sensible priors that suggest that larger cracks are more likely to be detected than small cracks, without overly constraining our outcome (see that there is still prior credible that very small cracks are detected reliably and that very large cracks are often missed).</p>
 <p>Why did our predictions end up looking like this?</p>
 <p>Borrowing from McElreath’s explanation, it’s because <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are linear regression parameters on a log-odds (logit) scale. Since we are estimating a PoD we end up transforming out predictions onto a probability scale. Flat priors for our parameters imply that extreme values of log-odds are credible. All that prior credibility of values <code>&lt; - 3</code> and <code>&gt; 3</code> ends up getting concentrated at probabilities near <code>0</code> and <code>1</code>. I think this is a really good example of flat priors containing a lot more information than they appear to.</p>
 <p>I’ll end by directing you towards some additional (generally non-technical) discussion of choosing priors, written by the <code>Stan</code> development team <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations">(link)</a>. It provides a definition of <em>weakly informative priors</em>, some words of warning against <em>flat priors</em> and more general detail than this humble footnote.</p>
-<p><img src="/post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="//post/2020-02-14-bayesian-logistic-regression-with-stan_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
 </div>
 
@@ -1077,13 +1132,13 @@ head(prPrSim_df)
     <div class="media author-card content-widget-hr">
       
         
-        <img class="avatar mr-3 avatar-circle" src="/author/nelson-bighetti/avatar_hu52a603635ecebd45650b162dadabb4e5_12861_270x270_fill_q90_lanczos_center.jpg" alt="Nelson Bighetti">
+        <img class="avatar mr-3 avatar-circle" src="/author/avatar_hu3076a3fb11c6a715930b40ab04c2e5ed_220100_270x270_fill_q90_lanczos_center.jpg" alt="">
       
 
       <div class="media-body">
-        <h5 class="card-title"><a href="/">Nelson Bighetti</a></h5>
-        <h6 class="card-subtitle">Professor of Artificial Intelligence</h6>
-        <p class="card-text">My research interests include distributed robotics, mobile computing and programmable matter.</p>
+        <h5 class="card-title"><a href=""></a></h5>
+        <h6 class="card-subtitle">CEng, PhD Candidate</h6>
+        <p class="card-text">My research interests within engineering include Bayesian methods of degradation modelling and quantification of the value of information. I also work on football analytics.</p>
         <ul class="network-icon" aria-hidden="true">
   
     
@@ -1115,7 +1170,7 @@ head(prPrSim_df)
       
     
     <li>
-      <a href="https://twitter.com/GeorgeCushen" target="_blank" rel="noopener">
+      <a href="https://twitter.com/Domenic_DF" target="_blank" rel="noopener">
         <i class="fab fa-twitter"></i>
       </a>
     </li>
@@ -1123,21 +1178,6 @@ head(prPrSim_df)
     
     
     
-    
-    
-    
-    
-      
-    
-    <li>
-      <a href="https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ" target="_blank" rel="noopener">
-        <i class="ai ai-google-scholar"></i>
-      </a>
-    </li>
-  
-    
-    
-    
       
     
     
@@ -1147,7 +1187,7 @@ head(prPrSim_df)
       
     
     <li>
-      <a href="https://github.com/gcushen" target="_blank" rel="noopener">
+      <a href="https://github.com/domdf" target="_blank" rel="noopener">
         <i class="fab fa-github"></i>
       </a>
     </li>
@@ -1177,15 +1217,15 @@ head(prPrSim_df)
     <h3>Related</h3>
     <ul>
       
-      <li><a href="/post/maximum-likelihood-estimation/">Maximum Likelihood Estimation</a></li>
+      <li><a href="/post/2020-02-14-bayesian-logistic-regression-with-stan/bayesian-regression-models-with-stan/">Bayesian Logistic Regression with Stan</a></li>
       
-      <li><a href="/post/why-go-bayesian/">Why Go Bayesian?</a></li>
+      <li><a href="/post/maximum-likelihood-estimation/">Maximum Likelihood Estimation</a></li>
       
       <li><a href="/post/2019-06-04-animating-plots/animating-plots/">Animating Plots</a></li>
       
       <li><a href="/post/animating-plots/">Animating Plots</a></li>
       
-      <li><a href="/post/2019-06-04-wordcloud/31.05.19-wordcloud/">Wordclouds</a></li>
+      <li><a href="/post/31.05.19-wordcloud/">Wordclouds</a></li>
       
     </ul>
   </div>

@@ -14,6 +14,108 @@
     
     <item>
       <title>Animating Plots</title>
+      <link>/post/animating-plots/</link>
+      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>/post/animating-plots/</guid>
+      <description>
+
+
+&lt;div id=&#34;tldr&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;TLDR&lt;/h3&gt;
+&lt;p&gt;There are many instances where it may be useful to animate graphical representations of data, perhaps to add an additional dimension to a plot. The below example builds a cumulative map of car accidents in the UK using some of the functionality of the &lt;code&gt;gganimate&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;package&lt;/a&gt;.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;making-moving-plots-with-gganimate&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Making Moving Plots with &lt;code&gt;gganimate&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Graphics made using the &lt;code&gt;ggplot2&lt;/code&gt; package are already extremely customisable. They can be further enhanced using some of the &lt;a href=&#34;http://ggplot2-exts.org/gallery/&#34;&gt;extensions that have been developed&lt;/a&gt;. These include providing access to new themes, as well as entirely new functionality.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;gganimate&lt;/code&gt; allows for the animation of existing ggplot graphics. Once installed, we can load both packages (&lt;code&gt;ggplot2&lt;/code&gt; is included as part of the &lt;code&gt;tidyverse&lt;/code&gt;):&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(gganimate); library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The example uses a car accident dataset that I found on &lt;a href=&#34;https://www.kaggle.com/silicon99/dft-accident-data/data#&#34;&gt;Kaggle&lt;/a&gt;. Here are the first few rows of the variables that we’re interested in:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(Accidents_Dec2015 %&amp;gt;% 
+       dplyr::select(Date, Longitude, Latitude, Number_of_Casualties, Accident_Severity))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##         Date Longitude Latitude Number_of_Casualties Accident_Severity
+## 1 2015-12-01 -0.155880 51.48959                    1            Slight
+## 2 2015-12-01 -0.200271 51.49262                    1            Slight
+## 3 2015-12-03 -0.210643 51.49997                    2            Slight
+## 4 2015-12-03 -0.156754 51.49293                    1            Slight
+## 5 2015-12-03 -0.159124 51.50205                    1            Slight
+## 6 2015-12-04 -0.197452 51.49104                    1            Slight&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can plot the coordinates using a map of the UK included in &lt;code&gt;ggplot2&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;UK_coords &amp;lt;- ggplot2::map_data(map = &amp;#39;world&amp;#39;, region = &amp;#39;UK&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Before animating we need to create a ggplot that we will work from.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;accidents_plot &amp;lt;- ggplot(data = UK_coords)+
+  geom_polygon(mapping = aes(x = long, y = lat, group = group), col = &amp;#39;black&amp;#39;, fill = NA)+
+  theme_void(base_size = 12, base_family = &amp;#39;Bahnschrift&amp;#39;)+
+  geom_point(data = Accidents_Dec2015, 
+             mapping = aes(x = Longitude, y = Latitude, col = as.factor(Accident_Severity), 
+                           alpha = as.factor(Accident_Severity), size = Number_of_Casualties,
+             group = seq_len(length.out = nrow(Accidents_Dec2015))))+
+  theme(legend.position = &amp;#39;right&amp;#39;)+
+  scale_size_continuous(breaks = c(1, 3, 9))+
+  scale_color_manual(values = c(&amp;#39;firebrick&amp;#39;, &amp;#39;forestgreen&amp;#39;, &amp;#39;steelblue&amp;#39;))+
+  scale_alpha_manual(values = c(0.4, 0.2, 0.1), guide = &amp;#39;none&amp;#39;)+
+  guides(col = guide_legend(title = element_blank(), ncol = 1),
+         size = guide_legend(title = element_text(&amp;#39;Casualties&amp;#39;, size = 10), ncol = 1, alpha = 0.4))
+
+accidents_plot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;//post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We can now add some functions from &lt;code&gt;gganimate&lt;/code&gt;, which will describe how and saving as a new variable:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(gganimate)
+
+accidents_plot &amp;lt;- accidents_plot +
+  transition_time(time = Date)+
+  enter_grow()+
+  shadow_mark()+
+  ggtitle(label = &amp;#39;UK Car Accidents in December 2015&amp;#39;, subtitle = &amp;#39;Date : {frame_time}&amp;#39;)+
+  labs(caption = &amp;#39;Data from Kaggle: https://www.kaggle.com/silicon99/dft-accident-data/data |  @Domenic_DF&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;transition_time()&lt;/code&gt; requires specification of a time variable that the plot will display sequentially. As shown above, this animation will transition through values of &lt;code&gt;Date&lt;/code&gt;. There are many more options that allow for animation across different data types in different ways.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;shadow_mark()&lt;/code&gt; has been added to keep accidents from previous dates. Again, there are various methods of showing data from previous states.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;enter_grow()&lt;/code&gt; means that when new data first appear on the plot, they will emerge by growing into their final size.&lt;/p&gt;
+&lt;p&gt;Some of these additional options are detailed &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In this case, &lt;code&gt;transition_length&lt;/code&gt; and &lt;code&gt;state_length&lt;/code&gt; describe the &lt;strong&gt;relative&lt;/strong&gt; amount of time spent displaying the current state, and transitioning to the next state.&lt;/p&gt;
+&lt;p&gt;Regardless of the transition function selected, the best way to create the moving plot is to use the &lt;code&gt;animate&lt;/code&gt; function:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;animate(plot = accidents_plot, fps = 20, duration = 30, end_pause = 100)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;animate()&lt;/code&gt; function requires us to specify the plot (to be animated), but includes many additional arguments not all of which are detailed above.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;fps&lt;/code&gt; is the frames per second, &lt;code&gt;duration&lt;/code&gt; is the length of the animation (in seconds), and &lt;code&gt;end_pause&lt;/code&gt; is the length of time that the final frame is held for (in number of frames.)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-animation&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Final Animation&lt;/h3&gt;
+&lt;p&gt;I tried a few alternatives here. In this case each state has quite a few points and so I wanted it to be held for a reasonable amount of time. The trade-off here is the number of frames (and associated processing time and file size). The below allocates approximately &lt;code&gt;1&lt;/code&gt; second per day and results in a total of 600 frames for the animation. On my (ageing) laptop this required approximately 4 minutes to render.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/post/2019-06-04-animating-plots_files/UK_Car_Acc_Dec_2015.gif&#34; alt=&#34;Animated Map&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Animated Map&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;thoughts-on-the-animation&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Thoughts on the Animation&lt;/h3&gt;
+&lt;p&gt;What does the animation tell us that the stationary plot doesn’t?&lt;/p&gt;
+&lt;p&gt;The final frame is pretty much identical, but the transitions will show when the accidents occurred. From viewing the animation there doesn’t appear to be a clear time when accidents were more frequent. We can check this with an additional plot:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Accidents_Dec2015 %&amp;gt;% 
+     dplyr::select(Date, Number_of_Casualties, Accident_Severity) %&amp;gt;% 
+     ggplot(mapping = aes(x = Date))+
+        geom_bar(stat = &amp;#39;count&amp;#39;, fill = &amp;#39;grey80&amp;#39;)+
+        facet_wrap(facets = ~ Accident_Severity, scales = &amp;#39;free&amp;#39;)+
+        theme_ddf_light()+
+        coord_flip()+
+        theme(axis.title = element_blank())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;//post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;What isn’t shown in the data is the number of cars that were on the road at the time, so it could be that there were a higher proportion of accidents between the &lt;code&gt;24&lt;/code&gt;th and &lt;code&gt;31&lt;/code&gt;st December - but that will have to remain speculation for now.&lt;/p&gt;
+&lt;p&gt;One tip that I picked up from the &lt;a href=&#34;https://github.com/thomasp85/gganimate/&#34;&gt;package developer&lt;/a&gt; was the need to group data in the geom to avoid new points &lt;em&gt;travelling&lt;/em&gt; from the location of other points. Given the context of the plot, that could have been interpreted as the same vehicles having accidents all over the UK. I’m glad that I was able to avoid this ambiguity in the plot.&lt;/p&gt;
+&lt;p&gt;In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a helpful introduction to how the &lt;code&gt;gganimate&lt;/code&gt; package can automate animated graphics.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;additional-resources&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Additional Resources&lt;/h3&gt;
+&lt;p&gt;This example is certainly not exhaustive and there are many additional tweaks available to further customise an animation. I have personally found the below resources to be particularly helpful.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The official &lt;a href=&#34;https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html&#34;&gt;beginner’s guide&lt;/a&gt; to &lt;code&gt;gganimate&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;A tutorial from the &lt;a href=&#34;https://goodekat.github.io/presentations/2019-isugg-gganimate-spooky/slides.html&#34;&gt;ISU Graphics Group&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Animating Plots</title>
       <link>/post/2019-06-04-animating-plots/animating-plots/</link>
       <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
       <guid>/post/2019-06-04-animating-plots/animating-plots/</guid>
@@ -58,7 +160,7 @@
          size = guide_legend(title = element_text(&amp;#39;Casualties&amp;#39;, size = 10), ncol = 1, alpha = 0.4))
 
 accidents_plot&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//post/2019-06-04-animating-plots/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;We can now add some functions from &lt;code&gt;gganimate&lt;/code&gt;, which will describe how and saving as a new variable:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(gganimate)
 
@@ -98,7 +200,7 @@ accidents_plot &amp;lt;- accidents_plot +
         theme_ddf_light()+
         coord_flip()+
         theme(axis.title = element_blank())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//post/2019-06-04-animating-plots/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;What isn’t shown in the data is the number of cars that were on the road at the time, so it could be that there were a higher proportion of accidents between the &lt;code&gt;24&lt;/code&gt;th and &lt;code&gt;31&lt;/code&gt;st December - but that will have to remain speculation for now.&lt;/p&gt;
 &lt;p&gt;One tip that I picked up from the &lt;a href=&#34;https://github.com/thomasp85/gganimate/&#34;&gt;package developer&lt;/a&gt; was the need to group data in the geom to avoid new points &lt;em&gt;travelling&lt;/em&gt; from the location of other points. Given the context of the plot, that could have been interpreted as the same vehicles having accidents all over the UK. I’m glad that I was able to avoid this ambiguity in the plot.&lt;/p&gt;
 &lt;p&gt;In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a helpful introduction to how the &lt;code&gt;gganimate&lt;/code&gt; package can automate animated graphics.&lt;/p&gt;

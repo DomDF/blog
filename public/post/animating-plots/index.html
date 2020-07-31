@@ -23,7 +23,7 @@
   
   
 
-  <meta name="author" content="Nelson Bighetti">
+  
 
   
   
@@ -222,6 +222,44 @@
 
 
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141247809-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'UA-141247809-1', {});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
   
 
 
@@ -252,9 +290,9 @@
   <meta property="twitter:site" content="@Domenic_DF">
   <meta property="twitter:creator" content="@Domenic_DF">
   
-  <meta property="og:site_name" content="Academic">
+  <meta property="og:site_name" content="All Your Bayes">
   <meta property="og:url" content="/post/animating-plots/">
-  <meta property="og:title" content="Animating Plots | Academic">
+  <meta property="og:title" content="Animating Plots | All Your Bayes">
   <meta property="og:description" content="TLDRThere are many instances where it may be useful to animate graphical representations of data, perhaps to add an additional dimension to a plot. The below example builds a cumulative map of car accidents in the UK using some of the functionality of the gganimate package."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-uk">
   
@@ -292,14 +330,9 @@
   "datePublished": "2019-06-04T00:00:00Z",
   "dateModified": "2019-06-04T15:01:07+01:00",
   
-  "author": {
-    "@type": "Person",
-    "name": "Nelson Bighetti"
-  },
-  
   "publisher": {
     "@type": "Organization",
-    "name": "Academic",
+    "name": "All Your Bayes",
     "logo": {
       "@type": "ImageObject",
       "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
@@ -323,7 +356,7 @@
 
 
 
-  <title>Animating Plots | Academic</title>
+  <title>Animating Plots | All Your Bayes</title>
 
 </head>
 <body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
@@ -474,6 +507,28 @@
 
         <li class="nav-item">
           <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/files/Domenic-Di-Francesco.pdf"><span>CV</span></a>
         </li>
 
         
@@ -651,7 +706,7 @@
          size = guide_legend(title = element_text(&#39;Casualties&#39;, size = 10), ncol = 1, alpha = 0.4))
 
 accidents_plot</code></pre>
-<p><img src="/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="//post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>We can now add some functions from <code>gganimate</code>, which will describe how and saving as a new variable:</p>
 <pre class="r"><code>library(gganimate)
 
@@ -691,7 +746,7 @@ accidents_plot &lt;- accidents_plot +
         theme_ddf_light()+
         coord_flip()+
         theme(axis.title = element_blank())</code></pre>
-<p><img src="/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="//post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>What isn’t shown in the data is the number of cars that were on the road at the time, so it could be that there were a higher proportion of accidents between the <code>24</code>th and <code>31</code>st December - but that will have to remain speculation for now.</p>
 <p>One tip that I picked up from the <a href="https://github.com/thomasp85/gganimate/">package developer</a> was the need to group data in the geom to avoid new points <em>travelling</em> from the location of other points. Given the context of the plot, that could have been interpreted as the same vehicles having accidents all over the UK. I’m glad that I was able to avoid this ambiguity in the plot.</p>
 <p>In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a helpful introduction to how the <code>gganimate</code> package can automate animated graphics.</p>
@@ -841,13 +896,13 @@ accidents_plot &lt;- accidents_plot +
     <div class="media author-card content-widget-hr">
       
         
-        <img class="avatar mr-3 avatar-circle" src="/author/nelson-bighetti/avatar_hu52a603635ecebd45650b162dadabb4e5_12861_270x270_fill_q90_lanczos_center.jpg" alt="Nelson Bighetti">
+        <img class="avatar mr-3 avatar-circle" src="/author/avatar_hu3076a3fb11c6a715930b40ab04c2e5ed_220100_270x270_fill_q90_lanczos_center.jpg" alt="">
       
 
       <div class="media-body">
-        <h5 class="card-title"><a href="/">Nelson Bighetti</a></h5>
-        <h6 class="card-subtitle">Professor of Artificial Intelligence</h6>
-        <p class="card-text">My research interests include distributed robotics, mobile computing and programmable matter.</p>
+        <h5 class="card-title"><a href=""></a></h5>
+        <h6 class="card-subtitle">CEng, PhD Candidate</h6>
+        <p class="card-text">My research interests within engineering include Bayesian methods of degradation modelling and quantification of the value of information. I also work on football analytics.</p>
         <ul class="network-icon" aria-hidden="true">
   
     
@@ -879,7 +934,7 @@ accidents_plot &lt;- accidents_plot +
       
     
     <li>
-      <a href="https://twitter.com/GeorgeCushen" target="_blank" rel="noopener">
+      <a href="https://twitter.com/Domenic_DF" target="_blank" rel="noopener">
         <i class="fab fa-twitter"></i>
       </a>
     </li>
@@ -887,21 +942,6 @@ accidents_plot &lt;- accidents_plot +
     
     
     
-    
-    
-    
-    
-      
-    
-    <li>
-      <a href="https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ" target="_blank" rel="noopener">
-        <i class="ai ai-google-scholar"></i>
-      </a>
-    </li>
-  
-    
-    
-    
       
     
     
@@ -911,7 +951,7 @@ accidents_plot &lt;- accidents_plot +
       
     
     <li>
-      <a href="https://github.com/gcushen" target="_blank" rel="noopener">
+      <a href="https://github.com/domdf" target="_blank" rel="noopener">
         <i class="fab fa-github"></i>
       </a>
     </li>
@@ -946,6 +986,8 @@ accidents_plot &lt;- accidents_plot +
       <li><a href="/post/maximum-likelihood-estimation/">Maximum Likelihood Estimation</a></li>
       
       <li><a href="/post/bayesian-regression-models-with-stan/">Bayesian Logistic Regression with Stan</a></li>
+      
+      <li><a href="/post/2020-02-14-bayesian-logistic-regression-with-stan/bayesian-regression-models-with-stan/">Bayesian Logistic Regression with Stan</a></li>
       
       <li><a href="/post/2019-06-04-wordcloud/31.05.19-wordcloud/">Wordclouds</a></li>
       

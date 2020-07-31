@@ -48,6 +48,11 @@
   </url>
   
   <url>
+    <loc>/authors/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tag/bayesian-data-analysis/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
   </url>
@@ -213,6 +218,11 @@
   </url>
   
   <url>
+    <loc>/post/bayesian-regression-models-with-stan/</loc>
+    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/2020-02-14-bayesian-logistic-regression-with-stan/bayesian-regression-models-with-stan/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
   </url>
@@ -313,6 +323,11 @@
   </url>
   
   <url>
+    <loc>/post/animating-plots/</loc>
+    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/2019-06-04-animating-plots/animating-plots/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
   </url>
@@ -354,6 +369,11 @@
   
   <url>
     <loc>/post/2019-06-04-wordcloud/31.05.19-wordcloud/</loc>
+    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/31.05.19-wordcloud/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
   </url>
   

@@ -63,7 +63,7 @@ projects: []
          size = guide_legend(title = element_text(&#39;Casualties&#39;, size = 10), ncol = 1, alpha = 0.4))
 
 accidents_plot</code></pre>
-<p><img src="/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="//post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>We can now add some functions from <code>gganimate</code>, which will describe how and saving as a new variable:</p>
 <pre class="r"><code>library(gganimate)
 
@@ -103,7 +103,7 @@ accidents_plot &lt;- accidents_plot +
         theme_ddf_light()+
         coord_flip()+
         theme(axis.title = element_blank())</code></pre>
-<p><img src="/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="//post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>What isn’t shown in the data is the number of cars that were on the road at the time, so it could be that there were a higher proportion of accidents between the <code>24</code>th and <code>31</code>st December - but that will have to remain speculation for now.</p>
 <p>One tip that I picked up from the <a href="https://github.com/thomasp85/gganimate/">package developer</a> was the need to group data in the geom to avoid new points <em>travelling</em> from the location of other points. Given the context of the plot, that could have been interpreted as the same vehicles having accidents all over the UK. I’m glad that I was able to avoid this ambiguity in the plot.</p>
 <p>In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a helpful introduction to how the <code>gganimate</code> package can automate animated graphics.</p>

@@ -75,7 +75,7 @@ paper_tbl &lt;- paper_tbl %&gt;%
   theme_minimal()+ theme(axis.text.x = element_text(angle = 90), 
                          axis.title.x = element_blank())+
   labs(y = &#39;count&#39;)</code></pre>
-<p><img src="/post/31.05.19-Wordcloud_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="//post/31.05.19-Wordcloud_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>One thing that is apparent from the above summaries is that we have not dealt with plurals from the data, i.e. ‘model’ and ‘models’ will be treated as two different words, with their own count. I’ve not found a neat way to combine these, but a manual solution with regular expressions (such as <em>grepl</em>, <em>!grepl</em>, etc.) would be simple, though not very elegant. I decided to leave plurals as they are.</p>
 <p>Finally, time to ask the wordcloud function to read and plot our data. There are some useful arguments to experiment with here:</p>
 <ul>
@@ -89,7 +89,7 @@ paper_tbl &lt;- paper_tbl %&gt;%
 wordcloud(words = paper_tbl$word, freq = paper_tbl$n, 
           min.freq = 4, max.words = 100, random.order = FALSE, rot.per = 0.25,
           colors = brewer.pal(n = 8, name = &#39;Paired&#39;))</code></pre>
-<p><img src="/post/31.05.19-Wordcloud_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="//post/31.05.19-Wordcloud_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>If you’re not familiar with the colour palettes, the below line will ask R to display them for you:</p>
 <pre class="r"><code>RColorBrewer::display.brewer.all()</code></pre>
 <p>Finally, some links to more information regarding the packages introduced here, both of which are available on CRAN:</p>
