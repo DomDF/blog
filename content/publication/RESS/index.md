@@ -1,13 +1,13 @@
 ---
 abstract: Engineers perform fatigue assessments to support structural integrity management. Given that the purpose of these calculations is linked to problems of decision making under various sources of uncertainty, probabilistic methods are often more useful than deterministic alternatives. Guidance on the direct probabilistic application of procedures in existing industrial standards is currently limited and dependencies between marginal probabilistic models are generally not considered, despite their potential significance being acknowledged. This paper proposes the use of Bayesian data analysis as a flexible and intuitive approach to coherently and consistently account for uncertainty and dependency in fatigue crack growth rate models. Various Bayesian models are established and presented, based on the same data as the existing models in BS 7910 (a widely used industrial standard). The models are compared in terms of their out of sample predictive accuracy, using methods with a basis in information theory and cross-validation. The Bayesian models exhibit an improved performance, with the most accurate predictions resulting from multi-level (hierarchical) models, which account for variation between constituent test datasets and partially pool information.
 authors:
-- admin
+- Domenic Di Francesco
 - Michael Havbro Faber
 - Marios Chryssanthopoulos
 - Ujjwal Bharadwaj
 date: "2020-12-01"
 doi: ""
-featured: true
+featured: false
 image:
   #caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/pLCdAaMFLTE)'
   focal_point: ""
@@ -23,7 +23,7 @@ publication: In Journal of Reliability Engineering & System Safety
 publication_short: Vol. 204C
 publication_types:
 - "2"
-publishDate: "2020-12-01"
+publishDate: "2020-07-17"
 
 
 summary: Bayesian multi-level modelling for partial pooling of information between fatigue crack growth test datasets.

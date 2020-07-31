@@ -33,11 +33,6 @@
   </url>
   
   <url>
-    <loc>/author/</loc>
-    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/publication-type/2/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
   </url>
@@ -59,6 +54,11 @@
   
   <url>
     <loc>/publication/ress/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/author/domenic-di-francesco/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -209,21 +209,41 @@
   
   <url>
     <loc>/tag/bayesian/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
   </url>
   
   <url>
     <loc>/category/bayesian/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/decision-analysis/</loc>
+    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/decision-analysis/</loc>
+    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/uncertainty/</loc>
+    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/uncertainty/</loc>
+    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/why-go-bayesian/</loc>
+    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
   </url>
   
   <url>
     <loc>/post/bayesian-regression-models-with-stan/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/2020-02-14-bayesian-logistic-regression-with-stan/bayesian-regression-models-with-stan/</loc>
     <lastmod>2020-02-15T10:30:10+00:00</lastmod>
   </url>
   
@@ -318,17 +338,7 @@
   </url>
   
   <url>
-    <loc>/post/2020-03-24-why-go-bayesian/</loc>
-    <lastmod>2019-07-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/post/animating-plots/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/2019-06-04-animating-plots/animating-plots/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
   </url>
   
@@ -364,11 +374,6 @@
   
   <url>
     <loc>/category/wordcloud/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/2019-06-04-wordcloud/31.05.19-wordcloud/</loc>
     <lastmod>2019-06-04T15:01:07+01:00</lastmod>
   </url>
   
@@ -425,6 +430,10 @@
   <url>
     <loc>/project/</loc>
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/author/</loc>
   </url>
   
   <url>

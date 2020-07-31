@@ -1,7 +1,7 @@
 ---
 authors:
-- admin
-bio: My research interests within engineering include Bayesian methods of degradation modelling and quantification of the value of information. I also work on football analytics.
+- Domenic Di Francesco
+bio: My research interests include multi-level Bayesian modelling (for partial pooling of information) and it's decision theoretic applications, such as quantification of the expected value of information. I also work in football (soccer) analytics. 
 #education:
 #  courses:
 #  - course: PhD in Bayesian Decision Analysis for Structural Integrity Management

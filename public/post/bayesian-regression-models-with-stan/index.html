@@ -836,9 +836,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.067 seconds (Warm-up)
-## Chain 1:                0.08 seconds (Sampling)
-## Chain 1:                0.147 seconds (Total)
+## Chain 1:  Elapsed Time: 0.072 seconds (Warm-up)
+## Chain 1:                0.067 seconds (Sampling)
+## Chain 1:                0.139 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 2).
@@ -861,9 +861,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.061 seconds (Warm-up)
-## Chain 2:                0.07 seconds (Sampling)
-## Chain 2:                0.131 seconds (Total)
+## Chain 2:  Elapsed Time: 0.064 seconds (Warm-up)
+## Chain 2:                0.069 seconds (Sampling)
+## Chain 2:                0.133 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 3).
@@ -886,9 +886,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.062 seconds (Warm-up)
-## Chain 3:                0.06 seconds (Sampling)
-## Chain 3:                0.122 seconds (Total)
+## Chain 3:  Elapsed Time: 0.057 seconds (Warm-up)
+## Chain 3:                0.053 seconds (Sampling)
+## Chain 3:                0.11 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 4).
@@ -911,9 +911,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.065 seconds (Warm-up)
-## Chain 4:                0.062 seconds (Sampling)
-## Chain 4:                0.127 seconds (Total)
+## Chain 4:  Elapsed Time: 0.058 seconds (Warm-up)
+## Chain 4:                0.057 seconds (Sampling)
+## Chain 4:                0.115 seconds (Total)
 ## Chain 4:</code></pre>
 <p><strong>Note</strong>:I’ve not included any detail here on the checks we need to do on our samples. There are some common challenges associated with MCMC methods, each with plenty of associated guidance on how to diagnose and resolve them. For now, let’s assume everything has gone to plan.</p>
 <p>Now, there are a few options for extracting samples from a stanfit object such as <code>PoD_samples</code>, including <code>rstan::extract()</code>. However, these usually require a little post-processing to get them into a tidy format - no big deal, but a hassle I’d rather avoid. That’s why I like to use the <code>ggmcmc</code> <a href="https://cran.r-project.org/web/packages/ggmcmc/">package</a>, which we can use to create a data frame that specifies the iteration, parameter value and chain associated with each data point:</p>
@@ -1138,7 +1138,7 @@ head(prPrSim_df)
       <div class="media-body">
         <h5 class="card-title"><a href=""></a></h5>
         <h6 class="card-subtitle">CEng, PhD Candidate</h6>
-        <p class="card-text">My research interests within engineering include Bayesian methods of degradation modelling and quantification of the value of information. I also work on football analytics.</p>
+        <p class="card-text">My research interests include multi-level Bayesian modelling (for partial pooling of information) and it&rsquo;s decision theoretic applications, such as quantification of the expected value of information. I also work in football (soccer) analytics.</p>
         <ul class="network-icon" aria-hidden="true">
   
     
@@ -1217,15 +1217,13 @@ head(prPrSim_df)
     <h3>Related</h3>
     <ul>
       
-      <li><a href="/post/2020-02-14-bayesian-logistic-regression-with-stan/bayesian-regression-models-with-stan/">Bayesian Logistic Regression with Stan</a></li>
-      
       <li><a href="/post/maximum-likelihood-estimation/">Maximum Likelihood Estimation</a></li>
       
-      <li><a href="/post/2019-06-04-animating-plots/animating-plots/">Animating Plots</a></li>
+      <li><a href="/post/why-go-bayesian/">Why Go Bayesian?</a></li>
       
       <li><a href="/post/animating-plots/">Animating Plots</a></li>
       
-      <li><a href="/post/2019-06-04-wordcloud/31.05.19-wordcloud/">Wordclouds</a></li>
+      <li><a href="/post/31.05.19-wordcloud/">Wordclouds</a></li>
       
     </ul>
   </div>

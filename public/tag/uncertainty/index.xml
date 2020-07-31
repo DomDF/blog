@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Uncertainty | Academic</title>
+    <title>Uncertainty | All Your Bayes</title>
     <link>/tag/uncertainty/</link>
       <atom:link href="/tag/uncertainty/index.xml" rel="self" type="application/rss+xml" />
     <description>Uncertainty</description>
@@ -14,9 +14,9 @@
     
     <item>
       <title>Why Go Bayesian?</title>
-      <link>/post/2020-03-24-why-go-bayesian/why-go-bayesian/</link>
+      <link>/post/why-go-bayesian/</link>
       <pubDate>Tue, 24 Mar 2020 00:00:00 +0000</pubDate>
-      <guid>/post/2020-03-24-why-go-bayesian/why-go-bayesian/</guid>
+      <guid>/post/why-go-bayesian/</guid>
       <description>
 
 

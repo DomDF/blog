@@ -23,14 +23,14 @@
   
   
 
-  <meta name="author" content="Nelson Bighetti">
+  
 
   
   
   
     
   
-  <meta name="description" content="Professor of Artificial Intelligence">
+  <meta name="description" content="CEng, PhD Candidate">
 
   
   <link rel="alternate" hreflang="en-uk" href="/category/uncertainty/">
@@ -222,6 +222,44 @@
 
 
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141247809-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'UA-141247809-1', {});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
   
 
 
@@ -229,7 +267,7 @@
   
 
   
-  <link rel="alternate" href="/category/uncertainty/index.xml" type="application/rss+xml" title="Academic">
+  <link rel="alternate" href="/category/uncertainty/index.xml" type="application/rss+xml" title="All Your Bayes">
   
 
   <link rel="manifest" href="/index.webmanifest">
@@ -254,10 +292,10 @@
   <meta property="twitter:site" content="@Domenic_DF">
   <meta property="twitter:creator" content="@Domenic_DF">
   
-  <meta property="og:site_name" content="Academic">
+  <meta property="og:site_name" content="All Your Bayes">
   <meta property="og:url" content="/category/uncertainty/">
-  <meta property="og:title" content="Uncertainty | Academic">
-  <meta property="og:description" content="Professor of Artificial Intelligence"><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
+  <meta property="og:title" content="Uncertainty | All Your Bayes">
+  <meta property="og:description" content="CEng, PhD Candidate"><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-uk">
   
     <meta property="og:updated_time" content="2020-03-24T00:00:00&#43;00:00">
@@ -277,7 +315,7 @@
 
 
 
-  <title>Uncertainty | Academic</title>
+  <title>Uncertainty | All Your Bayes</title>
 
 </head>
 <body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
@@ -433,6 +471,28 @@
         
         
 
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/files/Domenic-Di-Francesco.pdf"><span>CV</span></a>
+        </li>
+
+        
+        
+
       
 
         
@@ -512,7 +572,7 @@
     
     
     <div>
-      <h2><a href="/post/2020-03-24-why-go-bayesian/why-go-bayesian/" >Why Go Bayesian?</a></h2>
+      <h2><a href="/post/why-go-bayesian/" >Why Go Bayesian?</a></h2>
       <div class="article-style">
         
           TLDRThis post is intended to be a high-level discussion of the merits and challenges of applied Bayesian statistics. It is intended to help the reader answer: Is it worth me learning Bayesian statistics?
