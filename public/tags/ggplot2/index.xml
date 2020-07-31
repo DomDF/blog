@@ -67,7 +67,7 @@ accidents_plot &amp;lt;- accidents_plot +
   enter_grow()+
   shadow_mark()+
   ggtitle(label = &amp;#39;UK Car Accidents in December 2015&amp;#39;, subtitle = &amp;#39;Date : {frame_time}&amp;#39;)+
-  labs(caption = &amp;#39;Data from Kaggle: https://www.kaggle.com/silicon99/dft-accident-data/data |  @d73mwf&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+  labs(caption = &amp;#39;Data from Kaggle: https://www.kaggle.com/silicon99/dft-accident-data/data |  @Domenic_DF&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;code&gt;transition_time()&lt;/code&gt; requires specification of a time variable that the plot will display sequentially. As shown above, this animation will transition through values of &lt;code&gt;Date&lt;/code&gt;. There are many more options that allow for animation across different data types in different ways.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;shadow_mark()&lt;/code&gt; has been added to keep accidents from previous dates. Again, there are various methods of showing data from previous states.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;enter_grow()&lt;/code&gt; means that when new data first appear on the plot, they will emerge by growing into their final size.&lt;/p&gt;
