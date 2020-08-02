@@ -3,24 +3,8 @@ title: Animating Plots
 author: ''
 date: '2019-06-04'
 slug: animating-plots
-categories:
-  - R
-  - gganimate
-tags:
-  - gganimate
-  - dplyr
-  - ggplot2
-  - R
-subtitle: ''
-summary: ''
-authors: []
-lastmod: '2019-06-04T15:01:07+01:00'
-featured: no
-image:
-  caption: ''
-  focal_point: ''
-  preview_only: no
-projects: []
+categories: ['R', 'gganimate', 'ggplot2', 'dplyr']
+tags:  ['R', 'gganimate', 'ggplot2', 'dplyr']
 ---
 
 ```{r setup, include=FALSE}

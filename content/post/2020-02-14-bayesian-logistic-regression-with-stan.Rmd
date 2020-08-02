@@ -2,34 +2,9 @@
 title: "Bayesian Logistic Regression with Stan"
 author: ''
 date: '2020-02-15'
-categories:
-- Bayesian
-- MCMC
-- R
-- scikit-learn
-- Stan
-- Logistic Regression
-- Inspection Reliability
-- Probability of Detection
-featured: no
-image:
-  caption: ''
-  focal_point: ''
-  preview_only: no
-lastmod: '2020-02-15T10:30:10Z'
-projects: []
-slug: bayesian-regression-models-with-stan
+categories: ['Bayesian', 'MCMC', 'SciKit-Learn', 'Stan', 'Logistic Regression', 'Inspection Reliability', 'Probability of Detection']
 subtitle: Modelling the Probability of Detecting Damage
-tags:
-- Bayesian
-- MCMC
-- R
-- scikit-learn
-- Stan
-- Logistic Regression
-- Inspection Reliability
-- Probability of Detection
-authors: []
+tags: ['Bayesian', 'MCMC', 'SciKit-Learn', 'Stan', 'Logistic Regression', 'Inspection Reliability', 'Probability of Detection']
 ---
 
 ```{r setup, include = FALSE}

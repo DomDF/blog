@@ -58,7 +58,7 @@
          size = guide_legend(title = element_text(&amp;#39;Casualties&amp;#39;, size = 10), ncol = 1, alpha = 0.4))
 
 accidents_plot&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;//post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;We can now add some functions from &lt;code&gt;gganimate&lt;/code&gt;, which will describe how and saving as a new variable:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(gganimate)
 
@@ -98,7 +98,7 @@ accidents_plot &amp;lt;- accidents_plot +
         theme_ddf_light()+
         coord_flip()+
         theme(axis.title = element_blank())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;//post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;What isn’t shown in the data is the number of cars that were on the road at the time, so it could be that there were a higher proportion of accidents between the &lt;code&gt;24&lt;/code&gt;th and &lt;code&gt;31&lt;/code&gt;st December - but that will have to remain speculation for now.&lt;/p&gt;
 &lt;p&gt;One tip that I picked up from the &lt;a href=&#34;https://github.com/thomasp85/gganimate/&#34;&gt;package developer&lt;/a&gt; was the need to group data in the geom to avoid new points &lt;em&gt;travelling&lt;/em&gt; from the location of other points. Given the context of the plot, that could have been interpreted as the same vehicles having accidents all over the UK. I’m glad that I was able to avoid this ambiguity in the plot.&lt;/p&gt;
 &lt;p&gt;In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a helpful introduction to how the &lt;code&gt;gganimate&lt;/code&gt; package can automate animated graphics.&lt;/p&gt;

@@ -2,20 +2,8 @@
 title: Wordclouds
 author: ''
 date: '2019-06-04'
-categories:
-  - R
-  - wordcloud
-tags:
-  - R
-  - Wordcloud
-  - R Markdown
-slug: 
-lastmod: '2019-06-04T15:01:07+01:00'
-featured: no
-image:
-  caption: ''
-  focal_point: ''
-  preview_only: no
+categories: ['R', 'wordcloud']
+tags: ['R', 'wordcloud']
 ---
 
 ```{r setup, include=FALSE}

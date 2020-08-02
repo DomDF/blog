@@ -299,7 +299,7 @@
     
       <meta property="article:published_time" content="2019-06-04T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2019-06-04T15:01:07&#43;01:00">
+    <meta property="article:modified_time" content="2019-06-04T00:00:00&#43;00:00">
   
 
   
@@ -328,7 +328,7 @@
   "headline": "Animating Plots",
   
   "datePublished": "2019-06-04T00:00:00Z",
-  "dateModified": "2019-06-04T15:01:07+01:00",
+  "dateModified": "2019-06-04T00:00:00Z",
   
   "publisher": {
     "@type": "Organization",
@@ -613,8 +613,6 @@
     
     
       
-          Last updated on
-      
     
     Jun 4, 2019
   </span>
@@ -637,7 +635,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/r/">R</a>, <a href="/category/gganimate/">gganimate</a></span>
+    <i class="fas fa-folder mr-1"></i><a href="/category/r/">R</a>, <a href="/category/gganimate/">gganimate</a>, <a href="/category/ggplot2/">ggplot2</a>, <a href="/category/dplyr/">dplyr</a></span>
   
 
 </div>
@@ -706,7 +704,7 @@
          size = guide_legend(title = element_text(&#39;Casualties&#39;, size = 10), ncol = 1, alpha = 0.4))
 
 accidents_plot</code></pre>
-<p><img src="//post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>We can now add some functions from <code>gganimate</code>, which will describe how and saving as a new variable:</p>
 <pre class="r"><code>library(gganimate)
 
@@ -746,7 +744,7 @@ accidents_plot &lt;- accidents_plot +
         theme_ddf_light()+
         coord_flip()+
         theme(axis.title = element_blank())</code></pre>
-<p><img src="//post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/post/2019-06-04-animating-plots_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>What isn’t shown in the data is the number of cars that were on the road at the time, so it could be that there were a higher proportion of accidents between the <code>24</code>th and <code>31</code>st December - but that will have to remain speculation for now.</p>
 <p>One tip that I picked up from the <a href="https://github.com/thomasp85/gganimate/">package developer</a> was the need to group data in the geom to avoid new points <em>travelling</em> from the location of other points. Given the context of the plot, that could have been interpreted as the same vehicles having accidents all over the UK. I’m glad that I was able to avoid this ambiguity in the plot.</p>
 <p>In conclusion, I think the animated plot looks cool, but it is perhaps a little gimmicky for this particular application. The same information is contained in the two static plots in this post. However, I hope this has content serves as a helpful introduction to how the <code>gganimate</code> package can automate animated graphics.</p>
@@ -771,13 +769,13 @@ accidents_plot &lt;- accidents_plot +
 
 <div class="article-tags">
   
-  <a class="badge badge-light" href="/tag/gganimate/">gganimate</a>
+  <a class="badge badge-light" href="/tag/r/">R</a>
   
-  <a class="badge badge-light" href="/tag/dplyr/">dplyr</a>
+  <a class="badge badge-light" href="/tag/gganimate/">gganimate</a>
   
   <a class="badge badge-light" href="/tag/ggplot2/">ggplot2</a>
   
-  <a class="badge badge-light" href="/tag/r/">R</a>
+  <a class="badge badge-light" href="/tag/dplyr/">dplyr</a>
   
 </div>
 
@@ -900,7 +898,7 @@ accidents_plot &lt;- accidents_plot +
       
 
       <div class="media-body">
-        <h5 class="card-title"><a href=""></a></h5>
+        <h5 class="card-title"><a href="/"></a></h5>
         <h6 class="card-subtitle">CEng, PhD Candidate</h6>
         <p class="card-text">My research interests include multi-level Bayesian modelling (for partial pooling of information) and it&rsquo;s decision theoretic applications, such as quantification of the expected value of information. I also work in football (soccer) analytics.</p>
         <ul class="network-icon" aria-hidden="true">
@@ -981,9 +979,7 @@ accidents_plot &lt;- accidents_plot +
     <h3>Related</h3>
     <ul>
       
-      <li><a href="/post/maximum-likelihood-estimation/">Maximum Likelihood Estimation</a></li>
-      
-      <li><a href="/post/bayesian-regression-models-with-stan/">Bayesian Logistic Regression with Stan</a></li>
+      <li><a href="/post/2020-07-28-maximum-likelihood-estimation/">Maximum Likelihood Estimation</a></li>
       
       <li><a href="/post/31.05.19-wordcloud/">Wordclouds</a></li>
       
@@ -1016,6 +1012,12 @@ accidents_plot &lt;- accidents_plot +
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin="anonymous"></script>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/python.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/stan.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/yaml.min.js"></script>
         
       
 

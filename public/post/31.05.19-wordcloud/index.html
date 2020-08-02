@@ -299,7 +299,7 @@
     
       <meta property="article:published_time" content="2019-06-04T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2019-06-04T15:01:07&#43;01:00">
+    <meta property="article:modified_time" content="2019-06-04T00:00:00&#43;00:00">
   
 
   
@@ -328,7 +328,7 @@
   "headline": "Wordclouds",
   
   "datePublished": "2019-06-04T00:00:00Z",
-  "dateModified": "2019-06-04T15:01:07+01:00",
+  "dateModified": "2019-06-04T00:00:00Z",
   
   "publisher": {
     "@type": "Organization",
@@ -613,8 +613,6 @@
     
     
       
-          Last updated on
-      
     
     Jun 4, 2019
   </span>
@@ -723,7 +721,7 @@ paper_tbl &lt;- paper_tbl %&gt;%
   theme_minimal()+ theme(axis.text.x = element_text(angle = 90), 
                          axis.title.x = element_blank())+
   labs(y = &#39;count&#39;)</code></pre>
-<p><img src="//post/31.05.19-Wordcloud_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/post/31.05.19-Wordcloud_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>One thing that is apparent from the above summaries is that we have not dealt with plurals from the data, i.e. ‘model’ and ‘models’ will be treated as two different words, with their own count. I’ve not found a neat way to combine these, but a manual solution with regular expressions (such as <em>grepl</em>, <em>!grepl</em>, etc.) would be simple, though not very elegant. I decided to leave plurals as they are.</p>
 <p>Finally, time to ask the wordcloud function to read and plot our data. There are some useful arguments to experiment with here:</p>
 <ul>
@@ -737,7 +735,7 @@ paper_tbl &lt;- paper_tbl %&gt;%
 wordcloud(words = paper_tbl$word, freq = paper_tbl$n, 
           min.freq = 4, max.words = 100, random.order = FALSE, rot.per = 0.25,
           colors = brewer.pal(n = 8, name = &#39;Paired&#39;))</code></pre>
-<p><img src="//post/31.05.19-Wordcloud_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/post/31.05.19-Wordcloud_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>If you’re not familiar with the colour palettes, the below line will ask R to display them for you:</p>
 <pre class="r"><code>RColorBrewer::display.brewer.all()</code></pre>
 <p>Finally, some links to more information regarding the packages introduced here, both of which are available on CRAN:</p>
@@ -760,9 +758,7 @@ wordcloud(words = paper_tbl$word, freq = paper_tbl$n,
   
   <a class="badge badge-light" href="/tag/r/">R</a>
   
-  <a class="badge badge-light" href="/tag/wordcloud/">Wordcloud</a>
-  
-  <a class="badge badge-light" href="/tag/r-markdown/">R Markdown</a>
+  <a class="badge badge-light" href="/tag/wordcloud/">wordcloud</a>
   
 </div>
 
@@ -885,7 +881,7 @@ wordcloud(words = paper_tbl$word, freq = paper_tbl$n,
       
 
       <div class="media-body">
-        <h5 class="card-title"><a href=""></a></h5>
+        <h5 class="card-title"><a href="/"></a></h5>
         <h6 class="card-subtitle">CEng, PhD Candidate</h6>
         <p class="card-text">My research interests include multi-level Bayesian modelling (for partial pooling of information) and it&rsquo;s decision theoretic applications, such as quantification of the expected value of information. I also work in football (soccer) analytics.</p>
         <ul class="network-icon" aria-hidden="true">
@@ -966,9 +962,7 @@ wordcloud(words = paper_tbl$word, freq = paper_tbl$n,
     <h3>Related</h3>
     <ul>
       
-      <li><a href="/post/maximum-likelihood-estimation/">Maximum Likelihood Estimation</a></li>
-      
-      <li><a href="/post/bayesian-regression-models-with-stan/">Bayesian Logistic Regression with Stan</a></li>
+      <li><a href="/post/2020-07-28-maximum-likelihood-estimation/">Maximum Likelihood Estimation</a></li>
       
       <li><a href="/post/animating-plots/">Animating Plots</a></li>
       
@@ -1001,6 +995,12 @@ wordcloud(words = paper_tbl$word, freq = paper_tbl$n,
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin="anonymous"></script>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/python.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/stan.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/yaml.min.js"></script>
         
       
 

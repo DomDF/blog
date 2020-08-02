@@ -2,29 +2,8 @@
 title: Maximum Likelihood Estimation
 author: ''
 date: '2020-07-28'
-slug: maximum-likelihood-estimation
-categories:
-  - Parameter Estimation
-  - Maximum Likelihood Estimation
-  - R
-  - Python
-  - SciPy
-tags:
-  - Parameter Estimation
-  - Maximum Likelihood Estimation
-  - R
-  - Python
-  - SciPy
-subtitle: ''
-summary: ''
-authors: []
-lastmod: '2020-07-27T15:45:32+01:00'
-featured: no
-image:
-  caption: ''
-  focal_point: ''
-  preview_only: no
-projects: []
+categories: ['Parameter Estimation', 'Maximum Likelihood', 'R', 'Python', 'SciPy', 'Stan']
+tags: ['Parameter Estimation', 'Maximum Likelihood', 'R', 'Python', 'SciPy', 'Stan']
 ---
 
 ```{r setup, include = FALSE}

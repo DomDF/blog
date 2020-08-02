@@ -144,167 +144,167 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/maximum-likelihood-estimation/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <loc>/tag/maximum-likelihood/</loc>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/category/maximum-likelihood-estimation/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <loc>/category/maximum-likelihood/</loc>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/maximum-likelihood-estimation/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <loc>/post/2020-07-28-maximum-likelihood-estimation/</loc>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tag/parameter-estimation/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/category/parameter-estimation/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tag/python/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/category/python/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tag/r/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/category/r/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tag/scipy/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/category/scipy/</loc>
-    <lastmod>2020-07-27T15:45:32+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/bayesian/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/bayesian/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/decision-analysis/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/decision-analysis/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/uncertainty/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/uncertainty/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/why-go-bayesian/</loc>
-    <lastmod>2020-03-24T23:55:13+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/bayesian-regression-models-with-stan/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/inspection-reliability/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/inspection-reliability/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/logistic-regression/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/logistic-regression/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/mcmc/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/mcmc/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/probability-of-detection/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/probability-of-detection/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/scikit-learn/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/scikit-learn/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tag/stan/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/category/stan/</loc>
-    <lastmod>2020-02-15T10:30:10+00:00</lastmod>
+    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/bayesian/</loc>
+    <lastmod>2020-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/bayesian/</loc>
+    <lastmod>2020-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/decision-analysis/</loc>
+    <lastmod>2020-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/decision-analysis/</loc>
+    <lastmod>2020-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/uncertainty/</loc>
+    <lastmod>2020-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/uncertainty/</loc>
+    <lastmod>2020-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2020-03-24-why-go-bayesian/</loc>
+    <lastmod>2020-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2020-02-14-bayesian-logistic-regression-with-stan/</loc>
+    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/inspection-reliability/</loc>
+    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/inspection-reliability/</loc>
+    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/logistic-regression/</loc>
+    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/logistic-regression/</loc>
+    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/mcmc/</loc>
+    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/mcmc/</loc>
+    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/probability-of-detection/</loc>
+    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/probability-of-detection/</loc>
+    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/scikit-learn/</loc>
+    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/scikit-learn/</loc>
+    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -339,47 +339,52 @@
   
   <url>
     <loc>/post/animating-plots/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tag/dplyr/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/dplyr/</loc>
+    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tag/gganimate/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/category/gganimate/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tag/ggplot2/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/r-markdown/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <loc>/category/ggplot2/</loc>
+    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tag/wordcloud/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/category/wordcloud/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/post/31.05.19-wordcloud/</loc>
-    <lastmod>2019-06-04T15:01:07+01:00</lastmod>
+    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>

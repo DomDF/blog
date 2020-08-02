@@ -1,5 +1,0 @@
-"0","# We can read a text file using 'readLines' and we can select a file interactively using 'file.choose'"
-"0","# Both of these are Base R functions"
-"0","paper <- readLines(file.choose())"
-"2","
-"
