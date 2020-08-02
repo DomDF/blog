@@ -39,3 +39,8 @@
     name = "CV"
     url = "files/Domenic-Di-Francesco.pdf"
     weight = 70
+    
+ [[main]]
+    name = "R-Bloggers Link"
+    url = "https://www.r-bloggers.com/"
+    weight = 100    
