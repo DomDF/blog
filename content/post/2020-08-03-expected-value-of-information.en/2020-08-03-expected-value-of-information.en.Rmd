@@ -35,16 +35,16 @@ We sometimes have the option to purchase additional information (like paying for
 
 Throughout industry, and even in our personal lives, we are required to make decisions without a perfect understanding of the problem. My PhD considers the problem of deciding whether or not risk mitigation measures were worth investing in, for structures in an uncertain state of damage. I quantified the expected value of inspection activities in this context, but this is quite a specific problem.
 
-For the purposes of this post, I'll use the example of a garage (car repair shop if you don't live in the UK) discussing some maintenance options for your car. I do not know enough about cars to talk about any specific problems, so imagine you have received the following generic statement from your mechanic about your car:
+For the purposes of this post, I'll use the example of a garage (auto repair shop if you're in the USA) discussing some maintenance options for your car. I do not know enough about cars to talk about any specific problems, so imagine you have received the following generic statement from your mechanic:
 
-*"This particular model of car, of this age, often develops a critical problem. We recommend replacing the component that wears out, because if you don't, it will be much more expensive to fix after a breakdown."*
+*"This particular model of car, of this age, often develops a critical problem. We recommend repairing / replacing the component that wears out, because if you don't, it will be much more expensive to fix after a breakdown."*
 
 Should you pay for the component to be replaced now? Or take your chances with a possible breakdown? Unsurprisingly, the expected optimal solution depends on the following:
 
  - How likely do you think it is that your car has this critical problem?
  - How much will the repairs cost: (a) now? and (b) after a breakdown?
 
-This problem can be visualised using an *influence diagram*. The below uses the [`RHugin` library](http://rhugin.r-forge.r-project.org/), an `R` API for the [Hugin software](https://www.hugin.com/), although my first impressions of the [`HydeNet` library](https://cran.r-project.org/web/packages/HydeNet/) are that it could be suitable alternative.
+This problem can be visualised using an *influence diagram*. The below uses the [`RHugin` library](http://rhugin.r-forge.r-project.org/), an `R` API for the [Hugin software](https://www.hugin.com/), although there are many suitable alternatives, such as the [`HydeNet` library](https://cran.r-project.org/web/packages/HydeNet/).
 
 ```{r, eval = FALSE, echo = TRUE, warning = FALSE, message = FALSE}
 library(RHugin)
@@ -54,16 +54,7 @@ plot.RHuginDomain(x = prior_analysis, what = 'network')
 
 ```
 
-```{r, include = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
-library(RHugin)
-
-setwd("~/PhD/Journals/DCE")
-prior_analysis <- RHugin::read.rhd('influence_diagram.net')
-plot.RHuginDomain(x = prior_analysis, what = 'network')
-
-```
-
-Elliptical nodes represent an uncertain outcome (the current condition of your car, and whether it will breakdown), rectangular nodes represent decisions (whether or not to pay for the repair) and diamond shaped nodes are the utilities (or costs) associated with each decision outcome. The arrows indicate dependency, for instance, the probability of a breakdown is dependent on whether or not the repair is performed (and the unknown condition of the car).
+Elliptical nodes represent an uncertain outcome (the current condition of your car, and whether it will breakdown), rectangular nodes represent decisions (whether or not to pay for the repair) and diamond shaped nodes are the utilities (or costs) associated with each outcome. The arrows indicate dependency, for instance, the probability of a breakdown is dependent on whether or not the repair is performed (and the unknown condition of the car).
 
 If the above diagram looks confusing, it could alternatively be represented as a decision tree. However, for larger (more complex) decision making problems, I've found influence diagrams to be much more interpretable. This is because where each possible action or outcome would need it's own 'branch' in a decision tree, they can all be represented within a table that is hidden behind every node in the influence diagram.
 
@@ -71,7 +62,7 @@ If we had a *perfect* understanding of the condition of our car, then we would k
 
 ![Decision making under uncertainty.](https://media.giphy.com/media/YVgzWgYgrmEdW/giphy.gif)
 
-We may be very unsure of the condition of the car. This implies that we consider there to be a significant chance that a repair is required (because we do not know enough to be confident that everything is OK). Even so, we need some sort of quantitative approach to allow us to make coherent decisions. The uncertainty in the problem can be described using probability, and the consequences can also be quantified. 
+We may be very unsure of the condition of the car. This implies that we consider there to be a relatively high probability that it will breakdown (because we do not know enough to be confident that everything is OK). Even so, we need some sort of quantitative approach to allow us to make coherent decisions. The uncertainty in the problem can be described using probability, and we can also put numbers to the consequences. 
 
 Firstly, after some online research (statements from the manufacturer, reviewers websites and forums), we've seen evidence that the problem that the mechanic described is real, and that `r scales::percent(0.3)` of cars like yours are affected:
 
@@ -105,6 +96,8 @@ prob_tibble %>%
     locations = cells_body()
   )
 ```
+
+(Note that we assuming if we do pay for a repair, then it will be *perfect* - in other words, once the garage repairs the problem component, there is no way the car will breakdown due to this problem. We could change this probability if we wanted to account for the reliability of the job.)
 
 Secondly, after your best efforts to present yourself as a car aficionado, who can't be fooled into paying an unfair price, the garage provides you with the following quotes:
 
@@ -192,9 +185,11 @@ expected_costs %>%
 
 ```
 
+This shows that we can expect to pay less if we get the repair done now, so it's reasonable to go with that option on the basis of this.
+
 #### A Quick Note on Utility Theory
 
-The optimal solutions in a decision analysis problem are those that correspond to a maximum expected pay-off (or a minimum expected cost). This mathematically coherent approach was first proposed by [John von Neumann and Oskar Morgenstern](https://www.amazon.co.uk/Economic-Behavior-Princeton-Classic-Editions/dp/0691130612). However, it may not always be appropriate to map financial consequences of decision outcomes to a linear scale.
+The optimal solutions in a decision analysis problem are those that correspond to a maximum expected pay-off (or a minimum expected cost). This mathematically coherent approach was first proposed by [John von Neumann and Oskar Morgenstern](https://www.amazon.co.uk/Economic-Behavior-Princeton-Classic-Editions/dp/0691130612). However, it may not always be appropriate to directly translate financial consequences in this way.
 
 Consider a possible cost of `r scales::dollar(3e4)`.
 
@@ -202,9 +197,9 @@ Is this really twice as bad as an equally likely cost of `r scales::dollar(1.5e4
 
 The higher cost, could have additional knock-on effects. It may require a loan, or some other expenditure to be deferred. If we are completing a decision analysis on behalf of a large company, then it could be reasonable to compare costs of this magnitude on a simple linear scale. However, if the decision maker was a small start-up, this assumption may not be helpful.
 
-As a result, we may need to transform monetary costs (or pay-off) onto a utility scale. The optimal decision is then that which is associated with the expected maximum utility. There is significant scientific literature on utility functions, but a concise discussion in the context of Bayesian decision theory is provided in [the book from John Pratt, Howard Raiffa and Robert Schlaiffer](https://www.amazon.co.uk/Introduction-Statistical-Decision-Theory-Press/dp/026266206X). Some *default* functions are available, but there is also the option of fitting a function from some points, where money vs. utility has been defined by the decision maker. 
+As a result, we may need to transform monetary costs (or pay-off) on to a utility scale. The optimal decision is then that which is associated with the expected maximum utility. There is significant scientific literature on utility functions, but a concise discussion in the context of decision making is provided in [the book from John Pratt, Howard Raiffa and Robert Schlaiffer](https://www.amazon.co.uk/Introduction-Statistical-Decision-Theory-Press/dp/026266206X). Some *default* functions are available, but there is also the option of fitting a function from some points, where money vs. utility has been defined by the decision maker. 
 
-An illustration of how the same amount of money could be valued differently by two parties is shown graphically below.
+An illustration of how the same amount of money could be valued differently by two parties is shown graphically below. A financial hit of even a few thousand could be catastrophic for *Wholesome Engineering co.*, but *Big Evil Tech* could absorb it no problem. Similarly, small gains could be more valuable to the smaller company as it could have a more meaningful impact on their future investments, which is less likely to be the case for the large company.
 
 ```{r, include = TRUE, warning = FALSE, message = FALSE, echo = FALSE}
 minC <- - 5*10^3; maxC <- 1.25e4; c <- seq(from = minC, to = maxC, length.out = 1000)
@@ -231,9 +226,11 @@ dplyr::left_join(x = BigEvil, y = Wholesome, by = 'Cost') %>%
 
 ```
 
+For the purposes of this example, we will not do any mapping to a utility scale, but it's worth keeping this in mind when giving advice.
+
 ### The Value of Information
 
-Now that we've set the scene, remember that the problem we are interested in, is:
+Now that we've set the scene (and after that brief digression), remember that the problem we are interested in, is:
 
 **How (and to what extent) can some additional information assist in the decision making process?**
 
@@ -276,7 +273,7 @@ expected_costs %>%
 
 ```
 
-This tells us that our expected cost is reduced when we have more information (from the test) to support our decision of whether or not to pay for the repair. Uncertainty makes decision making more difficult, and so we will always benefit from improving our understanding of the problem. 
+This tells us that our expected cost is reduced when we have more information (from the test) to support our decision of whether or not to pay for the repair. Uncertainty makes decision making more difficult, and so improving our understanding of the problem can never hurt. 
 
 Specifically, the expected value of performing this test is equal to the difference between the expected costs, **with** (`r scales::dollar(abs(expected_costs$expected_costs[1]))`) 
 
@@ -284,13 +281,13 @@ Specifically, the expected value of performing this test is equal to the differe
 
 this information. This difference (our expected value of information) is equal to `r scales::dollar(abs(expected_costs$expected_costs[2] - expected_costs$expected_costs[1]))`.
 
-As I mentioned earlier, I have not included a cost of the test in the second influence diagram. This means we can interpret this value as *the maximum amount we would be willing to pay for this test*. If the garage offered the test for a fee less than `r scales::dollar(abs(expected_costs$expected_costs[2] - expected_costs$expected_costs[1]))`, then we would be minimising expected costs by paying for the test. Otherwise, we would not expect the test to be worthwhile.
+As I mentioned earlier, I have not included a cost of the test in the second influence diagram. This means we can interpret this value as *the maximum amount we would be willing to pay for this test*. If the garage offered the test for a fee less than `r scales::dollar(abs(expected_costs$expected_costs[2] - expected_costs$expected_costs[1]))`, then we would be minimising expected costs by paying for the test. Otherwise, we would not expect the test to be worthwhile, since we'd be better off just paying for the repair.
 
-Finally, what we have really calculated here, is the expected *Value of Perfect Information*. This is because we are assuming this test is completely accurate, i.e. if the test indicates the car is damaged then we know for sure that it is. No test is ever perfect, and that means it won't be as informative as we have assumed it to be here. As a result, the value of perfect information is really just an upper bound. Quickly identifying an upper bound can be very useful, but for cases where we need a better estimate we need to account for the imperfect features of the information we are considering buying.
+Finally, what we have really calculated here, is the expected *Value of Perfect Information*. This is because we are assuming this test is completely accurate, i.e. if the test indicates the car is damaged then we know for sure that it is. No test is ever perfect, and that means the result won't be as informative as we have assumed it to be here. The value of perfect information is therefore really just an upper bound. Quickly identifying an upper bound can be very useful, but for cases where we need a better estimate, we need to think about the imperfect features of the information we are considering buying.
 
 ### In Practice: The Value of *Imperfect* Information
 
-Imagine we now know a little bit more about the test that the garage is offering. We know that if it reports damage, there is a `r scales::percent(0.1)` chance that this is a mistake (sometimes referred to as a *false-positive* error). Conversely, we have also learnt that this test misses damage (*false-negative* error) `r scales::percent(0.05)` of the time. Since this will be less useful, than the perfect information that we considered above, it will not be any more valuable.
+Imagine we now know a little bit more about the diagnostic test that the garage is offering. We know that if it reports damage, there is a `r scales::percent(0.1)` chance that this is a mistake (sometimes referred to as a *false-positive* error). Conversely, we have also learnt that this test misses damage (gives a *false-negative* error) `r scales::percent(0.05)` of the time. Since this will be less useful than the perfect test that we considered above, it can't be any more valuable than that.
 
 ```{r, include = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
 
@@ -327,7 +324,7 @@ expected_costs %>%
 
 ```
 
-Based on these new expected utilities, the expected value of this imperfect test is `r scales::dollar(abs(expected_costs$expected_costs[2] - expected_costs$expected_costs[1]))`. We can use this calculation to perform a sensitivity analysis, showing how (for example) the false negative error rate influences the expected value of the test:
+Based on these new expected costs, the expected value of this imperfect test is `r scales::dollar(abs(expected_costs$expected_costs[2] - expected_costs$expected_costs[1]))`. We can use this calculation to perform a sensitivity analysis, showing how (for example) the false negative error rate influences the expected value of the test:
 
 ```{r, include = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
 
@@ -384,34 +381,35 @@ As expected, tests that are more likely to miss the damage are not worth as much
 
 ### More Realistic Models (Working on Continuous Scales)
 
-By discretising uncertain outcomes, we simplify the analysis we need to do to identify our expected optimal decisions. However, this may be an inaccurate representation of the true problem. Predicting whether or not a car will breakdown based on the condition of a component may itself require a reliability assessment (probabilistic calculation). Similarly, it may not be appropriate to represent features of the diagnostic test on a discrete scale either. For instance, the probability of missing damage may be a function of the extent of the damage, i.e. it is generally less likely that greater deterioration is missed. The measurements may also need to be a continuous scale, which should account for precision and possible bias.
+By discretising uncertain outcomes, we simplify the the calculations that we need to do to identify our expected optimal decisions. However, this may be an inaccurate representation of the true problem. Predicting whether or not a car will breakdown based on the condition of a component may itself require a reliability assessment (probabilistic calculation). Similarly, it may not be appropriate to represent features of the diagnostic test on a discrete scale either. For instance, the probability of missing damage may be a function of the extent of the damage, i.e. it is generally less likely that greater deterioration is missed. The measurements may also need to be a continuous scale, which should account for precision and possible bias.
 
 #### What challenges does this introduce?
 
-Essentially, the calculations become more time-consuming. Moving from discrete to continuous probability functions requires either neat mathematical methods, or many more calculations. In the case of the latter, we would repeat the above calculation for each sample that we draw from a probability distribution. When estimating very small probabilities, a lot of samples are required, and these calculations can take a long time to run without efficiency boosting methods such as *importance sampling*. I plan to write a future post showing some examples of this type of thing soon. I've not included a more realistic example here, since this is just a conceptual introduction, but you can see a full example in [my recent paper](https://www.allyourbayes.com/publication/cees/).
+Essentially, the calculations become more time-consuming. Moving from discrete to continuous probability functions requires either neat mathematical methods, or many more calculations. In the case of the latter, we would repeat the above calculation for each sample that we draw from a probability distribution. When estimating very small probabilities, a lot of samples are required, and these calculations can take a long time to run (especially without efficiency boosting methods such as *importance sampling*). I plan to write a future post showing some examples of this type of thing soon. I've not included a more realistic example here, since this is just a conceptual introduction, but if you're interested in these details, check out [my recent paper](https://www.allyourbayes.com/publication/cees/).
 
 ### Summary of Key Principles & Final Thoughts
 
 Here are the most important ideas to remember from the above:
 
-The act of collecting information (such as the the diagnostic test on the car) does not *itself* reduce risk. What it does do, is allow us to re-evaluate the options available to us with a better understanding of the problem. Therefore...
+The act of collecting information (such as the the diagnostic test on the car) does not *itself* save you money or reduce risk. What it does do, is allow us to re-evaluate the options available to us with a better understanding of the problem. Therefore...
 
 **to quantify the value of information, you need to relate it to the improved decision making that it facilitates.**
 
 This is exactly what we have done in this example. We have compared our expected costs with and without the diagnostic test, allowing us to quantify the expected benefit of performing the test, in terms of money. This benefit arises from the simplification of the decision problem of whether to pay for the repair.
 
-More generally, the act of collecting information, does not prevent costly failures in our systems. In the episode of *The Simpsons*, [Homer's Enemy](https://simpsons.fandom.com/wiki/Homer%27s_Enemy) Bart buys an old factory at an auction. It's in terrible condition, so he hires Milhouse as a night watchman, so that they can keep from collapsing and continue to play in it. As shown below, Milhouse carries out his watchman duties....
+One example of aimlessly collecting information was shown in the episode of *The Simpsons*, [Homer's Enemy](https://simpsons.fandom.com/wiki/Homer%27s_Enemy). Bart buys an old factory at an auction. It's in terrible condition, so he hires Milhouse as a night watchman, so that they can keep from collapsing and they can continue to play in it. As shown below, Milhouse carries out his watchman duties....
 
 ![Monitoring, then not acting - the Milhouse approach.](https://media.giphy.com/media/3orif90qwQCb9H0Uo0/giphy.gif)
 
-This is the equivalent of paying for information just for the sake of it, like installing unnecessary sensors on a structure. An evaluation of inspection, monitoring, or testing  options should be done in the context of the underlying decision problem that you are trying to solve. I don't think this is a straightforward idea - but hopefully this discussion has demonstrated the concept.
+This is the equivalent of paying for information just for the sake of it. Milhouse's observations would only be of use, if they had a plan for what to do when it *'started falling over'*. An evaluation of inspection, monitoring, or testing  options should be done in the context of the underlying decision problem that you are trying to solve. I don't think this is a straightforward idea - but hopefully this discussion has demonstrated the concept.
+
+Secondly:
 
 **The value of information is context dependent.**
 
 Sometimes, more expensive, higher quality information is worth paying for. Sometimes it isn't. When we already have a good idea of what we will find, or if it doesn't really matter what we find - then we may get little to no value from additional information. When there is a lot of uncertainty in a problem and it pays to know exactly what's going on, it may be worth spending big for high quality data.
 
 I'd suggest that it's only really at these extremes where we would intuitively know our best course of action. 
-
 
 #### Uncertainty on top of uncertainty on top of...
 
@@ -421,12 +419,12 @@ The value of the diagnostic test on the car is dependent on the initial (prior) 
 
 Remember - we are using this method to tackle problems of decision making under uncertainty and we are representing that uncertainty with probability. We are not doing this to complicate things. Uncertainty exists, whether we choose to account for it or not. We are can identify the *expected* best course of action, on the basis of our current partial understanding of the problem. If we knew more, we could do better, but we need to work with what we've got.
 
-Also, when an organisation or an individual makes a difficult decision without thinking about it formally like we have here, then this entire process is just implicit. They are basing their decision on something, but we don't know what exactly. This makes it very difficult to change any particular aspect of their decision making process, and for problems that do not have intuitive answers, relying on a *gut feeling* will not always be helpful.
+Also, when an organisation or an individual makes a difficult decision without thinking about it formally like we have here, then this entire process is just implicit. They are basing their decision on something, but we don't know what exactly. This makes it very difficult to challenge (or audit) any particular aspect of their decision making process. For problems that do not have intuitive answers, relying on a *gut feeling* will not always be helpful.
 
-Now, if we see the result of a value of information calculation and it doesn't feel right, this could mean a few things:
+If we see the result of a value of information calculation and it doesn't *feel* right, this could mean a few things:
 
- - **The problem may not be intuitive.**  Our feeling for what the result *should* be is actually overlooking some complexity. If we suspect this is the case, then maybe it is better to trust the result. Since it can easily be documented, then each element can be critiqued and re-visited whenever.
- - **We've not included enough expert judgement.** Fortunately, this can easily be fixed as Bayesian methods are happy to accommodate prior information. In [my post on Bayesian logistic regression](https://www.allyourbayes.com/post/2020-02-14-bayesian-logistic-regression-with-stan/) I showed how prior predictive simulation can help identify sensible priors, even in more complicated Bayesian models. A great feature of this, is that the expert knowledge that goes in, is part of the model. This is much smarter than throwing out a calculation that an expert doesn't agree with, or discussing *experience*, *judgement*, or *expertise* as separate, unrelated topics.
+ - **The problem may not be intuitive.**  Our feeling for what the result *should* be is actually overlooking some complexity. If we suspect this is the case, then maybe it is better to trust the result. Since it can easily be documented, then each element can be critiqued and re-visited whenever we like.
+ - **We've not included enough expert judgement.** Fortunately, this can easily be fixed as Bayesian methods are happy to accommodate prior information. In [my post on Bayesian logistic regression](https://www.allyourbayes.com/post/2020-02-14-bayesian-logistic-regression-with-stan/) I showed how prior predictive simulation can help identify sensible priors, even in more complicated statistical models. A great feature of this, is that the expert knowledge that goes in, is part of the model. This is much smarter than throwing out a calculation that an expert doesn't agree with, or discussing *experience*, *judgement*, or *expertise* as separate, unrelated topics.
 
 #### Are there Real World Applications? Or is this all Academic?
 
@@ -434,14 +432,8 @@ When would anyone ever actually go to the effort of evaluating a decision in thi
 
 The idea of comparing expected utility with and without additional information was first proposed by [Raiffa & Schlaiffer in the 1960's](https://www.semanticscholar.org/paper/Applied-Statistical-Decision-Theory.-Minton-Raiffa/b3b885eba933831514ea3bc7ec289243a81176e9?p2df), but the computational tools available to us now, means that there are more real-world examples that can be modelled in this way.
 
-Broadly speaking kind of calculation is worthwhile when there is enough risk associated with a decision. In designing expensive experiments, where you need to make each measurement count, then identifying the points where the expected value of data will be the most (in the context of the problem you are trying to solve) could be very helpful in not wasting your budget.
+Broadly speaking kind of calculation is worthwhile whenever there is enough risk associated with a decision. For instance, in designing expensive experiments, where you need to make each measurement count, then identifying the points where the expected value of data will be the most (in the context of the problem you are trying to solve) could be very helpful in not wasting your budget.
 
 The method has been demonstrated in the context of [medical decision making](https://www.convoi-group.org/) and in engineering, specifically the [placement of sensors for structural health monitoring](https://www.cost-tu1402.eu/). However, it is really a generic framework, and I'm sure you can imagine many more applications, which are outside my current domain of knowledge - please send me a message if any that come to mind.
 
 Academic presentation of decision analysis uses mathematical language, and this is helpful when explaining more complex application of these principles in a concise way. However, an appreciation for the fundamentals of what a value of information calculation is trying to achieve, and how it works can help stakeholders contribute to, and improve the process. I personally believe that this is potentially, an extremely powerful tool in decision support.
-
-
-
-
-
-
