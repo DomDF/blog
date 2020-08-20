@@ -1,0 +1,447 @@
+---
+title: Quantifying the Expected Value of Information
+author: Domenic Di Francesco
+date: '2020-08-03'
+slug: expected-value-of-information
+categories: ['Bayesian Decision Analysis', 'Hugin', 'Uncertainty', 'VoI', 'R']
+tags: ['Bayesian Decision Analysis', 'Hugin',  'Uncertainty', 'VoI', 'R']
+subtitle: 'A Conceptual Introduction'
+summary: ''
+authors: []
+lastmod: '2020-08-03T00:50:52+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+
+library(extrafont); library(tidyverse); library(DomDF)
+
+```
+
+
+### TLDR
+
+We sometimes have the option to purchase additional information (like paying for an experiment to be performed, or for a report from an expert consultant) to help us in problems of decision making under uncertainty. Deciding whether or not such services are worthwhile is challenging - how do we know how to value some information before we get it? A powerful Bayesian procedure, which unfortunately goes by many names (such as preposterior decision analysis, multi-stage decision analysis, and Bayesian experimental design) allows us to quantify this expected value - in other words, it tells us *how much we should be willing to pay for information, before receiving it*. This result will be context-dependent, and informed by whatever our state of knowledge happens to be at the time. This post is a largely non-technical outline of the key concepts of Value of Information (VoI) analysis.
+
+---
+
+### Decision Making under Uncertainty
+
+Throughout industry, and even in our personal lives, we are required to make decisions without a perfect understanding of the problem. My PhD considers the problem of deciding whether or not risk mitigation measures were worth investing in, for structures in an uncertain state of damage. I quantified the expected value of inspection activities in this context, but this is quite a specific problem.
+
+For the purposes of this post, I'll use the example of a garage (car repair shop if you don't live in the UK) discussing some maintenance options for your car. I do not know enough about cars to talk about any specific problems, so imagine you have received the following generic statement from your mechanic about your car:
+
+*"This particular model of car, of this age, often develops a critical problem. We recommend replacing the component that wears out, because if you don't, it will be much more expensive to fix after a breakdown."*
+
+Should you pay for the component to be replaced now? Or take your chances with a possible breakdown? Unsurprisingly, the expected optimal solution depends on the following:
+
+ - How likely do you think it is that your car has this critical problem?
+ - How much will the repairs cost: (a) now? and (b) after a breakdown?
+
+This problem can be visualised using an *influence diagram*. The below uses the [`RHugin` library](http://rhugin.r-forge.r-project.org/), an `R` API for the [Hugin software](https://www.hugin.com/), although my first impressions of the [`HydeNet` library](https://cran.r-project.org/web/packages/HydeNet/) are that it could be suitable alternative.
+
+```{r, eval = FALSE, echo = TRUE, warning = FALSE, message = FALSE}
+library(RHugin)
+
+prior_analysis <- RHugin::read.rhd('influence_diagram.net')
+plot.RHuginDomain(x = prior_analysis, what = 'network')
+
+```
+
+```{r, include = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+library(RHugin)
+
+setwd("~/PhD/Journals/DCE")
+prior_analysis <- RHugin::read.rhd('influence_diagram.net')
+plot.RHuginDomain(x = prior_analysis, what = 'network')
+
+```
+
+Elliptical nodes represent an uncertain outcome (the current condition of your car, and whether it will breakdown), rectangular nodes represent decisions (whether or not to pay for the repair) and diamond shaped nodes are the utilities (or costs) associated with each decision outcome. The arrows indicate dependency, for instance, the probability of a breakdown is dependent on whether or not the repair is performed (and the unknown condition of the car).
+
+If the above diagram looks confusing, it could alternatively be represented as a decision tree. However, for larger (more complex) decision making problems, I've found influence diagrams to be much more interpretable. This is because where each possible action or outcome would need it's own 'branch' in a decision tree, they can all be represented within a table that is hidden behind every node in the influence diagram.
+
+If we had a *perfect* understanding of the condition of our car, then we would know if it was going to breakdown and deciding whether this repair was worth doing would be easy. But we're interested in solving more challenging problems, where it is sometimes a case of...
+
+![Decision making under uncertainty.](https://media.giphy.com/media/YVgzWgYgrmEdW/giphy.gif)
+
+We may be very unsure of the condition of the car. This implies that we consider there to be a significant chance that a repair is required (because we do not know enough to be confident that everything is OK). Even so, we need some sort of quantitative approach to allow us to make coherent decisions. The uncertainty in the problem can be described using probability, and the consequences can also be quantified. 
+
+Firstly, after some online research (statements from the manufacturer, reviewers websites and forums), we've seen evidence that the problem that the mechanic described is real, and that `r scales::percent(0.3)` of cars like yours are affected:
+
+```{r, include = TRUE, warning = FALSE, message = FALSE, echo = FALSE}
+library(gt)
+
+prior_prob_damage <- 0.3
+
+prob_tibble <- tribble(
+  ~Condition, ~Probability,
+  'Pr(car damaged)', prior_prob_damage,
+  'Pr(car undamaged)', (1 - prior_prob_damage),
+  'Pr(car damaged | repair performed)', 0,
+)
+
+cost_tibble <- tribble(
+  ~Outcome, ~Cost,
+  'Perform Repair', scales::dollar(x = 600),
+  'Breakdown', scales::dollar(x = 3000)
+)
+
+prob_tibble %>% 
+  gt() %>% 
+  tab_header(
+    title = md('*Probabilities* used in the decision analysis')
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_fill(color = 'white')
+    ),
+    locations = cells_body()
+  )
+```
+
+Secondly, after your best efforts to present yourself as a car aficionado, who can't be fooled into paying an unfair price, the garage provides you with the following quotes:
+
+```{r, include = TRUE, warning = FALSE, message = FALSE, echo = FALSE}
+
+cost_tibble %>% 
+  gt() %>% 
+  tab_header(
+    title = md('*Costs* used in the decision analysis')
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_fill(color = 'white')
+    ),
+    locations = cells_body()
+  )
+
+```
+
+![Bartering with mechanics.](https://media.giphy.com/media/3orieTWiP0j908LiJa/giphy.gif)
+
+By the way, the above values have been entirely made up (there is nothing special about them and the validity of this calculation does not depend on them).
+
+Here's how you can populate the table of a node in a `Hugin` influence diagram from within `R`:
+
+```{r, include = TRUE, warning = FALSE, message = FALSE, echo = TRUE}
+repair_cost <- -600
+
+repair_cost_table <- get.table(domain = prior_analysis, node = 'Cost_Repair')
+repair_cost_table['Utility'] <- c(0, repair_cost)
+
+set.table(domain = prior_analysis, node = 'Cost_Repair', data = repair_cost_table)
+
+```
+
+```{r, include = FALSE, warning = FALSE, message = FALSE, echo = FALSE}
+breakdown_cost <- -3000
+
+breakdown_cost_table <- get.table(domain = prior_analysis, node = 'Cost_Breakdown')
+breakdown_cost_table['Utility'] <- c(breakdown_cost, 0)
+
+set.table(domain = prior_analysis, node = 'Cost_Breakdown', data = breakdown_cost_table)
+
+prior_prob_damage <- 0.3
+
+condition_table <- get.table(domain = prior_analysis, node = 'Condition')
+condition_table['Freq'] <- c(prior_prob_damage, (1 - prior_prob_damage))
+
+set.table(domain = prior_analysis, node = 'Condition', data = condition_table)
+
+breakdown_table <- get.table(domain = prior_analysis, node = 'Breakdown')
+breakdown_table['Freq'] <- c(1, 0, 0, 1, 0, 1, 0, 1)
+
+set.table(domain = prior_analysis, node = 'Breakdown', data = breakdown_table)
+
+
+```
+
+We can then do the same to populate the other nodes (not shown here as it is more of the above), before asking `RHugin` to evaluate the influence diagram.
+
+```{r, include = TRUE, warning = FALSE, message = FALSE, echo = TRUE}
+RHugin::compile(object = prior_analysis)
+
+RHugin::propagate(object = prior_analysis)
+expected_costs <- get.utility(domain = prior_analysis, node = 'Repair')
+
+```
+
+And our expected costs are shown for each of our decision options:
+
+```{r, include = TRUE, warning = FALSE, message = FALSE, echo = FALSE}
+expected_costs  <- as.data.frame(expected_costs)
+
+expected_costs %>% 
+  dplyr::mutate(Decision = repair_cost_table$Repair,
+                expected_costs = scales::dollar(expected_costs)) %>% 
+  dplyr::rename('Expected Cost' = expected_costs) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(
+      cell_fill(color = 'white')
+    ),
+    locations = cells_body()
+  )
+
+```
+
+#### A Quick Note on Utility Theory
+
+The optimal solutions in a decision analysis problem are those that correspond to a maximum expected pay-off (or a minimum expected cost). This mathematically coherent approach was first proposed by [John von Neumann and Oskar Morgenstern](https://www.amazon.co.uk/Economic-Behavior-Princeton-Classic-Editions/dp/0691130612). However, it may not always be appropriate to map financial consequences of decision outcomes to a linear scale.
+
+Consider a possible cost of `r scales::dollar(3e4)`.
+
+Is this really twice as bad as an equally likely cost of `r scales::dollar(1.5e4)`? It depends. 
+
+The higher cost, could have additional knock-on effects. It may require a loan, or some other expenditure to be deferred. If we are completing a decision analysis on behalf of a large company, then it could be reasonable to compare costs of this magnitude on a simple linear scale. However, if the decision maker was a small start-up, this assumption may not be helpful.
+
+As a result, we may need to transform monetary costs (or pay-off) onto a utility scale. The optimal decision is then that which is associated with the expected maximum utility. There is significant scientific literature on utility functions, but a concise discussion in the context of Bayesian decision theory is provided in [the book from John Pratt, Howard Raiffa and Robert Schlaiffer](https://www.amazon.co.uk/Introduction-Statistical-Decision-Theory-Press/dp/026266206X). Some *default* functions are available, but there is also the option of fitting a function from some points, where money vs. utility has been defined by the decision maker. 
+
+An illustration of how the same amount of money could be valued differently by two parties is shown graphically below.
+
+```{r, include = TRUE, warning = FALSE, message = FALSE, echo = FALSE}
+minC <- - 5*10^3; maxC <- 1.25e4; c <- seq(from = minC, to = maxC, length.out = 1000)
+
+BigEvil <- data.frame(Cost = c, u = c*10^-4); Wholesome <- data.frame(c = c, u = 0)
+
+for (i in seq(from = 1, to = nrow(Wholesome), by = 1)){
+  
+  Wholesome$u[i] <- log(x = (1 + 2.5*10^-4 * (Wholesome$c[i])), base = exp(1)) 
+    
+}
+
+colnames(BigEvil) <- c('Cost', 'Big Evil Tech'); colnames(Wholesome) <- c('Cost', 'Wholesome Engineering Co.')
+
+dplyr::left_join(x = BigEvil, y = Wholesome, by = 'Cost') %>% 
+  tidyr::pivot_longer(cols = -c('Cost'), names_to = 'Business', values_to = 'Utility') %>% 
+  ggplot(mapping = aes(x = Cost, y = Utility))+
+    scale_color_manual(values = c('forestgreen', 'firebrick'))+
+    geom_line(aes(col = as_factor(Business), linetype = as_factor(Business)))+
+    scale_linetype_manual(values = c(1, 2))+
+    scale_x_continuous(name = 'Profit', limits = c(minC, maxC), labels = scales::dollar)+
+    scale_y_continuous(name = 'Normalised Utility', limits = c(-3, 3))+
+    theme_ddf_light()
+
+```
+
+### The Value of Information
+
+Now that we've set the scene, remember that the problem we are interested in, is:
+
+**How (and to what extent) can some additional information assist in the decision making process?**
+
+Let's extend the influence diagram, showing the option we have to perform a diagnostic test to improve our understanding of the condition of the car, before we decide whether to pay for the repair or not.
+
+```{r, include = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+prepost_analysis <- RHugin::read.rhd('prepost_influence_diagram.net')
+plot.RHuginDomain(x = prepost_analysis, what = 'network')
+
+```
+
+For the time being, I've not included a cost for the test, but I'll come back to this point shortly. Now to compile the model...
+
+```{r, include = TRUE, warning = FALSE, message = FALSE, echo = TRUE}
+RHugin::compile(object = prepost_analysis)
+
+RHugin::propagate(object = prepost_analysis)
+expected_costs <- get.utility(domain = prepost_analysis, node = 'Test')
+
+```
+
+And our expected costs are shown for each of our decision options:
+
+```{r, include = TRUE, warning = FALSE, message = FALSE, echo = FALSE}
+expected_costs  <- as.data.frame(expected_costs)
+
+VoPI <- abs(expected_costs$expected_costs[2] - expected_costs$expected_costs[1])
+
+expected_costs %>% 
+  dplyr::mutate(Decision = c('Perform Test', 'No Test'),
+                expected_costs = scales::dollar(expected_costs)) %>% 
+  dplyr::rename('Expected Cost' = expected_costs) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(
+      cell_fill(color = 'white')
+    ),
+    locations = cells_body()
+  )
+
+```
+
+This tells us that our expected cost is reduced when we have more information (from the test) to support our decision of whether or not to pay for the repair. Uncertainty makes decision making more difficult, and so we will always benefit from improving our understanding of the problem. 
+
+Specifically, the expected value of performing this test is equal to the difference between the expected costs, **with** (`r scales::dollar(abs(expected_costs$expected_costs[1]))`) 
+
+...and **without** (`r scales::dollar(expected_costs$expected_costs[2])`)... 
+
+this information. This difference (our expected value of information) is equal to `r scales::dollar(abs(expected_costs$expected_costs[2] - expected_costs$expected_costs[1]))`.
+
+As I mentioned earlier, I have not included a cost of the test in the second influence diagram. This means we can interpret this value as *the maximum amount we would be willing to pay for this test*. If the garage offered the test for a fee less than `r scales::dollar(abs(expected_costs$expected_costs[2] - expected_costs$expected_costs[1]))`, then we would be minimising expected costs by paying for the test. Otherwise, we would not expect the test to be worthwhile.
+
+Finally, what we have really calculated here, is the expected *Value of Perfect Information*. This is because we are assuming this test is completely accurate, i.e. if the test indicates the car is damaged then we know for sure that it is. No test is ever perfect, and that means it won't be as informative as we have assumed it to be here. As a result, the value of perfect information is really just an upper bound. Quickly identifying an upper bound can be very useful, but for cases where we need a better estimate we need to account for the imperfect features of the information we are considering buying.
+
+### In Practice: The Value of *Imperfect* Information
+
+Imagine we now know a little bit more about the test that the garage is offering. We know that if it reports damage, there is a `r scales::percent(0.1)` chance that this is a mistake (sometimes referred to as a *false-positive* error). Conversely, we have also learnt that this test misses damage (*false-negative* error) `r scales::percent(0.05)` of the time. Since this will be less useful, than the perfect information that we considered above, it will not be any more valuable.
+
+```{r, include = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+
+prepost_analysis <- RHugin::read.rhd('prepost_influence_diagram.net')
+
+false_pos <- 0.1; false_neg <- 0.05
+
+test_results_table <- get.table(domain = prepost_analysis, node = 'Result')
+test_results_table['Freq'] <- c((1 - false_pos), false_neg, 0,
+                                0, 0, 1,
+                                false_pos, (1 - false_neg), 0,
+                                0, 0, 1)
+                                  
+set.table(domain = prepost_analysis, node = 'Result', data = test_results_table)
+
+RHugin::compile(object = prepost_analysis)
+
+RHugin::propagate(object = prepost_analysis)
+expected_costs <- get.utility(domain = prepost_analysis, node = 'Test')
+
+expected_costs  <- as.data.frame(expected_costs)
+
+expected_costs %>% 
+  dplyr::mutate(Decision = c('Perform Test', 'No Test'),
+                expected_costs = scales::dollar(expected_costs)) %>% 
+  dplyr::rename('Expected Cost' = expected_costs) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(
+      cell_fill(color = 'white')
+    ),
+    locations = cells_body()
+  )
+
+```
+
+Based on these new expected utilities, the expected value of this imperfect test is `r scales::dollar(abs(expected_costs$expected_costs[2] - expected_costs$expected_costs[1]))`. We can use this calculation to perform a sensitivity analysis, showing how (for example) the false negative error rate influences the expected value of the test:
+
+```{r, include = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+
+prepost_analysis <- RHugin::read.rhd('prepost_influence_diagram.net')
+
+false_pos <- 0.1; prob_lower <- 0; prob_upper <- 0.4
+
+sa_df <- data.frame(fn = double(), VoI = double())
+
+for (fn in seq(from = prob_lower, to = prob_upper, length.out = 9)) {
+  
+  prepost_analysis <- RHugin::read.rhd('prepost_influence_diagram.net')
+
+  test_results_table <- get.table(domain = prepost_analysis, node = 'Result')
+  test_results_table['Freq'] <- c((1 - fn), fn, 0,
+                                  0, 0, 1,
+                                  false_pos, (1 - false_pos), 0,
+                                  0, 0, 1)
+                                    
+  set.table(domain = prepost_analysis, node = 'Result', data = test_results_table)
+  
+  RHugin::compile(object = prepost_analysis)
+  
+  RHugin::propagate(object = prepost_analysis)
+  expected_costs <- get.utility(domain = prepost_analysis, node = 'Test')
+  
+  sa_df <- rbind(sa_df, data.frame(fn = fn, VoI = max(0, expected_costs[1] - expected_costs[2])))
+  
+}
+
+VoPI <- 420
+
+ggplot(data = sa_df, 
+       mapping = aes(x = fn, y = VoI))+
+  geom_line(mapping = aes(linetype = 'Imperfect Information'))+
+  geom_point(data = sa_df %>% 
+               dplyr::filter(fn == 0.05), 
+             mapping = aes(x = fn, y = VoI), shape = 1, size = 3)+
+  geom_text(data = sa_df %>%
+               dplyr::filter(fn == 0.05),
+            mapping = aes(x = 0.075, y = 375, label = paste('VoI at 5%:', scales::dollar(signif(VoI, 3)))),
+            family = 'Bahnschrift', size = 3)+
+  geom_hline(mapping = aes(linetype = 'Perfect Information', 
+                           yintercept = VoPI))+
+  scale_x_continuous(name = 'Probability of the Test Missing Damage', 
+                     limits = c(prob_lower, prob_upper), labels = scales::percent)+
+  scale_y_continuous(name = 'Expected Value of Diagnostic Test', 
+                     limits = c(0, VoPI), labels = scales::dollar)+
+  theme_ddf_light()
+
+```
+
+As expected, tests that are more likely to miss the damage are not worth as much to us. The discrepancy between the value of the perfect and imperfect tests without a false-negative error ($\Pr(Pass\;Test \mid Car\;damaged) = 0$), is due to the false-positive error of `r scales::percent(0.1)`, which I left unchanged.
+
+### More Realistic Models (Working on Continuous Scales)
+
+By discretising uncertain outcomes, we simplify the analysis we need to do to identify our expected optimal decisions. However, this may be an inaccurate representation of the true problem. Predicting whether or not a car will breakdown based on the condition of a component may itself require a reliability assessment (probabilistic calculation). Similarly, it may not be appropriate to represent features of the diagnostic test on a discrete scale either. For instance, the probability of missing damage may be a function of the extent of the damage, i.e. it is generally less likely that greater deterioration is missed. The measurements may also need to be a continuous scale, which should account for precision and possible bias.
+
+#### What challenges does this introduce?
+
+Essentially, the calculations become more time-consuming. Moving from discrete to continuous probability functions requires either neat mathematical methods, or many more calculations. In the case of the latter, we would repeat the above calculation for each sample that we draw from a probability distribution. When estimating very small probabilities, a lot of samples are required, and these calculations can take a long time to run without efficiency boosting methods such as *importance sampling*. I plan to write a future post showing some examples of this type of thing soon. I've not included a more realistic example here, since this is just a conceptual introduction, but you can see a full example in [my recent paper](https://www.allyourbayes.com/publication/cees/).
+
+### Summary of Key Principles & Final Thoughts
+
+Here are the most important ideas to remember from the above:
+
+The act of collecting information (such as the the diagnostic test on the car) does not *itself* reduce risk. What it does do, is allow us to re-evaluate the options available to us with a better understanding of the problem. Therefore...
+
+**to quantify the value of information, you need to relate it to the improved decision making that it facilitates.**
+
+This is exactly what we have done in this example. We have compared our expected costs with and without the diagnostic test, allowing us to quantify the expected benefit of performing the test, in terms of money. This benefit arises from the simplification of the decision problem of whether to pay for the repair.
+
+More generally, the act of collecting information, does not prevent costly failures in our systems. In the episode of *The Simpsons*, [Homer's Enemy](https://simpsons.fandom.com/wiki/Homer%27s_Enemy) Bart buys an old factory at an auction. It's in terrible condition, so he hires Milhouse as a night watchman, so that they can keep from collapsing and continue to play in it. As shown below, Milhouse carries out his watchman duties....
+
+![Monitoring, then not acting - the Milhouse approach.](https://media.giphy.com/media/3orif90qwQCb9H0Uo0/giphy.gif)
+
+This is the equivalent of paying for information just for the sake of it, like installing unnecessary sensors on a structure. An evaluation of inspection, monitoring, or testing  options should be done in the context of the underlying decision problem that you are trying to solve. I don't think this is a straightforward idea - but hopefully this discussion has demonstrated the concept.
+
+**The value of information is context dependent.**
+
+Sometimes, more expensive, higher quality information is worth paying for. Sometimes it isn't. When we already have a good idea of what we will find, or if it doesn't really matter what we find - then we may get little to no value from additional information. When there is a lot of uncertainty in a problem and it pays to know exactly what's going on, it may be worth spending big for high quality data.
+
+I'd suggest that it's only really at these extremes where we would intuitively know our best course of action. 
+
+
+#### Uncertainty on top of uncertainty on top of...
+
+The value of the diagnostic test on the car is dependent on the initial (prior) probability that the car was damaged. So the expected value of some data is based on what we think it will say? You may be understandably sceptical of what might seem fragile foundations of this method, but allow me to convince you otherwise:
+
+![Sceptical?](https://media.giphy.com/media/vz38u37GjVWE0/giphy.gif)
+
+Remember - we are using this method to tackle problems of decision making under uncertainty and we are representing that uncertainty with probability. We are not doing this to complicate things. Uncertainty exists, whether we choose to account for it or not. We are can identify the *expected* best course of action, on the basis of our current partial understanding of the problem. If we knew more, we could do better, but we need to work with what we've got.
+
+Also, when an organisation or an individual makes a difficult decision without thinking about it formally like we have here, then this entire process is just implicit. They are basing their decision on something, but we don't know what exactly. This makes it very difficult to change any particular aspect of their decision making process, and for problems that do not have intuitive answers, relying on a *gut feeling* will not always be helpful.
+
+Now, if we see the result of a value of information calculation and it doesn't feel right, this could mean a few things:
+
+ - **The problem may not be intuitive.**  Our feeling for what the result *should* be is actually overlooking some complexity. If we suspect this is the case, then maybe it is better to trust the result. Since it can easily be documented, then each element can be critiqued and re-visited whenever.
+ - **We've not included enough expert judgement.** Fortunately, this can easily be fixed as Bayesian methods are happy to accommodate prior information. In [my post on Bayesian logistic regression](https://www.allyourbayes.com/post/2020-02-14-bayesian-logistic-regression-with-stan/) I showed how prior predictive simulation can help identify sensible priors, even in more complicated Bayesian models. A great feature of this, is that the expert knowledge that goes in, is part of the model. This is much smarter than throwing out a calculation that an expert doesn't agree with, or discussing *experience*, *judgement*, or *expertise* as separate, unrelated topics.
+
+#### Are there Real World Applications? Or is this all Academic?
+
+When would anyone ever actually go to the effort of evaluating a decision in this way? (Other than academics who need to publish papers). 
+
+The idea of comparing expected utility with and without additional information was first proposed by [Raiffa & Schlaiffer in the 1960's](https://www.semanticscholar.org/paper/Applied-Statistical-Decision-Theory.-Minton-Raiffa/b3b885eba933831514ea3bc7ec289243a81176e9?p2df), but the computational tools available to us now, means that there are more real-world examples that can be modelled in this way.
+
+Broadly speaking kind of calculation is worthwhile when there is enough risk associated with a decision. In designing expensive experiments, where you need to make each measurement count, then identifying the points where the expected value of data will be the most (in the context of the problem you are trying to solve) could be very helpful in not wasting your budget.
+
+The method has been demonstrated in the context of [medical decision making](https://www.convoi-group.org/) and in engineering, specifically the [placement of sensors for structural health monitoring](https://www.cost-tu1402.eu/). However, it is really a generic framework, and I'm sure you can imagine many more applications, which are outside my current domain of knowledge - please send me a message if any that come to mind.
+
+Academic presentation of decision analysis uses mathematical language, and this is helpful when explaining more complex application of these principles in a concise way. However, an appreciation for the fundamentals of what a value of information calculation is trying to achieve, and how it works can help stakeholders contribute to, and improve the process. I personally believe that this is potentially, an extremely powerful tool in decision support.
+
+
+
+
+
+

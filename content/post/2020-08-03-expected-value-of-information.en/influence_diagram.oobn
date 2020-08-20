@@ -1,0 +1,164 @@
+class influence_diagram
+{
+    inputs = ();
+    outputs = ();
+    node_size = (80 40);
+    HR_realname_Cost_Repair = "Cost_Repair";
+    HR_realname_Condition = "Condition";
+    HR_realname_Cost_Breakdown = "Cost_Breakdown";
+    HR_realname_Breakdown = "Breakdown";
+    HR_realname_Inspect = "Inspect";
+    HR_realname_Damage = "Damage";
+    HR_realname_Repair = "Repair";
+    HR_realname_CostRepair = "CostRepair";
+    HR_realname_Failure = "Failure";
+    HR_realname_CostFailure = "CostFailure";
+    HR_ToolBar_CDVT = "0";
+    HR_DBN_Use_BK = "0";
+    HR_Html_Desc = "0";
+    HR_HTML_Desc = "";
+    HR_Link_Groups_IDs = "";
+    HR_Groups_IDs = "";
+    HR_Node_Label_Style = "0";
+    HR_DBN_Num_Slices = "5";
+    HR_Desc = "";
+    HR_OOBN_CheckConsistency = "1";
+    HR_OOBN_FitExpand = "1";
+    HR_Zoom_ZoomFactor = "100";
+    HR_Groups_GroupColors = "";
+    HR_Groups_GroupNames = "";
+    HR_Groups_UserGroupsNo = "0";
+    HR_Utility_Link = "63";
+    HR_Probabilistic_Link = "63";
+    HR_Functional_Link = "63";
+    HR_Binding_Link = "63";
+    HR_Information_Arc = "63";
+    HR_Color_Interface = "21";
+    HR_Color_Instance = "0";
+    HR_Color_DiscreteFunction = "5";
+    HR_Color_Function = "4";
+    HR_Color_Utility = "36";
+    HR_Color_Decision = "17";
+    HR_Color_ContinuousChance = "48";
+    HR_Color_DiscreteChance = "16";
+    HR_Monitor_InitSD = "2";
+    HR_Monitor_Utility_Arrange = "0";
+    HR_Monitor_Mean_Variance = "1";
+    HR_Monitor_Chance_Utility = "1";
+    HR_Monitor_InitStates = "5";
+    HR_Monitor_OpenGraph = "0";
+    HR_Monitor_GraphPrecision = "100";
+    HR_Monitor_AutoUpdGraph = "0";
+    HR_Compile_MaxMinimalSeparators = "100000";
+    HR_Compile_ApproxEpsilon = "1.0E-5";
+    HR_Compile_Approximate = "0";
+    HR_Compile_SaveToMemory = "0";
+    HR_Compile_Compress = "0";
+    HR_Compile_TriangMethod = "0";
+    HR_Propagate_AutoNormal = "1";
+    HR_Propagate_AutoSum = "1";
+    HR_Propagate_Auto = "1";
+    HR_Font_Italic = "0";
+    HR_Font_Weight = "400";
+    HR_Font_Size = "-12";
+    HR_Font_Name = "javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=bold,size=12]";
+    HR_Grid_GridShow = "1";
+    HR_Grid_GridSnap = "1";
+    HR_Grid_Y = "40";
+    HR_Grid_X = "40";
+
+    node Breakdown
+    {
+	label = "";
+	position = (240 240);
+	states = ("Breakdown" "No Breakdown");
+	HR_LinkGroup = "[Cost_Breakdown:0]";
+	HR_LinkMode = "[Cost_Breakdown:0]";
+	HR_Group = "0";
+	HR_HTML_Desc = "";
+	HR_Desc = "";
+	HR_State_1 = "";
+	HR_State_0 = "";
+    }
+
+    utility Cost_Breakdown
+    {
+	label = "";
+	position = (440 240);
+	HR_HTML_Desc = "";
+	HR_NodeSize = "(120, 80)";
+	HR_Group = "0";
+	HR_Desc = "";
+    }
+
+    node Condition
+    {
+	label = "";
+	position = (80 320);
+	states = ("Damaged" "Undamaged");
+	HR_LinkControlPoints = "";
+	HR_HTML_Desc = "";
+	HR_LinkGroup = "[Breakdown:0]";
+	HR_LinkMode = "[CostFailure:0][CostFail:0][Breakdown:0]";
+	HR_Group = "0";
+	HR_Desc = "";
+	HR_State_1 = "";
+	HR_State_0 = "";
+    }
+
+    utility Cost_Repair
+    {
+	label = "";
+	position = (80 40);
+	HR_HTML_Desc = "";
+	HR_NodeSize = "(120, 80)";
+	HR_Group = "0";
+	HR_Desc = "";
+    }
+
+    decision Repair
+    {
+	label = "";
+	position = (80 160);
+	states = ("No Repair" "Perform Repair");
+	HR_HTML_Desc = "";
+	HR_State_2 = "";
+	HR_LinkControlPoints = "";
+	HR_LinkGroup = "[CostRep.:0][Cost_Repair:0][Breakdown:0]";
+	HR_LinkMode = "[Survival:0][CostRepair:0][Failure:0][CostRep:0][Breakdown:0][Cost_Repair:0]";
+	HR_Group = "0";
+	HR_Desc = "";
+	HR_State_1 = "";
+	HR_State_0 = "";
+    }
+
+    potential (Breakdown | Repair Condition)
+    {
+	data = ((( 1 0 )	%  Repair=No Repair  Condition=Damaged
+		 ( 0 1 ))	%  Repair=No Repair  Condition=Undamaged
+		(( 0 1 )	%  Repair=Perform Repair  Condition=Damaged
+		 ( 0 1 )));	%  Repair=Perform Repair  Condition=Undamaged
+    }
+
+    potential (Cost_Breakdown | Breakdown)
+    {
+	data = ( -3000	%  Breakdown=Breakdown
+		 0 );	%  Breakdown=No Breakdown
+    }
+
+    potential (Condition)
+    {
+	data = ( 0.3 0.7 );
+    }
+
+    potential (Cost_Repair | Repair)
+    {
+	data = ( 0	%  Repair=No Repair
+		 -600 );	%  Repair=Perform Repair
+    }
+
+    potential (Repair)
+    {
+	data = ( 0.5 0.5 );
+    }
+} % class influence_diagram

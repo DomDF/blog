@@ -113,6 +113,16 @@
   </url>
   
   <url>
+    <loc>/tag/bayesian-decision-analysis/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/bayesian-decision-analysis/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/publication/omae/</loc>
     <lastmod>2020-08-03T00:00:00+00:00</lastmod>
   </url>
@@ -123,8 +133,23 @@
   </url>
   
   <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tag/corrosion-growth/</loc>
     <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/hugin/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/hugin/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
   </url>
   
   <url>
@@ -143,8 +168,43 @@
   </url>
   
   <url>
-    <loc>/categories/</loc>
-    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
+    <loc>/post/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2020-08-03-expected-value-of-information.en/expected-value-of-information/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/r/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/r/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/uncertainty/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/uncertainty/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/voi/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/voi/</loc>
+    <lastmod>2020-08-03T00:50:52+01:00</lastmod>
   </url>
   
   <url>
@@ -173,27 +233,12 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tag/python/</loc>
     <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/category/python/</loc>
-    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/r/</loc>
-    <lastmod>2020-07-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/r/</loc>
     <lastmod>2020-07-28T00:00:00+00:00</lastmod>
   </url>
   
@@ -238,32 +283,12 @@
   </url>
   
   <url>
-    <loc>/tag/uncertainty/</loc>
-    <lastmod>2020-03-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/uncertainty/</loc>
-    <lastmod>2020-03-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/post/2020-03-24-why-go-bayesian/</loc>
     <lastmod>2020-03-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/post/2020-02-14-bayesian-logistic-regression-with-stan/</loc>
-    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/inspection-reliability/</loc>
-    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/inspection-reliability/</loc>
     <lastmod>2020-02-15T00:00:00+00:00</lastmod>
   </url>
   
@@ -288,16 +313,6 @@
   </url>
   
   <url>
-    <loc>/tag/probability-of-detection/</loc>
-    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/probability-of-detection/</loc>
-    <lastmod>2020-02-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tag/scikit-learn/</loc>
     <lastmod>2020-02-15T00:00:00+00:00</lastmod>
   </url>
@@ -305,11 +320,6 @@
   <url>
     <loc>/category/scikit-learn/</loc>
     <lastmod>2020-02-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/bayesian-decision-analysis/</loc>
-    <lastmod>2019-12-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
