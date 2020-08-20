@@ -144,34 +144,29 @@ Supplementary notes can be added here, including [code and math](https://sourcet
 &lt;div id=&#34;decision-making-under-uncertainty&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Decision Making under Uncertainty&lt;/h3&gt;
 &lt;p&gt;Throughout industry, and even in our personal lives, we are required to make decisions without a perfect understanding of the problem. My PhD considers the problem of deciding whether or not risk mitigation measures were worth investing in, for structures in an uncertain state of damage. I quantified the expected value of inspection activities in this context, but this is quite a specific problem.&lt;/p&gt;
-&lt;p&gt;For the purposes of this post, I’ll use the example of a garage (car repair shop if you don’t live in the UK) discussing some maintenance options for your car. I do not know enough about cars to talk about any specific problems, so imagine you have received the following generic statement from your mechanic about your car:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;“This particular model of car, of this age, often develops a critical problem. We recommend replacing the component that wears out, because if you don’t, it will be much more expensive to fix after a breakdown.”&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;For the purposes of this post, I’ll use the example of a garage (auto repair shop if you’re in the USA) discussing some maintenance options for your car. I do not know enough about cars to talk about any specific problems, so imagine you have received the following generic statement from your mechanic:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;“This particular model of car, of this age, often develops a critical problem. We recommend repairing / replacing the component that wears out, because if you don’t, it will be much more expensive to fix after a breakdown.”&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Should you pay for the component to be replaced now? Or take your chances with a possible breakdown? Unsurprisingly, the expected optimal solution depends on the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;How likely do you think it is that your car has this critical problem?&lt;/li&gt;
 &lt;li&gt;How much will the repairs cost: (a) now? and (b) after a breakdown?&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;This problem can be visualised using an &lt;em&gt;influence diagram&lt;/em&gt;. The below uses the &lt;a href=&#34;http://rhugin.r-forge.r-project.org/&#34;&gt;&lt;code&gt;RHugin&lt;/code&gt; library&lt;/a&gt;, an &lt;code&gt;R&lt;/code&gt; API for the &lt;a href=&#34;https://www.hugin.com/&#34;&gt;Hugin software&lt;/a&gt;, although my first impressions of the &lt;a href=&#34;https://cran.r-project.org/web/packages/HydeNet/&#34;&gt;&lt;code&gt;HydeNet&lt;/code&gt; library&lt;/a&gt; are that it could be suitable alternative.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(RHugin)
-
-prior_analysis &amp;lt;- RHugin::read.rhd(&amp;#39;influence_diagram.net&amp;#39;)
-plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-08-03-expected-value-of-information.en/2020-08-03-expected-value-of-information.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Elliptical nodes represent an uncertain outcome (the current condition of your car, and whether it will breakdown), rectangular nodes represent decisions (whether or not to pay for the repair) and diamond shaped nodes are the utilities (or costs) associated with each decision outcome. The arrows indicate dependency, for instance, the probability of a breakdown is dependent on whether or not the repair is performed (and the unknown condition of the car).&lt;/p&gt;
+&lt;p&gt;This problem can be visualised using an &lt;em&gt;influence diagram&lt;/em&gt;. The below uses the &lt;a href=&#34;http://rhugin.r-forge.r-project.org/&#34;&gt;&lt;code&gt;RHugin&lt;/code&gt; library&lt;/a&gt;, an &lt;code&gt;R&lt;/code&gt; API for the &lt;a href=&#34;https://www.hugin.com/&#34;&gt;Hugin software&lt;/a&gt;, although there are many suitable alternatives, such as the &lt;a href=&#34;https://cran.r-project.org/web/packages/HydeNet/&#34;&gt;&lt;code&gt;HydeNet&lt;/code&gt; library&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-03-expected-value-of-information.en/2020-08-03-expected-value-of-information.en_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Elliptical nodes represent an uncertain outcome (the current condition of your car, and whether it will breakdown), rectangular nodes represent decisions (whether or not to pay for the repair) and diamond shaped nodes are the utilities (or costs) associated with each outcome. The arrows indicate dependency, for instance, the probability of a breakdown is dependent on whether or not the repair is performed (and the unknown condition of the car).&lt;/p&gt;
 &lt;p&gt;If the above diagram looks confusing, it could alternatively be represented as a decision tree. However, for larger (more complex) decision making problems, I’ve found influence diagrams to be much more interpretable. This is because where each possible action or outcome would need it’s own ‘branch’ in a decision tree, they can all be represented within a table that is hidden behind every node in the influence diagram.&lt;/p&gt;
 &lt;p&gt;If we had a &lt;em&gt;perfect&lt;/em&gt; understanding of the condition of our car, then we would know if it was going to breakdown and deciding whether this repair was worth doing would be easy. But we’re interested in solving more challenging problems, where it is sometimes a case of…&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
 &lt;img src=&#34;https://media.giphy.com/media/YVgzWgYgrmEdW/giphy.gif&#34; alt=&#34;Decision making under uncertainty.&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Decision making under uncertainty.&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;We may be very unsure of the condition of the car. This implies that we consider there to be a significant chance that a repair is required (because we do not know enough to be confident that everything is OK). Even so, we need some sort of quantitative approach to allow us to make coherent decisions. The uncertainty in the problem can be described using probability, and the consequences can also be quantified.&lt;/p&gt;
+&lt;p&gt;We may be very unsure of the condition of the car. This implies that we consider there to be a relatively high probability that it will breakdown (because we do not know enough to be confident that everything is OK). Even so, we need some sort of quantitative approach to allow us to make coherent decisions. The uncertainty in the problem can be described using probability, and we can also put numbers to the consequences.&lt;/p&gt;
 &lt;p&gt;Firstly, after some online research (statements from the manufacturer, reviewers websites and forums), we’ve seen evidence that the problem that the mechanic described is real, and that 30% of cars like yours are affected:&lt;/p&gt;
 &lt;style&gt;html {
   font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif;
 }
 
-#rykfseaaqb .gt_table {
+#moknavnnyj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -194,7 +189,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-left-color: #D3D3D3;
 }
 
-#rykfseaaqb .gt_heading {
+#moknavnnyj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -206,7 +201,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-right-color: #D3D3D3;
 }
 
-#rykfseaaqb .gt_title {
+#moknavnnyj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -216,7 +211,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-bottom-width: 0;
 }
 
-#rykfseaaqb .gt_subtitle {
+#moknavnnyj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -226,13 +221,13 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-top-width: 0;
 }
 
-#rykfseaaqb .gt_bottom_border {
+#moknavnnyj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rykfseaaqb .gt_col_headings {
+#moknavnnyj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -247,7 +242,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-right-color: #D3D3D3;
 }
 
-#rykfseaaqb .gt_col_heading {
+#moknavnnyj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -267,7 +262,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   overflow-x: hidden;
 }
 
-#rykfseaaqb .gt_column_spanner_outer {
+#moknavnnyj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -279,15 +274,15 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   padding-right: 4px;
 }
 
-#rykfseaaqb .gt_column_spanner_outer:first-child {
+#moknavnnyj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rykfseaaqb .gt_column_spanner_outer:last-child {
+#moknavnnyj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rykfseaaqb .gt_column_spanner {
+#moknavnnyj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -299,7 +294,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   width: 100%;
 }
 
-#rykfseaaqb .gt_group_heading {
+#moknavnnyj .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -321,7 +316,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   vertical-align: middle;
 }
 
-#rykfseaaqb .gt_empty_group_heading {
+#moknavnnyj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -336,19 +331,19 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   vertical-align: middle;
 }
 
-#rykfseaaqb .gt_striped {
+#moknavnnyj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rykfseaaqb .gt_from_md &gt; :first-child {
+#moknavnnyj .gt_from_md &gt; :first-child {
   margin-top: 0;
 }
 
-#rykfseaaqb .gt_from_md &gt; :last-child {
+#moknavnnyj .gt_from_md &gt; :last-child {
   margin-bottom: 0;
 }
 
-#rykfseaaqb .gt_row {
+#moknavnnyj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -367,7 +362,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   overflow-x: hidden;
 }
 
-#rykfseaaqb .gt_stub {
+#moknavnnyj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -379,7 +374,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   padding-left: 12px;
 }
 
-#rykfseaaqb .gt_summary_row {
+#moknavnnyj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -389,7 +384,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   padding-right: 5px;
 }
 
-#rykfseaaqb .gt_first_summary_row {
+#moknavnnyj .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -399,7 +394,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-top-color: #D3D3D3;
 }
 
-#rykfseaaqb .gt_grand_summary_row {
+#moknavnnyj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -409,7 +404,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   padding-right: 5px;
 }
 
-#rykfseaaqb .gt_first_grand_summary_row {
+#moknavnnyj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -419,7 +414,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-top-color: #D3D3D3;
 }
 
-#rykfseaaqb .gt_table_body {
+#moknavnnyj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -428,7 +423,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-bottom-color: #D3D3D3;
 }
 
-#rykfseaaqb .gt_footnotes {
+#moknavnnyj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -442,13 +437,13 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-right-color: #D3D3D3;
 }
 
-#rykfseaaqb .gt_footnote {
+#moknavnnyj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#rykfseaaqb .gt_sourcenotes {
+#moknavnnyj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -462,46 +457,46 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-right-color: #D3D3D3;
 }
 
-#rykfseaaqb .gt_sourcenote {
+#moknavnnyj .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#rykfseaaqb .gt_left {
+#moknavnnyj .gt_left {
   text-align: left;
 }
 
-#rykfseaaqb .gt_center {
+#moknavnnyj .gt_center {
   text-align: center;
 }
 
-#rykfseaaqb .gt_right {
+#moknavnnyj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rykfseaaqb .gt_font_normal {
+#moknavnnyj .gt_font_normal {
   font-weight: normal;
 }
 
-#rykfseaaqb .gt_font_bold {
+#moknavnnyj .gt_font_bold {
   font-weight: bold;
 }
 
-#rykfseaaqb .gt_font_italic {
+#moknavnnyj .gt_font_italic {
   font-style: italic;
 }
 
-#rykfseaaqb .gt_super {
+#moknavnnyj .gt_super {
   font-size: 65%;
 }
 
-#rykfseaaqb .gt_footnote_marks {
+#moknavnnyj .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 &lt;/style&gt;
-&lt;div id=&#34;rykfseaaqb&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
+&lt;div id=&#34;moknavnnyj&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
   &lt;thead class=&#34;gt_header&#34;&gt;
     &lt;tr&gt;
       &lt;th colspan=&#34;2&#34; class=&#34;gt_heading gt_title gt_font_normal&#34; style&gt;&lt;em&gt;Probabilities&lt;/em&gt; used in the decision analysis&lt;/th&gt;
@@ -533,12 +528,13 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   
   
 &lt;/table&gt;&lt;/div&gt;
+&lt;p&gt;(Note that we assuming if we do pay for a repair, then it will be &lt;em&gt;perfect&lt;/em&gt; - in other words, once the garage repairs the problem component, there is no way the car will breakdown due to this problem. We could change this probability if we wanted to account for the reliability of the job.)&lt;/p&gt;
 &lt;p&gt;Secondly, after your best efforts to present yourself as a car aficionado, who can’t be fooled into paying an unfair price, the garage provides you with the following quotes:&lt;/p&gt;
 &lt;style&gt;html {
   font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif;
 }
 
-#sclgzjmrvw .gt_table {
+#mrrhoggbyd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -561,7 +557,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-left-color: #D3D3D3;
 }
 
-#sclgzjmrvw .gt_heading {
+#mrrhoggbyd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -573,7 +569,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-right-color: #D3D3D3;
 }
 
-#sclgzjmrvw .gt_title {
+#mrrhoggbyd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -583,7 +579,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-bottom-width: 0;
 }
 
-#sclgzjmrvw .gt_subtitle {
+#mrrhoggbyd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -593,13 +589,13 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-top-width: 0;
 }
 
-#sclgzjmrvw .gt_bottom_border {
+#mrrhoggbyd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sclgzjmrvw .gt_col_headings {
+#mrrhoggbyd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -614,7 +610,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-right-color: #D3D3D3;
 }
 
-#sclgzjmrvw .gt_col_heading {
+#mrrhoggbyd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -634,7 +630,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   overflow-x: hidden;
 }
 
-#sclgzjmrvw .gt_column_spanner_outer {
+#mrrhoggbyd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -646,15 +642,15 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   padding-right: 4px;
 }
 
-#sclgzjmrvw .gt_column_spanner_outer:first-child {
+#mrrhoggbyd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sclgzjmrvw .gt_column_spanner_outer:last-child {
+#mrrhoggbyd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sclgzjmrvw .gt_column_spanner {
+#mrrhoggbyd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -666,7 +662,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   width: 100%;
 }
 
-#sclgzjmrvw .gt_group_heading {
+#mrrhoggbyd .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -688,7 +684,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   vertical-align: middle;
 }
 
-#sclgzjmrvw .gt_empty_group_heading {
+#mrrhoggbyd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -703,19 +699,19 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   vertical-align: middle;
 }
 
-#sclgzjmrvw .gt_striped {
+#mrrhoggbyd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sclgzjmrvw .gt_from_md &gt; :first-child {
+#mrrhoggbyd .gt_from_md &gt; :first-child {
   margin-top: 0;
 }
 
-#sclgzjmrvw .gt_from_md &gt; :last-child {
+#mrrhoggbyd .gt_from_md &gt; :last-child {
   margin-bottom: 0;
 }
 
-#sclgzjmrvw .gt_row {
+#mrrhoggbyd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -734,7 +730,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   overflow-x: hidden;
 }
 
-#sclgzjmrvw .gt_stub {
+#mrrhoggbyd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -746,7 +742,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   padding-left: 12px;
 }
 
-#sclgzjmrvw .gt_summary_row {
+#mrrhoggbyd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -756,7 +752,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   padding-right: 5px;
 }
 
-#sclgzjmrvw .gt_first_summary_row {
+#mrrhoggbyd .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -766,7 +762,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-top-color: #D3D3D3;
 }
 
-#sclgzjmrvw .gt_grand_summary_row {
+#mrrhoggbyd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -776,7 +772,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   padding-right: 5px;
 }
 
-#sclgzjmrvw .gt_first_grand_summary_row {
+#mrrhoggbyd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -786,7 +782,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-top-color: #D3D3D3;
 }
 
-#sclgzjmrvw .gt_table_body {
+#mrrhoggbyd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -795,7 +791,7 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-bottom-color: #D3D3D3;
 }
 
-#sclgzjmrvw .gt_footnotes {
+#mrrhoggbyd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -809,13 +805,13 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-right-color: #D3D3D3;
 }
 
-#sclgzjmrvw .gt_footnote {
+#mrrhoggbyd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#sclgzjmrvw .gt_sourcenotes {
+#mrrhoggbyd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -829,46 +825,46 @@ plot.RHuginDomain(x = prior_analysis, what = &amp;#39;network&amp;#39;)
   border-right-color: #D3D3D3;
 }
 
-#sclgzjmrvw .gt_sourcenote {
+#mrrhoggbyd .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#sclgzjmrvw .gt_left {
+#mrrhoggbyd .gt_left {
   text-align: left;
 }
 
-#sclgzjmrvw .gt_center {
+#mrrhoggbyd .gt_center {
   text-align: center;
 }
 
-#sclgzjmrvw .gt_right {
+#mrrhoggbyd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sclgzjmrvw .gt_font_normal {
+#mrrhoggbyd .gt_font_normal {
   font-weight: normal;
 }
 
-#sclgzjmrvw .gt_font_bold {
+#mrrhoggbyd .gt_font_bold {
   font-weight: bold;
 }
 
-#sclgzjmrvw .gt_font_italic {
+#mrrhoggbyd .gt_font_italic {
   font-style: italic;
 }
 
-#sclgzjmrvw .gt_super {
+#mrrhoggbyd .gt_super {
   font-size: 65%;
 }
 
-#sclgzjmrvw .gt_footnote_marks {
+#mrrhoggbyd .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 &lt;/style&gt;
-&lt;div id=&#34;sclgzjmrvw&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
+&lt;div id=&#34;mrrhoggbyd&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
   &lt;thead class=&#34;gt_header&#34;&gt;
     &lt;tr&gt;
       &lt;th colspan=&#34;2&#34; class=&#34;gt_heading gt_title gt_font_normal&#34; style&gt;&lt;em&gt;Costs&lt;/em&gt; used in the decision analysis&lt;/th&gt;
@@ -918,7 +914,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif;
 }
 
-#qmdomsscwm .gt_table {
+#ggrbaqdnff .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -941,7 +937,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   border-left-color: #D3D3D3;
 }
 
-#qmdomsscwm .gt_heading {
+#ggrbaqdnff .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -953,7 +949,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   border-right-color: #D3D3D3;
 }
 
-#qmdomsscwm .gt_title {
+#ggrbaqdnff .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -963,7 +959,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   border-bottom-width: 0;
 }
 
-#qmdomsscwm .gt_subtitle {
+#ggrbaqdnff .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -973,13 +969,13 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   border-top-width: 0;
 }
 
-#qmdomsscwm .gt_bottom_border {
+#ggrbaqdnff .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qmdomsscwm .gt_col_headings {
+#ggrbaqdnff .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -994,7 +990,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   border-right-color: #D3D3D3;
 }
 
-#qmdomsscwm .gt_col_heading {
+#ggrbaqdnff .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1014,7 +1010,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   overflow-x: hidden;
 }
 
-#qmdomsscwm .gt_column_spanner_outer {
+#ggrbaqdnff .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1026,15 +1022,15 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   padding-right: 4px;
 }
 
-#qmdomsscwm .gt_column_spanner_outer:first-child {
+#ggrbaqdnff .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qmdomsscwm .gt_column_spanner_outer:last-child {
+#ggrbaqdnff .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qmdomsscwm .gt_column_spanner {
+#ggrbaqdnff .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1046,7 +1042,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   width: 100%;
 }
 
-#qmdomsscwm .gt_group_heading {
+#ggrbaqdnff .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1068,7 +1064,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   vertical-align: middle;
 }
 
-#qmdomsscwm .gt_empty_group_heading {
+#ggrbaqdnff .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1083,19 +1079,19 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   vertical-align: middle;
 }
 
-#qmdomsscwm .gt_striped {
+#ggrbaqdnff .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qmdomsscwm .gt_from_md &gt; :first-child {
+#ggrbaqdnff .gt_from_md &gt; :first-child {
   margin-top: 0;
 }
 
-#qmdomsscwm .gt_from_md &gt; :last-child {
+#ggrbaqdnff .gt_from_md &gt; :last-child {
   margin-bottom: 0;
 }
 
-#qmdomsscwm .gt_row {
+#ggrbaqdnff .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1114,7 +1110,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   overflow-x: hidden;
 }
 
-#qmdomsscwm .gt_stub {
+#ggrbaqdnff .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1126,7 +1122,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   padding-left: 12px;
 }
 
-#qmdomsscwm .gt_summary_row {
+#ggrbaqdnff .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1136,7 +1132,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   padding-right: 5px;
 }
 
-#qmdomsscwm .gt_first_summary_row {
+#ggrbaqdnff .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1146,7 +1142,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   border-top-color: #D3D3D3;
 }
 
-#qmdomsscwm .gt_grand_summary_row {
+#ggrbaqdnff .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1156,7 +1152,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   padding-right: 5px;
 }
 
-#qmdomsscwm .gt_first_grand_summary_row {
+#ggrbaqdnff .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1166,7 +1162,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   border-top-color: #D3D3D3;
 }
 
-#qmdomsscwm .gt_table_body {
+#ggrbaqdnff .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1175,7 +1171,7 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   border-bottom-color: #D3D3D3;
 }
 
-#qmdomsscwm .gt_footnotes {
+#ggrbaqdnff .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1189,13 +1185,13 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   border-right-color: #D3D3D3;
 }
 
-#qmdomsscwm .gt_footnote {
+#ggrbaqdnff .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#qmdomsscwm .gt_sourcenotes {
+#ggrbaqdnff .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1209,46 +1205,46 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   border-right-color: #D3D3D3;
 }
 
-#qmdomsscwm .gt_sourcenote {
+#ggrbaqdnff .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#qmdomsscwm .gt_left {
+#ggrbaqdnff .gt_left {
   text-align: left;
 }
 
-#qmdomsscwm .gt_center {
+#ggrbaqdnff .gt_center {
   text-align: center;
 }
 
-#qmdomsscwm .gt_right {
+#ggrbaqdnff .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qmdomsscwm .gt_font_normal {
+#ggrbaqdnff .gt_font_normal {
   font-weight: normal;
 }
 
-#qmdomsscwm .gt_font_bold {
+#ggrbaqdnff .gt_font_bold {
   font-weight: bold;
 }
 
-#qmdomsscwm .gt_font_italic {
+#ggrbaqdnff .gt_font_italic {
   font-style: italic;
 }
 
-#qmdomsscwm .gt_super {
+#ggrbaqdnff .gt_super {
   font-size: 65%;
 }
 
-#qmdomsscwm .gt_footnote_marks {
+#ggrbaqdnff .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 &lt;/style&gt;
-&lt;div id=&#34;qmdomsscwm&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
+&lt;div id=&#34;ggrbaqdnff&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
   
   &lt;thead class=&#34;gt_col_headings&#34;&gt;
     &lt;tr&gt;
@@ -1269,23 +1265,25 @@ expected_costs &amp;lt;- get.utility(domain = prior_analysis, node = &amp;#39;Re
   
   
 &lt;/table&gt;&lt;/div&gt;
+&lt;p&gt;This shows that we can expect to pay less if we get the repair done now, so it’s reasonable to go with that option on the basis of this.&lt;/p&gt;
 &lt;div id=&#34;a-quick-note-on-utility-theory&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;A Quick Note on Utility Theory&lt;/h4&gt;
-&lt;p&gt;The optimal solutions in a decision analysis problem are those that correspond to a maximum expected pay-off (or a minimum expected cost). This mathematically coherent approach was first proposed by &lt;a href=&#34;https://www.amazon.co.uk/Economic-Behavior-Princeton-Classic-Editions/dp/0691130612&#34;&gt;John von Neumann and Oskar Morgenstern&lt;/a&gt;. However, it may not always be appropriate to map financial consequences of decision outcomes to a linear scale.&lt;/p&gt;
+&lt;p&gt;The optimal solutions in a decision analysis problem are those that correspond to a maximum expected pay-off (or a minimum expected cost). This mathematically coherent approach was first proposed by &lt;a href=&#34;https://www.amazon.co.uk/Economic-Behavior-Princeton-Classic-Editions/dp/0691130612&#34;&gt;John von Neumann and Oskar Morgenstern&lt;/a&gt;. However, it may not always be appropriate to directly translate financial consequences in this way.&lt;/p&gt;
 &lt;p&gt;Consider a possible cost of $30,000.&lt;/p&gt;
 &lt;p&gt;Is this really twice as bad as an equally likely cost of $15,000? It depends.&lt;/p&gt;
 &lt;p&gt;The higher cost, could have additional knock-on effects. It may require a loan, or some other expenditure to be deferred. If we are completing a decision analysis on behalf of a large company, then it could be reasonable to compare costs of this magnitude on a simple linear scale. However, if the decision maker was a small start-up, this assumption may not be helpful.&lt;/p&gt;
-&lt;p&gt;As a result, we may need to transform monetary costs (or pay-off) onto a utility scale. The optimal decision is then that which is associated with the expected maximum utility. There is significant scientific literature on utility functions, but a concise discussion in the context of Bayesian decision theory is provided in &lt;a href=&#34;https://www.amazon.co.uk/Introduction-Statistical-Decision-Theory-Press/dp/026266206X&#34;&gt;the book from John Pratt, Howard Raiffa and Robert Schlaiffer&lt;/a&gt;. Some &lt;em&gt;default&lt;/em&gt; functions are available, but there is also the option of fitting a function from some points, where money vs. utility has been defined by the decision maker.&lt;/p&gt;
-&lt;p&gt;An illustration of how the same amount of money could be valued differently by two parties is shown graphically below.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-08-03-expected-value-of-information.en/2020-08-03-expected-value-of-information.en_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;As a result, we may need to transform monetary costs (or pay-off) on to a utility scale. The optimal decision is then that which is associated with the expected maximum utility. There is significant scientific literature on utility functions, but a concise discussion in the context of decision making is provided in &lt;a href=&#34;https://www.amazon.co.uk/Introduction-Statistical-Decision-Theory-Press/dp/026266206X&#34;&gt;the book from John Pratt, Howard Raiffa and Robert Schlaiffer&lt;/a&gt;. Some &lt;em&gt;default&lt;/em&gt; functions are available, but there is also the option of fitting a function from some points, where money vs. utility has been defined by the decision maker.&lt;/p&gt;
+&lt;p&gt;An illustration of how the same amount of money could be valued differently by two parties is shown graphically below. A financial hit of even a few thousand could be catastrophic for &lt;em&gt;Wholesome Engineering co.&lt;/em&gt;, but &lt;em&gt;Big Evil Tech&lt;/em&gt; could absorb it no problem. Similarly, small gains could be more valuable to the smaller company as it could have a more meaningful impact on their future investments, which is less likely to be the case for the large company.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-03-expected-value-of-information.en/2020-08-03-expected-value-of-information.en_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;For the purposes of this example, we will not do any mapping to a utility scale, but it’s worth keeping this in mind when giving advice.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-value-of-information&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;The Value of Information&lt;/h3&gt;
-&lt;p&gt;Now that we’ve set the scene, remember that the problem we are interested in, is:&lt;/p&gt;
+&lt;p&gt;Now that we’ve set the scene (and after that brief digression), remember that the problem we are interested in, is:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;How (and to what extent) can some additional information assist in the decision making process?&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Let’s extend the influence diagram, showing the option we have to perform a diagnostic test to improve our understanding of the condition of the car, before we decide whether to pay for the repair or not.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-08-03-expected-value-of-information.en/2020-08-03-expected-value-of-information.en_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-03-expected-value-of-information.en/2020-08-03-expected-value-of-information.en_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;For the time being, I’ve not included a cost for the test, but I’ll come back to this point shortly. Now to compile the model…&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;RHugin::compile(object = prepost_analysis)
 
@@ -1296,7 +1294,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif;
 }
 
-#qjjijymkjy .gt_table {
+#wxsooiiyoz .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1319,7 +1317,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-left-color: #D3D3D3;
 }
 
-#qjjijymkjy .gt_heading {
+#wxsooiiyoz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1331,7 +1329,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-right-color: #D3D3D3;
 }
 
-#qjjijymkjy .gt_title {
+#wxsooiiyoz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1341,7 +1339,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-bottom-width: 0;
 }
 
-#qjjijymkjy .gt_subtitle {
+#wxsooiiyoz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1351,13 +1349,13 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-top-width: 0;
 }
 
-#qjjijymkjy .gt_bottom_border {
+#wxsooiiyoz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qjjijymkjy .gt_col_headings {
+#wxsooiiyoz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1372,7 +1370,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-right-color: #D3D3D3;
 }
 
-#qjjijymkjy .gt_col_heading {
+#wxsooiiyoz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1392,7 +1390,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   overflow-x: hidden;
 }
 
-#qjjijymkjy .gt_column_spanner_outer {
+#wxsooiiyoz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1404,15 +1402,15 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   padding-right: 4px;
 }
 
-#qjjijymkjy .gt_column_spanner_outer:first-child {
+#wxsooiiyoz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qjjijymkjy .gt_column_spanner_outer:last-child {
+#wxsooiiyoz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qjjijymkjy .gt_column_spanner {
+#wxsooiiyoz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1424,7 +1422,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   width: 100%;
 }
 
-#qjjijymkjy .gt_group_heading {
+#wxsooiiyoz .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1446,7 +1444,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   vertical-align: middle;
 }
 
-#qjjijymkjy .gt_empty_group_heading {
+#wxsooiiyoz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1461,19 +1459,19 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   vertical-align: middle;
 }
 
-#qjjijymkjy .gt_striped {
+#wxsooiiyoz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qjjijymkjy .gt_from_md &gt; :first-child {
+#wxsooiiyoz .gt_from_md &gt; :first-child {
   margin-top: 0;
 }
 
-#qjjijymkjy .gt_from_md &gt; :last-child {
+#wxsooiiyoz .gt_from_md &gt; :last-child {
   margin-bottom: 0;
 }
 
-#qjjijymkjy .gt_row {
+#wxsooiiyoz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1492,7 +1490,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   overflow-x: hidden;
 }
 
-#qjjijymkjy .gt_stub {
+#wxsooiiyoz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1504,7 +1502,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   padding-left: 12px;
 }
 
-#qjjijymkjy .gt_summary_row {
+#wxsooiiyoz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1514,7 +1512,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   padding-right: 5px;
 }
 
-#qjjijymkjy .gt_first_summary_row {
+#wxsooiiyoz .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1524,7 +1522,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-top-color: #D3D3D3;
 }
 
-#qjjijymkjy .gt_grand_summary_row {
+#wxsooiiyoz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1534,7 +1532,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   padding-right: 5px;
 }
 
-#qjjijymkjy .gt_first_grand_summary_row {
+#wxsooiiyoz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1544,7 +1542,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-top-color: #D3D3D3;
 }
 
-#qjjijymkjy .gt_table_body {
+#wxsooiiyoz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1553,7 +1551,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-bottom-color: #D3D3D3;
 }
 
-#qjjijymkjy .gt_footnotes {
+#wxsooiiyoz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1567,13 +1565,13 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-right-color: #D3D3D3;
 }
 
-#qjjijymkjy .gt_footnote {
+#wxsooiiyoz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#qjjijymkjy .gt_sourcenotes {
+#wxsooiiyoz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1587,46 +1585,46 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-right-color: #D3D3D3;
 }
 
-#qjjijymkjy .gt_sourcenote {
+#wxsooiiyoz .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#qjjijymkjy .gt_left {
+#wxsooiiyoz .gt_left {
   text-align: left;
 }
 
-#qjjijymkjy .gt_center {
+#wxsooiiyoz .gt_center {
   text-align: center;
 }
 
-#qjjijymkjy .gt_right {
+#wxsooiiyoz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qjjijymkjy .gt_font_normal {
+#wxsooiiyoz .gt_font_normal {
   font-weight: normal;
 }
 
-#qjjijymkjy .gt_font_bold {
+#wxsooiiyoz .gt_font_bold {
   font-weight: bold;
 }
 
-#qjjijymkjy .gt_font_italic {
+#wxsooiiyoz .gt_font_italic {
   font-style: italic;
 }
 
-#qjjijymkjy .gt_super {
+#wxsooiiyoz .gt_super {
   font-size: 65%;
 }
 
-#qjjijymkjy .gt_footnote_marks {
+#wxsooiiyoz .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 &lt;/style&gt;
-&lt;div id=&#34;qjjijymkjy&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
+&lt;div id=&#34;wxsooiiyoz&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
   
   &lt;thead class=&#34;gt_col_headings&#34;&gt;
     &lt;tr&gt;
@@ -1647,21 +1645,21 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   
   
 &lt;/table&gt;&lt;/div&gt;
-&lt;p&gt;This tells us that our expected cost is reduced when we have more information (from the test) to support our decision of whether or not to pay for the repair. Uncertainty makes decision making more difficult, and so we will always benefit from improving our understanding of the problem.&lt;/p&gt;
+&lt;p&gt;This tells us that our expected cost is reduced when we have more information (from the test) to support our decision of whether or not to pay for the repair. Uncertainty makes decision making more difficult, and so improving our understanding of the problem can never hurt.&lt;/p&gt;
 &lt;p&gt;Specifically, the expected value of performing this test is equal to the difference between the expected costs, &lt;strong&gt;with&lt;/strong&gt; ($180.00)&lt;/p&gt;
 &lt;p&gt;…and &lt;strong&gt;without&lt;/strong&gt; (-$600.00)…&lt;/p&gt;
 &lt;p&gt;this information. This difference (our expected value of information) is equal to $420.00.&lt;/p&gt;
-&lt;p&gt;As I mentioned earlier, I have not included a cost of the test in the second influence diagram. This means we can interpret this value as &lt;em&gt;the maximum amount we would be willing to pay for this test&lt;/em&gt;. If the garage offered the test for a fee less than $420.00, then we would be minimising expected costs by paying for the test. Otherwise, we would not expect the test to be worthwhile.&lt;/p&gt;
-&lt;p&gt;Finally, what we have really calculated here, is the expected &lt;em&gt;Value of Perfect Information&lt;/em&gt;. This is because we are assuming this test is completely accurate, i.e. if the test indicates the car is damaged then we know for sure that it is. No test is ever perfect, and that means it won’t be as informative as we have assumed it to be here. As a result, the value of perfect information is really just an upper bound. Quickly identifying an upper bound can be very useful, but for cases where we need a better estimate we need to account for the imperfect features of the information we are considering buying.&lt;/p&gt;
+&lt;p&gt;As I mentioned earlier, I have not included a cost of the test in the second influence diagram. This means we can interpret this value as &lt;em&gt;the maximum amount we would be willing to pay for this test&lt;/em&gt;. If the garage offered the test for a fee less than $420.00, then we would be minimising expected costs by paying for the test. Otherwise, we would not expect the test to be worthwhile, since we’d be better off just paying for the repair.&lt;/p&gt;
+&lt;p&gt;Finally, what we have really calculated here, is the expected &lt;em&gt;Value of Perfect Information&lt;/em&gt;. This is because we are assuming this test is completely accurate, i.e. if the test indicates the car is damaged then we know for sure that it is. No test is ever perfect, and that means the result won’t be as informative as we have assumed it to be here. The value of perfect information is therefore really just an upper bound. Quickly identifying an upper bound can be very useful, but for cases where we need a better estimate, we need to think about the imperfect features of the information we are considering buying.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;in-practice-the-value-of-imperfect-information&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;In Practice: The Value of &lt;em&gt;Imperfect&lt;/em&gt; Information&lt;/h3&gt;
-&lt;p&gt;Imagine we now know a little bit more about the test that the garage is offering. We know that if it reports damage, there is a 10% chance that this is a mistake (sometimes referred to as a &lt;em&gt;false-positive&lt;/em&gt; error). Conversely, we have also learnt that this test misses damage (&lt;em&gt;false-negative&lt;/em&gt; error) 5% of the time. Since this will be less useful, than the perfect information that we considered above, it will not be any more valuable.&lt;/p&gt;
+&lt;p&gt;Imagine we now know a little bit more about the diagnostic test that the garage is offering. We know that if it reports damage, there is a 10% chance that this is a mistake (sometimes referred to as a &lt;em&gt;false-positive&lt;/em&gt; error). Conversely, we have also learnt that this test misses damage (gives a &lt;em&gt;false-negative&lt;/em&gt; error) 5% of the time. Since this will be less useful than the perfect test that we considered above, it can’t be any more valuable than that.&lt;/p&gt;
 &lt;style&gt;html {
   font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif;
 }
 
-#gnjfltntqk .gt_table {
+#nwudieweqa .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1684,7 +1682,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-left-color: #D3D3D3;
 }
 
-#gnjfltntqk .gt_heading {
+#nwudieweqa .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1696,7 +1694,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-right-color: #D3D3D3;
 }
 
-#gnjfltntqk .gt_title {
+#nwudieweqa .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1706,7 +1704,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-bottom-width: 0;
 }
 
-#gnjfltntqk .gt_subtitle {
+#nwudieweqa .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1716,13 +1714,13 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-top-width: 0;
 }
 
-#gnjfltntqk .gt_bottom_border {
+#nwudieweqa .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gnjfltntqk .gt_col_headings {
+#nwudieweqa .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1737,7 +1735,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-right-color: #D3D3D3;
 }
 
-#gnjfltntqk .gt_col_heading {
+#nwudieweqa .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1757,7 +1755,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   overflow-x: hidden;
 }
 
-#gnjfltntqk .gt_column_spanner_outer {
+#nwudieweqa .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1769,15 +1767,15 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   padding-right: 4px;
 }
 
-#gnjfltntqk .gt_column_spanner_outer:first-child {
+#nwudieweqa .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gnjfltntqk .gt_column_spanner_outer:last-child {
+#nwudieweqa .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gnjfltntqk .gt_column_spanner {
+#nwudieweqa .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1789,7 +1787,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   width: 100%;
 }
 
-#gnjfltntqk .gt_group_heading {
+#nwudieweqa .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1811,7 +1809,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   vertical-align: middle;
 }
 
-#gnjfltntqk .gt_empty_group_heading {
+#nwudieweqa .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1826,19 +1824,19 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   vertical-align: middle;
 }
 
-#gnjfltntqk .gt_striped {
+#nwudieweqa .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gnjfltntqk .gt_from_md &gt; :first-child {
+#nwudieweqa .gt_from_md &gt; :first-child {
   margin-top: 0;
 }
 
-#gnjfltntqk .gt_from_md &gt; :last-child {
+#nwudieweqa .gt_from_md &gt; :last-child {
   margin-bottom: 0;
 }
 
-#gnjfltntqk .gt_row {
+#nwudieweqa .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1857,7 +1855,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   overflow-x: hidden;
 }
 
-#gnjfltntqk .gt_stub {
+#nwudieweqa .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1869,7 +1867,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   padding-left: 12px;
 }
 
-#gnjfltntqk .gt_summary_row {
+#nwudieweqa .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1879,7 +1877,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   padding-right: 5px;
 }
 
-#gnjfltntqk .gt_first_summary_row {
+#nwudieweqa .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1889,7 +1887,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-top-color: #D3D3D3;
 }
 
-#gnjfltntqk .gt_grand_summary_row {
+#nwudieweqa .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1899,7 +1897,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   padding-right: 5px;
 }
 
-#gnjfltntqk .gt_first_grand_summary_row {
+#nwudieweqa .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1909,7 +1907,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-top-color: #D3D3D3;
 }
 
-#gnjfltntqk .gt_table_body {
+#nwudieweqa .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1918,7 +1916,7 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-bottom-color: #D3D3D3;
 }
 
-#gnjfltntqk .gt_footnotes {
+#nwudieweqa .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1932,13 +1930,13 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-right-color: #D3D3D3;
 }
 
-#gnjfltntqk .gt_footnote {
+#nwudieweqa .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#gnjfltntqk .gt_sourcenotes {
+#nwudieweqa .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1952,46 +1950,46 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   border-right-color: #D3D3D3;
 }
 
-#gnjfltntqk .gt_sourcenote {
+#nwudieweqa .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#gnjfltntqk .gt_left {
+#nwudieweqa .gt_left {
   text-align: left;
 }
 
-#gnjfltntqk .gt_center {
+#nwudieweqa .gt_center {
   text-align: center;
 }
 
-#gnjfltntqk .gt_right {
+#nwudieweqa .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gnjfltntqk .gt_font_normal {
+#nwudieweqa .gt_font_normal {
   font-weight: normal;
 }
 
-#gnjfltntqk .gt_font_bold {
+#nwudieweqa .gt_font_bold {
   font-weight: bold;
 }
 
-#gnjfltntqk .gt_font_italic {
+#nwudieweqa .gt_font_italic {
   font-style: italic;
 }
 
-#gnjfltntqk .gt_super {
+#nwudieweqa .gt_super {
   font-size: 65%;
 }
 
-#gnjfltntqk .gt_footnote_marks {
+#nwudieweqa .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 &lt;/style&gt;
-&lt;div id=&#34;gnjfltntqk&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
+&lt;div id=&#34;nwudieweqa&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
   
   &lt;thead class=&#34;gt_col_headings&#34;&gt;
     &lt;tr&gt;
@@ -2012,30 +2010,31 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
   
   
 &lt;/table&gt;&lt;/div&gt;
-&lt;p&gt;Based on these new expected utilities, the expected value of this imperfect test is $342.11. We can use this calculation to perform a sensitivity analysis, showing how (for example) the false negative error rate influences the expected value of the test:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-08-03-expected-value-of-information.en/2020-08-03-expected-value-of-information.en_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Based on these new expected costs, the expected value of this imperfect test is $342.11. We can use this calculation to perform a sensitivity analysis, showing how (for example) the false negative error rate influences the expected value of the test:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-03-expected-value-of-information.en/2020-08-03-expected-value-of-information.en_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;As expected, tests that are more likely to miss the damage are not worth as much to us. The discrepancy between the value of the perfect and imperfect tests without a false-negative error (&lt;span class=&#34;math inline&#34;&gt;\(\Pr(Pass\;Test \mid Car\;damaged) = 0\)&lt;/span&gt;), is due to the false-positive error of 10%, which I left unchanged.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;more-realistic-models-working-on-continuous-scales&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;More Realistic Models (Working on Continuous Scales)&lt;/h3&gt;
-&lt;p&gt;By discretising uncertain outcomes, we simplify the analysis we need to do to identify our expected optimal decisions. However, this may be an inaccurate representation of the true problem. Predicting whether or not a car will breakdown based on the condition of a component may itself require a reliability assessment (probabilistic calculation). Similarly, it may not be appropriate to represent features of the diagnostic test on a discrete scale either. For instance, the probability of missing damage may be a function of the extent of the damage, i.e. it is generally less likely that greater deterioration is missed. The measurements may also need to be a continuous scale, which should account for precision and possible bias.&lt;/p&gt;
+&lt;p&gt;By discretising uncertain outcomes, we simplify the the calculations that we need to do to identify our expected optimal decisions. However, this may be an inaccurate representation of the true problem. Predicting whether or not a car will breakdown based on the condition of a component may itself require a reliability assessment (probabilistic calculation). Similarly, it may not be appropriate to represent features of the diagnostic test on a discrete scale either. For instance, the probability of missing damage may be a function of the extent of the damage, i.e. it is generally less likely that greater deterioration is missed. The measurements may also need to be a continuous scale, which should account for precision and possible bias.&lt;/p&gt;
 &lt;div id=&#34;what-challenges-does-this-introduce&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;What challenges does this introduce?&lt;/h4&gt;
-&lt;p&gt;Essentially, the calculations become more time-consuming. Moving from discrete to continuous probability functions requires either neat mathematical methods, or many more calculations. In the case of the latter, we would repeat the above calculation for each sample that we draw from a probability distribution. When estimating very small probabilities, a lot of samples are required, and these calculations can take a long time to run without efficiency boosting methods such as &lt;em&gt;importance sampling&lt;/em&gt;. I plan to write a future post showing some examples of this type of thing soon. I’ve not included a more realistic example here, since this is just a conceptual introduction, but you can see a full example in &lt;a href=&#34;https://www.allyourbayes.com/publication/cees/&#34;&gt;my recent paper&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Essentially, the calculations become more time-consuming. Moving from discrete to continuous probability functions requires either neat mathematical methods, or many more calculations. In the case of the latter, we would repeat the above calculation for each sample that we draw from a probability distribution. When estimating very small probabilities, a lot of samples are required, and these calculations can take a long time to run (especially without efficiency boosting methods such as &lt;em&gt;importance sampling&lt;/em&gt;). I plan to write a future post showing some examples of this type of thing soon. I’ve not included a more realistic example here, since this is just a conceptual introduction, but if you’re interested in these details, check out &lt;a href=&#34;https://www.allyourbayes.com/publication/cees/&#34;&gt;my recent paper&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;summary-of-key-principles-final-thoughts&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Summary of Key Principles &amp;amp; Final Thoughts&lt;/h3&gt;
 &lt;p&gt;Here are the most important ideas to remember from the above:&lt;/p&gt;
-&lt;p&gt;The act of collecting information (such as the the diagnostic test on the car) does not &lt;em&gt;itself&lt;/em&gt; reduce risk. What it does do, is allow us to re-evaluate the options available to us with a better understanding of the problem. Therefore…&lt;/p&gt;
+&lt;p&gt;The act of collecting information (such as the the diagnostic test on the car) does not &lt;em&gt;itself&lt;/em&gt; save you money or reduce risk. What it does do, is allow us to re-evaluate the options available to us with a better understanding of the problem. Therefore…&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;to quantify the value of information, you need to relate it to the improved decision making that it facilitates.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;This is exactly what we have done in this example. We have compared our expected costs with and without the diagnostic test, allowing us to quantify the expected benefit of performing the test, in terms of money. This benefit arises from the simplification of the decision problem of whether to pay for the repair.&lt;/p&gt;
-&lt;p&gt;More generally, the act of collecting information, does not prevent costly failures in our systems. In the episode of &lt;em&gt;The Simpsons&lt;/em&gt;, &lt;a href=&#34;https://simpsons.fandom.com/wiki/Homer%27s_Enemy&#34;&gt;Homer’s Enemy&lt;/a&gt; Bart buys an old factory at an auction. It’s in terrible condition, so he hires Milhouse as a night watchman, so that they can keep from collapsing and continue to play in it. As shown below, Milhouse carries out his watchman duties….&lt;/p&gt;
+&lt;p&gt;One example of aimlessly collecting information was shown in the episode of &lt;em&gt;The Simpsons&lt;/em&gt;, &lt;a href=&#34;https://simpsons.fandom.com/wiki/Homer%27s_Enemy&#34;&gt;Homer’s Enemy&lt;/a&gt;. Bart buys an old factory at an auction. It’s in terrible condition, so he hires Milhouse as a night watchman, so that they can keep from collapsing and they can continue to play in it. As shown below, Milhouse carries out his watchman duties….&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
 &lt;img src=&#34;https://media.giphy.com/media/3orif90qwQCb9H0Uo0/giphy.gif&#34; alt=&#34;Monitoring, then not acting - the Milhouse approach.&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Monitoring, then not acting - the Milhouse approach.&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;This is the equivalent of paying for information just for the sake of it, like installing unnecessary sensors on a structure. An evaluation of inspection, monitoring, or testing options should be done in the context of the underlying decision problem that you are trying to solve. I don’t think this is a straightforward idea - but hopefully this discussion has demonstrated the concept.&lt;/p&gt;
+&lt;p&gt;This is the equivalent of paying for information just for the sake of it. Milhouse’s observations would only be of use, if they had a plan for what to do when it &lt;em&gt;‘started falling over’&lt;/em&gt;. An evaluation of inspection, monitoring, or testing options should be done in the context of the underlying decision problem that you are trying to solve. I don’t think this is a straightforward idea - but hopefully this discussion has demonstrated the concept.&lt;/p&gt;
+&lt;p&gt;Secondly:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;The value of information is context dependent.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Sometimes, more expensive, higher quality information is worth paying for. Sometimes it isn’t. When we already have a good idea of what we will find, or if it doesn’t really matter what we find - then we may get little to no value from additional information. When there is a lot of uncertainty in a problem and it pays to know exactly what’s going on, it may be worth spending big for high quality data.&lt;/p&gt;
 &lt;p&gt;I’d suggest that it’s only really at these extremes where we would intuitively know our best course of action.&lt;/p&gt;
@@ -2047,18 +2046,18 @@ expected_costs &amp;lt;- get.utility(domain = prepost_analysis, node = &amp;#39;
 &lt;p class=&#34;caption&#34;&gt;Sceptical?&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;Remember - we are using this method to tackle problems of decision making under uncertainty and we are representing that uncertainty with probability. We are not doing this to complicate things. Uncertainty exists, whether we choose to account for it or not. We are can identify the &lt;em&gt;expected&lt;/em&gt; best course of action, on the basis of our current partial understanding of the problem. If we knew more, we could do better, but we need to work with what we’ve got.&lt;/p&gt;
-&lt;p&gt;Also, when an organisation or an individual makes a difficult decision without thinking about it formally like we have here, then this entire process is just implicit. They are basing their decision on something, but we don’t know what exactly. This makes it very difficult to change any particular aspect of their decision making process, and for problems that do not have intuitive answers, relying on a &lt;em&gt;gut feeling&lt;/em&gt; will not always be helpful.&lt;/p&gt;
-&lt;p&gt;Now, if we see the result of a value of information calculation and it doesn’t feel right, this could mean a few things:&lt;/p&gt;
+&lt;p&gt;Also, when an organisation or an individual makes a difficult decision without thinking about it formally like we have here, then this entire process is just implicit. They are basing their decision on something, but we don’t know what exactly. This makes it very difficult to challenge (or audit) any particular aspect of their decision making process. For problems that do not have intuitive answers, relying on a &lt;em&gt;gut feeling&lt;/em&gt; will not always be helpful.&lt;/p&gt;
+&lt;p&gt;If we see the result of a value of information calculation and it doesn’t &lt;em&gt;feel&lt;/em&gt; right, this could mean a few things:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;The problem may not be intuitive.&lt;/strong&gt; Our feeling for what the result &lt;em&gt;should&lt;/em&gt; be is actually overlooking some complexity. If we suspect this is the case, then maybe it is better to trust the result. Since it can easily be documented, then each element can be critiqued and re-visited whenever.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;We’ve not included enough expert judgement.&lt;/strong&gt; Fortunately, this can easily be fixed as Bayesian methods are happy to accommodate prior information. In &lt;a href=&#34;https://www.allyourbayes.com/post/2020-02-14-bayesian-logistic-regression-with-stan/&#34;&gt;my post on Bayesian logistic regression&lt;/a&gt; I showed how prior predictive simulation can help identify sensible priors, even in more complicated Bayesian models. A great feature of this, is that the expert knowledge that goes in, is part of the model. This is much smarter than throwing out a calculation that an expert doesn’t agree with, or discussing &lt;em&gt;experience&lt;/em&gt;, &lt;em&gt;judgement&lt;/em&gt;, or &lt;em&gt;expertise&lt;/em&gt; as separate, unrelated topics.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The problem may not be intuitive.&lt;/strong&gt; Our feeling for what the result &lt;em&gt;should&lt;/em&gt; be is actually overlooking some complexity. If we suspect this is the case, then maybe it is better to trust the result. Since it can easily be documented, then each element can be critiqued and re-visited whenever we like.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;We’ve not included enough expert judgement.&lt;/strong&gt; Fortunately, this can easily be fixed as Bayesian methods are happy to accommodate prior information. In &lt;a href=&#34;https://www.allyourbayes.com/post/2020-02-14-bayesian-logistic-regression-with-stan/&#34;&gt;my post on Bayesian logistic regression&lt;/a&gt; I showed how prior predictive simulation can help identify sensible priors, even in more complicated statistical models. A great feature of this, is that the expert knowledge that goes in, is part of the model. This is much smarter than throwing out a calculation that an expert doesn’t agree with, or discussing &lt;em&gt;experience&lt;/em&gt;, &lt;em&gt;judgement&lt;/em&gt;, or &lt;em&gt;expertise&lt;/em&gt; as separate, unrelated topics.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div id=&#34;are-there-real-world-applications-or-is-this-all-academic&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;Are there Real World Applications? Or is this all Academic?&lt;/h4&gt;
 &lt;p&gt;When would anyone ever actually go to the effort of evaluating a decision in this way? (Other than academics who need to publish papers).&lt;/p&gt;
 &lt;p&gt;The idea of comparing expected utility with and without additional information was first proposed by &lt;a href=&#34;https://www.semanticscholar.org/paper/Applied-Statistical-Decision-Theory.-Minton-Raiffa/b3b885eba933831514ea3bc7ec289243a81176e9?p2df&#34;&gt;Raiffa &amp;amp; Schlaiffer in the 1960’s&lt;/a&gt;, but the computational tools available to us now, means that there are more real-world examples that can be modelled in this way.&lt;/p&gt;
-&lt;p&gt;Broadly speaking kind of calculation is worthwhile when there is enough risk associated with a decision. In designing expensive experiments, where you need to make each measurement count, then identifying the points where the expected value of data will be the most (in the context of the problem you are trying to solve) could be very helpful in not wasting your budget.&lt;/p&gt;
+&lt;p&gt;Broadly speaking kind of calculation is worthwhile whenever there is enough risk associated with a decision. For instance, in designing expensive experiments, where you need to make each measurement count, then identifying the points where the expected value of data will be the most (in the context of the problem you are trying to solve) could be very helpful in not wasting your budget.&lt;/p&gt;
 &lt;p&gt;The method has been demonstrated in the context of &lt;a href=&#34;https://www.convoi-group.org/&#34;&gt;medical decision making&lt;/a&gt; and in engineering, specifically the &lt;a href=&#34;https://www.cost-tu1402.eu/&#34;&gt;placement of sensors for structural health monitoring&lt;/a&gt;. However, it is really a generic framework, and I’m sure you can imagine many more applications, which are outside my current domain of knowledge - please send me a message if any that come to mind.&lt;/p&gt;
 &lt;p&gt;Academic presentation of decision analysis uses mathematical language, and this is helpful when explaining more complex application of these principles in a concise way. However, an appreciation for the fundamentals of what a value of information calculation is trying to achieve, and how it works can help stakeholders contribute to, and improve the process. I personally believe that this is potentially, an extremely powerful tool in decision support.&lt;/p&gt;
 &lt;/div&gt;
@@ -2643,9 +2642,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.087 seconds (Warm-up)
-## Chain 1:                0.09 seconds (Sampling)
-## Chain 1:                0.177 seconds (Total)
+## Chain 1:  Elapsed Time: 0.113 seconds (Warm-up)
+## Chain 1:                0.121 seconds (Sampling)
+## Chain 1:                0.234 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 2).
@@ -2668,9 +2667,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.113 seconds (Warm-up)
-## Chain 2:                0.086 seconds (Sampling)
-## Chain 2:                0.199 seconds (Total)
+## Chain 2:  Elapsed Time: 0.107 seconds (Warm-up)
+## Chain 2:                0.068 seconds (Sampling)
+## Chain 2:                0.175 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 3).
@@ -2693,9 +2692,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.08 seconds (Warm-up)
-## Chain 3:                0.085 seconds (Sampling)
-## Chain 3:                0.165 seconds (Total)
+## Chain 3:  Elapsed Time: 0.069 seconds (Warm-up)
+## Chain 3:                0.054 seconds (Sampling)
+## Chain 3:                0.123 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 4).
@@ -2718,9 +2717,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.091 seconds (Warm-up)
-## Chain 4:                0.101 seconds (Sampling)
-## Chain 4:                0.192 seconds (Total)
+## Chain 4:  Elapsed Time: 0.086 seconds (Warm-up)
+## Chain 4:                0.069 seconds (Sampling)
+## Chain 4:                0.155 seconds (Total)
 ## Chain 4:&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:I’ve not included any detail here on the checks we need to do on our samples. There are some common challenges associated with MCMC methods, each with plenty of associated guidance on how to diagnose and resolve them. For now, let’s assume everything has gone to plan.&lt;/p&gt;
 &lt;p&gt;Now, there are a few options for extracting samples from a stanfit object such as &lt;code&gt;PoD_samples&lt;/code&gt;, including &lt;code&gt;rstan::extract()&lt;/code&gt;. However, these usually require a little post-processing to get them into a tidy format - no big deal, but a hassle I’d rather avoid. That’s why I like to use the &lt;code&gt;ggmcmc&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/ggmcmc/&#34;&gt;package&lt;/a&gt;, which we can use to create a data frame that specifies the iteration, parameter value and chain associated with each data point:&lt;/p&gt;

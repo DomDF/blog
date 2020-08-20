@@ -2,9 +2,9 @@
 title: "Bayesian Logistic Regression with Stan"
 author: ''
 date: '2020-02-15'
-categories: ['Bayesian', 'MCMC', 'SciKit-Learn', 'Stan', 'Logistic Regression']
+categories: ['Bayesian', 'MCMC', 'Scikit-Learn', 'R', 'Stan', 'Logistic Regression']
 subtitle: Modelling the Probability of Detecting Structural Damage
-tags: ['Bayesian', 'MCMC', 'SciKit-Learn', 'Stan', 'Logistic Regression']
+tags: ['Bayesian', 'MCMC', 'Scikit-Learn', 'R', 'Stan', 'Logistic Regression']
 ---
 
 ```{r setup, include = FALSE}

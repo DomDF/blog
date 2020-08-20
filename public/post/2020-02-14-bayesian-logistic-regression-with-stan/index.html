@@ -639,7 +639,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/bayesian/">Bayesian</a>, <a href="/category/mcmc/">MCMC</a>, <a href="/category/scikit-learn/">SciKit-Learn</a>, <a href="/category/stan/">Stan</a>, <a href="/category/logistic-regression/">Logistic Regression</a></span>
+    <i class="fas fa-folder mr-1"></i><a href="/category/bayesian/">Bayesian</a>, <a href="/category/mcmc/">MCMC</a>, <a href="/category/scikit-learn/">Scikit-Learn</a>, <a href="/category/r/">R</a>, <a href="/category/stan/">Stan</a>, <a href="/category/logistic-regression/">Logistic Regression</a></span>
   
 
 </div>
@@ -836,9 +836,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.087 seconds (Warm-up)
-## Chain 1:                0.09 seconds (Sampling)
-## Chain 1:                0.177 seconds (Total)
+## Chain 1:  Elapsed Time: 0.113 seconds (Warm-up)
+## Chain 1:                0.121 seconds (Sampling)
+## Chain 1:                0.234 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 2).
@@ -861,9 +861,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.113 seconds (Warm-up)
-## Chain 2:                0.086 seconds (Sampling)
-## Chain 2:                0.199 seconds (Total)
+## Chain 2:  Elapsed Time: 0.107 seconds (Warm-up)
+## Chain 2:                0.068 seconds (Sampling)
+## Chain 2:                0.175 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 3).
@@ -886,9 +886,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.08 seconds (Warm-up)
-## Chain 3:                0.085 seconds (Sampling)
-## Chain 3:                0.165 seconds (Total)
+## Chain 3:  Elapsed Time: 0.069 seconds (Warm-up)
+## Chain 3:                0.054 seconds (Sampling)
+## Chain 3:                0.123 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;7e5f8dcf245c90341e1fcbe2d195277e&#39; NOW (CHAIN 4).
@@ -911,9 +911,9 @@ PoD_samples &lt;- sampling(object = PoD_model,
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.091 seconds (Warm-up)
-## Chain 4:                0.101 seconds (Sampling)
-## Chain 4:                0.192 seconds (Total)
+## Chain 4:  Elapsed Time: 0.086 seconds (Warm-up)
+## Chain 4:                0.069 seconds (Sampling)
+## Chain 4:                0.155 seconds (Total)
 ## Chain 4:</code></pre>
 <p><strong>Note</strong>:I’ve not included any detail here on the checks we need to do on our samples. There are some common challenges associated with MCMC methods, each with plenty of associated guidance on how to diagnose and resolve them. For now, let’s assume everything has gone to plan.</p>
 <p>Now, there are a few options for extracting samples from a stanfit object such as <code>PoD_samples</code>, including <code>rstan::extract()</code>. However, these usually require a little post-processing to get them into a tidy format - no big deal, but a hassle I’d rather avoid. That’s why I like to use the <code>ggmcmc</code> <a href="https://cran.r-project.org/web/packages/ggmcmc/">package</a>, which we can use to create a data frame that specifies the iteration, parameter value and chain associated with each data point:</p>
@@ -1003,7 +1003,9 @@ head(prPrSim_df)
   
   <a class="badge badge-light" href="/tag/mcmc/">MCMC</a>
   
-  <a class="badge badge-light" href="/tag/scikit-learn/">SciKit-Learn</a>
+  <a class="badge badge-light" href="/tag/scikit-learn/">Scikit-Learn</a>
+  
+  <a class="badge badge-light" href="/tag/r/">R</a>
   
   <a class="badge badge-light" href="/tag/stan/">Stan</a>
   
@@ -1213,7 +1215,13 @@ head(prPrSim_df)
       
       <li><a href="/post/2020-07-28-maximum-likelihood-estimation/">Maximum Likelihood Estimation</a></li>
       
+      <li><a href="/post/2020-08-03-expected-value-of-information.en/expected-value-of-information/">Quantifying the Expected Value of Information</a></li>
+      
       <li><a href="/post/2020-03-24-why-go-bayesian/">Why Go Bayesian?</a></li>
+      
+      <li><a href="/post/animating-plots/">Animating Plots</a></li>
+      
+      <li><a href="/post/31.05.19-wordcloud/">Wordclouds</a></li>
       
     </ul>
   </div>

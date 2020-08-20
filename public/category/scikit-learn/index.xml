@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>SciKit-Learn | All Your Bayes</title>
+    <title>Scikit-Learn | All Your Bayes</title>
     <link>/category/scikit-learn/</link>
       <atom:link href="/category/scikit-learn/index.xml" rel="self" type="application/rss+xml" />
-    <description>SciKit-Learn</description>
+    <description>Scikit-Learn</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-uk</language><lastBuildDate>Sat, 15 Feb 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
-      <title>SciKit-Learn</title>
+      <title>Scikit-Learn</title>
       <link>/category/scikit-learn/</link>
     </image>
     
@@ -186,9 +186,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.087 seconds (Warm-up)
-## Chain 1:                0.09 seconds (Sampling)
-## Chain 1:                0.177 seconds (Total)
+## Chain 1:  Elapsed Time: 0.113 seconds (Warm-up)
+## Chain 1:                0.121 seconds (Sampling)
+## Chain 1:                0.234 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 2).
@@ -211,9 +211,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.113 seconds (Warm-up)
-## Chain 2:                0.086 seconds (Sampling)
-## Chain 2:                0.199 seconds (Total)
+## Chain 2:  Elapsed Time: 0.107 seconds (Warm-up)
+## Chain 2:                0.068 seconds (Sampling)
+## Chain 2:                0.175 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 3).
@@ -236,9 +236,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.08 seconds (Warm-up)
-## Chain 3:                0.085 seconds (Sampling)
-## Chain 3:                0.165 seconds (Total)
+## Chain 3:  Elapsed Time: 0.069 seconds (Warm-up)
+## Chain 3:                0.054 seconds (Sampling)
+## Chain 3:                0.123 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &amp;#39;7e5f8dcf245c90341e1fcbe2d195277e&amp;#39; NOW (CHAIN 4).
@@ -261,9 +261,9 @@ PoD_samples &amp;lt;- sampling(object = PoD_model,
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.091 seconds (Warm-up)
-## Chain 4:                0.101 seconds (Sampling)
-## Chain 4:                0.192 seconds (Total)
+## Chain 4:  Elapsed Time: 0.086 seconds (Warm-up)
+## Chain 4:                0.069 seconds (Sampling)
+## Chain 4:                0.155 seconds (Total)
 ## Chain 4:&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:I’ve not included any detail here on the checks we need to do on our samples. There are some common challenges associated with MCMC methods, each with plenty of associated guidance on how to diagnose and resolve them. For now, let’s assume everything has gone to plan.&lt;/p&gt;
 &lt;p&gt;Now, there are a few options for extracting samples from a stanfit object such as &lt;code&gt;PoD_samples&lt;/code&gt;, including &lt;code&gt;rstan::extract()&lt;/code&gt;. However, these usually require a little post-processing to get them into a tidy format - no big deal, but a hassle I’d rather avoid. That’s why I like to use the &lt;code&gt;ggmcmc&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/ggmcmc/&#34;&gt;package&lt;/a&gt;, which we can use to create a data frame that specifies the iteration, parameter value and chain associated with each data point:&lt;/p&gt;

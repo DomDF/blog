@@ -46,7 +46,7 @@ Should you pay for the component to be replaced now? Or take your chances with a
 
 This problem can be visualised using an *influence diagram*. The below uses the [`RHugin` library](http://rhugin.r-forge.r-project.org/), an `R` API for the [Hugin software](https://www.hugin.com/), although there are many suitable alternatives, such as the [`HydeNet` library](https://cran.r-project.org/web/packages/HydeNet/).
 
-```{r, eval = FALSE, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, include = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
 library(RHugin)
 
 prior_analysis <- RHugin::read.rhd('influence_diagram.net')
@@ -354,8 +354,6 @@ for (fn in seq(from = prob_lower, to = prob_upper, length.out = 9)) {
   sa_df <- rbind(sa_df, data.frame(fn = fn, VoI = max(0, expected_costs[1] - expected_costs[2])))
   
 }
-
-VoPI <- 420
 
 ggplot(data = sa_df, 
        mapping = aes(x = fn, y = VoI))+
