@@ -6,9 +6,9 @@
         "windowheight": 1107
     },
     "right": {
-        "panelheight": 1069,
-        "splitterpos": 464,
+        "splitterpos": 407,
         "topwindowstate": "MAXIMIZE",
-        "windowheight": 1107
+        "panelheight": 939,
+        "windowheight": 977
     }
 }

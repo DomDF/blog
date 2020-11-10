@@ -46,6 +46,6 @@
     weight = 100    
 
  [[main]]
-    name = "Buy me a Coffee"
+    name = "Buy me a Coffee?"
     url = "https://www.buymeacoffee.com/domdf"
     weight = 100    
