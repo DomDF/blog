@@ -17,8 +17,6 @@ image:
 links:
 - name: Conference website
   url: https://ipw2019.org
-projects:
-- 
 
 publication: In *17th International Probabilistic Workshop*
 publication_short: In *IPW2019*

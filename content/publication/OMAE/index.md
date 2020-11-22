@@ -17,8 +17,6 @@ image:
 links:
 - name: Conference Website
   url: https://event.asme.org/OMAE
-projects:
-- 
 
 publication: In *Proceedings of the ASME 2020 39th International Conference on Ocean, Offshore and Arctic Engineering*
 publication_short:  In *OMAE2020*

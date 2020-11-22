@@ -17,8 +17,6 @@ image:
 links:
 - name: Conference Website
   url: http://ifedforum.weebly.com/ifed2019.html
-projects:
-- 
 
 publication: In *11th International Forum on Engineering Decision Making*
 publication_short: In *IFED2019*

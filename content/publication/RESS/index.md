@@ -16,8 +16,6 @@ image:
 links:
 - name: Journal Website
   url: https://www.sciencedirect.com/science/article/pii/S0951832020306189
-projects:
-- 
 
 publication: In Journal of Reliability Engineering & System Safety
 publication_short: Vol. 204C
