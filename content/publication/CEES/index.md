@@ -21,7 +21,7 @@ publication: In Journal of Civil Engineering and Environmental Systems
 publication_short: Special Issue - Decision Making for Extremes
 publication_types:
 - "2"
-publishDate: "TBC"
+publishDate: "2020-11-17"
 
 
 summary: Extended Value of Imperfect Information Calculation for Inspection Evaluation.
