@@ -5,7 +5,7 @@ authors:
 - Michael Havbro Faber
 - Marios Chryssanthopoulos
 - Ujjwal Bharadwaj
-date: "2020-12-31"
+date: "TBC"
 doi: ""
 featured: false
 image:
@@ -21,7 +21,7 @@ publication: In Journal of Civil Engineering and Environmental Systems
 publication_short: Special Issue - Decision Making for Extremes
 publication_types:
 - "2"
-publishDate: "2020-11-17"
+publishDate: "TBC"
 
 
 summary: Extended Value of Imperfect Information Calculation for Inspection Evaluation.
