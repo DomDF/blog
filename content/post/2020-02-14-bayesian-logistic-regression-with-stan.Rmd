@@ -188,7 +188,7 @@ model {
 
 generated quantities {
   
-  // Using the fitted model for probabilistic prediction
+  // Using the fitted model for probabilistic prediction.
   // K posterior predictive distributions will be estimated for a corresponding crack depth
   vector [K] postpred_pr;
   
