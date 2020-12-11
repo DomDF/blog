@@ -327,6 +327,9 @@ A common challenge, which was evident in the above PoD example, is lacking an in
 This problem can be addressed using a process known as **Prior Predictive Simulation**, which I was first introduced to in [Richard McElreath's fantastic book](https://www.crcpress.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919). This involves evaluating the predictions that our model would make, based only on the information in our priors. Relating our predictions to our parameters provides a clearer understanding of the implications of our priors.
 
 Back to our PoD parameters - both $\alpha$ and $\beta$ can take positive or negative values, but I could not immediately tell you a sensible range for them. Based on our lack of intuition it may be tempting to use a variance for both, right? Well, before making that decision, we can always simulate some predictions from these priors. The below code is creating a data frame of prior predictions for the PoD (`PoD_pr`) for many possible crack sizes.
+
+*(Thank you to Jiun for your kind message that helped me tidy up the below)*
+
 \[
 \alpha \sim N(\mu_{\alpha}, \sigma_{\alpha})
 \]
@@ -344,11 +347,12 @@ mu_alpha <- 0; sigma_alpha <- 1; mu_beta <- 1; sigma_beta <- 1; N_samples <- 1e3
 x <- seq(from = min_depth, to = max_depth, length.out = N_samples)
 prPrSim_df <- data.frame(depth = x)
 
+alpha = rnorm(n = N_samples, mean = mu_alpha, sd = sigma_alpha)
+beta = rnorm(n = N_samples, mean = mu_beta, sd = sigma_beta)
+  
 for (i in seq(from = 1, to = nrow(prPrSim_df), by = 1)) {
   
-  alpha = rnorm(n = N_samples, mean = mu_alpha, sd = sigma_alpha)
-  beta = rnorm(n = N_samples, mean = mu_beta, sd = sigma_beta)
-  prPrSim_df$PoD_pr[i] <- exp(alpha + beta * log(prPrSim_df$depth[i]))/(1 + exp(alpha + beta * log(prPrSim_df$depth[i])))
+  prPrSim_df$PoD_pr[i] <- exp(alpha[i] + beta[i] * log(prPrSim_df$depth[i]))/(1 + exp(alpha[i] + beta[i] * log(prPrSim_df$depth[i])))
 
 }
 
