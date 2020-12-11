@@ -155,11 +155,15 @@ grid::grid.raster(image = SB_logo, x = 1/8, y = 1/50, just = c('left', 'bottom')
 
 ```
 
-The above plot shows that many of these goals were scored, even though the (StatsBomb) xG was relatively low. In fact the mean xG of the shots they scored was `r round(x = mean(AFC_goals_df$shot.statsbomb_xg), digits = 2)`. This isn't necessarily a problem as we do see improbable goals. [Giorgian De Arrascaeta's contender for the 2020 FIFA Puskas award](https://www.youtube.com/watch?v=3icTC--cHfA) was a bicycle kick 18 yards from goal. Was anyone expecting him to score this chance? Could he do it again?  
+The above plot shows that many of these goals were scored, even though the (StatsBomb) xG was relatively low. In fact the mean xG of the shots they scored was `r round(x = mean(AFC_goals_df$shot.statsbomb_xg), digits = 2)`. This isn't necessarily a problem as we do see improbable goals. Giorgian De Arrascaeta's contender for the 2020 FIFA Puskas award was a bicycle kick 18 yards from goal. Was anyone expecting him to score this chance? Could he do it again?  
+
+```{r, echo = FALSE}
+blogdown::shortcode('youtube', '3icTC--cHfA')
+```
 
 An ideal xG model would correctly predict every goal without error, but the many sources of variability in the game means that this isn't happening any time soon. A **Bayesian** model (such as the one I'm proposing) will include uncertainty in it's predictions, letting us know when it can narrow down a predicted xG, and when there is a larger range of credible values based on the available information.
 
-### Wouldn't Henry have scored that though?
+### Would Henry have scored that?
 
 Another feature that I've introduced to the model is the relationship between the data from different players. I want the model to distinguish between whether a team creates an opportunity for their top scorer, or their full-back who has never scored. One is clearly preferable, and should have a higher xG to reflect this. Why would this matter? Because (on average) shooting from wide positions may be unlikely to pay off, but if your team has a winger who is capable then it may be a strategy they should pursue.
 
