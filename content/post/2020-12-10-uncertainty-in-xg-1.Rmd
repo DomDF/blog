@@ -405,7 +405,7 @@ ggplot(data = plot_df)+
 
 ```
 
-### Final Thought: Making Sense of Probabilistic Predictions?
+### Final Thought: Making Sense of Probabilistic Predictions
 
 ![Thoughtful Pirlo](https://media.giphy.com/media/e78UID432cQGA/giphy.gif)
 
