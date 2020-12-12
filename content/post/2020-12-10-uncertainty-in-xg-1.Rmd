@@ -374,7 +374,7 @@ Arsenal_shots_plot
 grid::grid.raster(image = SB_logo, x = 1/8, y = 1/50, just = c('left', 'bottom'), width = unit(1, 'inches'))
 ```
 
-Our model did not expect him to score, and would also have predicted that [Freddie Ljungberg](https://en.wikipedia.org/wiki/Freddie_Ljungberg) would have missed. Henry (unsurprisingly) is expected to have had a better chance, but **interestingly**, our model thinks that Arsenal's goalscoring winger [Robert Pirès](https://en.wikipedia.org/wiki/Robert_Pires) would have been most likely to score this opportunity.
+Our model did not expect him to score, and also predicted that [Freddie Ljungberg](https://en.wikipedia.org/wiki/Freddie_Ljungberg) would have missed. Henry (unsurprisingly) is expected to have had a better chance, but **interestingly**, our model thinks that Arsenal's goalscoring winger [Robert Pirès](https://en.wikipedia.org/wiki/Robert_Pires) would have been most likely to score this opportunity.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
