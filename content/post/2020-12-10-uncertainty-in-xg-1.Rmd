@@ -155,7 +155,7 @@ grid::grid.raster(image = SB_logo, x = 1/8, y = 1/50, just = c('left', 'bottom')
 
 ```
 
-The above plot shows that many of these goals were scored, even though the (StatsBomb) xG was relatively low. In fact the mean xG of the shots they scored was `r round(x = mean(AFC_goals_df$shot.statsbomb_xg), digits = 2)`. This isn't necessarily a problem as we do see improbable goals. Giorgian De Arrascaeta's contender for the 2020 FIFA Puskas award was a bicycle kick 18 yards from goal. Was anyone expecting him to score this chance? Could he do it again?  
+The above plot shows that many of these goals were scored, even though the (StatsBomb) xG was relatively low. In fact the mean xG of the shots they scored was `r round(x = mean(AFC_goals_df$shot.statsbomb_xg), digits = 2)`. This isn't necessarily a problem as we do see improbable goals. Below is Giorgian De Arrascaeta's contender for the 2020 FIFA Puskas award. Was anyone expecting him to score this chance? Could he do it again?  
 
 ```{r, echo = FALSE}
 blogdown::shortcode('youtube', '3icTC--cHfA')
