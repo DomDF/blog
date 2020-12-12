@@ -1,5 +1,5 @@
 ---
-title: "Uncertainty in xG using Partial Pooling. Part 1: Introduction"
+title: "Uncertainty in xG. Part 1: Overview"
 author: ''
 date: '2020-12-10'
 categories: ['MCMC', 'Multi-Level Modelling', 'Partial Pooling', 'xG', 'Football']
@@ -52,7 +52,7 @@ get_team_xG <- function(i, mcmc_df, model_data_df, n_prob = 1e3){
                  mcmc_df$beta_with_head_pp * model_data_df$shot.body_part.name_processed_Head[i] +
                  mcmc_df$beta_with_weak_foot_pp * model_data_df$shot.body_part.name_processed_Weaker.Foot[i])
   
-  player <- model_data_df$player.name[i]#; pred_player <- mcmc_df$player[i]
+  player <- model_data_df$player.name[i]
   
   results_df <- data.frame(xG = (exp(x = log_odds) / (1 + exp(x = log_odds))), 
                            player = player,
@@ -75,7 +75,7 @@ AFC_df <- read.csv(file = 'xG_model_data.csv') %>%
 
 ### TLDR
 
-The Expected Goals (xG) metric is now widely recognised as numerical measure of the *quality* of a goal scoring opportunity in a football (soccer) match. In this article we consider how to deal with uncertainty in predicting xG, and how each players individual abilities can be accounted for. This is part 1 of the article, which is intended to be free of stats jargon, maths and code. If you are interested in those details, you can also check out part 2.
+The Expected Goals (xG) metric is now widely recognised as numerical measure of the *quality* of a goal scoring opportunity in a football (soccer) match. In this article we consider how to deal with uncertainty in predicting xG, and how each players individual abilities can be accounted for. This is part 1 of the article, which is intended to be free of stats jargon, maths and code. If you are interested in those details, you can also check out part 2 (*In development*).
 
 ---
 
@@ -89,9 +89,11 @@ There is no universally accepted way of calculating xG, so there are many compet
 
 ### Data: Arsenal's Invincibles (Courtesy of StatsBomb)
 
-Once upon a time (in the `2003`-`04`season), Arsenal FC were brilliant. That squad is still referred to as *the Invincibles* after finishing the season without a defeat in the league, scoring the most goals and conceding the fewest. Their top scorer, [Thierry Henry](https://en.wikipedia.org/wiki/Thierry_Henry), finished 4th in the Ballon d'Or voting this season (having finished 2nd the season before). Unfortunately José Mourinho arrived at Chelsea the following season and Arsenal haven't won the league since.
+Once upon a time (in the `2003`-`04` season), Arsenal FC were brilliant. That squad is still referred to as *the Invincibles* after finishing the season without a defeat in the league, scoring the most goals and conceding the fewest. Their top scorer, [Thierry Henry](https://en.wikipedia.org/wiki/Thierry_Henry), finished 4th in the Ballon d'Or voting this season (having finished 2nd the season before). Unfortunately José Mourinho arrived at Chelsea the following season and Arsenal haven't won the league since.
 
 I'm using Arsenal's unbeaten league season as an example because [StatsBomb](https://statsbomb.com/) have kindly made all this data freely available in [their R package](https://github.com/statsbomb/StatsBombR).
+
+![The Invincibles](https://media.giphy.com/media/uBxP06JlaB7VCIaYXm/giphy.gif)
 
 Here are their league goal scorers:
 
@@ -139,9 +141,6 @@ Arsenal_goals_plot <- SBpitch::create_Pitch(goaltype = 'box', JdeP = TRUE, Basic
                              dplyr::filter(DistToGoal >= 18 ),
                            mapping = aes(x = location.x, y = location.y, label = label),
                            size = 3, family = 'Bahnschrift', segment.alpha = 1/2)+
-  # geom_segment(data = Arsenal_goals, 
-  #              mapping = aes(x = location.x, y = location.y, xend = shot.end_location.x, yend = shot.end_location.y),
-  #              col = 'forestgreen', alpha = 2/3, size = 1, arrow = arrow(length = unit(0.2, 'cm')))+
   coord_flip(xlim = c(70, 120))+
   labs(fill = '\nStatsBomb xG', 
        title = "   Where Arsenal scored from in the 2003-04 Premier League season",
@@ -163,15 +162,15 @@ blogdown::shortcode('youtube', '3icTC--cHfA')
 
 An ideal xG model would correctly predict every goal without error, but the many sources of variability in the game means that this isn't happening any time soon. A **Bayesian** model (such as the one I'm proposing) will include uncertainty in it's predictions, letting us know when it can narrow down a predicted xG, and when there is a larger range of credible values based on the available information.
 
-### Would Henry have scored that?
+### Would Henry have scored it?
 
-Another feature that I've introduced to the model is the relationship between the data from different players. I want the model to distinguish between whether a team creates an opportunity for their top scorer, or their full-back who has never scored. One is clearly preferable, and should have a higher xG to reflect this. Why would this matter? Because (on average) shooting from wide positions may be unlikely to pay off, but if your team has a winger who is capable then it may be a strategy they should pursue.
+Another feature that I've introduced to the model is the relationship between the data from different players. I want the model to distinguish between whether a team creates an opportunity for their top scorer, or their full-back who has never scored. One is clearly preferable, and should have a higher xG to reflect this. Why would this matter? Shooting from wide positions may (on average) be unlikely to pay off, but if your team has a winger who is especially adept at it, then it may be a strategy they should pursue.
 
 For instance, Giorgian De Arrascaeta may have had a higher chance of scoring that bicycle kick when you consider that he was also nominated for the 2018 FIFA Puskas award for scoring another acrobatic volley.
 
-The big issue with considering each player separately is you now have many, smaller datasets and this may scare some machine learning folk. Larger datasets contain more information allowing for model parameters to be estimated more precisely. This sometimes encourages us to throw all our data into a single population and pretend we have a larger dataset. Your software will be happy, since it won't know the difference, but you will lose the valuable player-specific information.
+The practical issue with considering each player separately is you now have many, smaller datasets. Larger datasets contain more information allowing for model parameters to be estimated more precisely. This sometimes encourages us to throw all our data into a single population and pretend we have a larger dataset. Your software will be happy, since it won't know the difference, but you will lose the valuable player-specific information.
 
-Bayesian models can do even better than this though. Consider some data that was collected from Arsenal's defensive midfielder, [Gilberto Silva](https://en.wikipedia.org/wiki/Gilberto_Silva). He scored `r (AFC_shots_df %>%  dplyr::filter(player.name == 'Gilberto Aparecido da Silva'))$n_goals` league goals in their invincible season, but his primary duties were defensive. He had different characteristics than Thierry Henry, but there is some commonality to take advantage of here. If Gilberto Silva scores an opportunity that gives me *some* information about whether Thierry Henry could have scored it too. How much information? That depends on how similar they are. Unless we tell the model, it will assume we cannot learn anything about these players from each other. Both were professional footballers. Neither was a hockey player, or a tree, or a kitten - though a statistical model could not intuit this. If the data did indicate that they were in fact very different players, then the special model structure that we are using would recognise this and not share information between them to the same extent. 
+Bayesian models can do even better than this though. Consider some data that was collected from Arsenal's defensive midfielder, [Gilberto Silva](https://en.wikipedia.org/wiki/Gilberto_Silva). He scored `r (AFC_shots_df %>%  dplyr::filter(player.name == 'Gilberto Aparecido da Silva'))$n_goals` league goals in their invincible season, but his primary duties were defensive. He had different characteristics than Thierry Henry, but there is some commonality to take advantage of here. If Gilberto Silva scores an opportunity that gives me *some* information about whether Thierry Henry could have scored it too. How much information? That depends on how similar they are. Unless we tell the model, it will assume we cannot learn anything about these players from the other. Both were professional footballers. Neither was a hockey player, or a tree, or a kitten - though a statistical model could not intuit this. If the data did indicate that they were in fact very different players, then the special model structure that we are using would recognise this and not share information between them to the same extent. 
 
 If the above concept make sense to you, then congratulations - you appreciate the utility of multi-level (partial-pooling) Bayesian models. This *sharing of information* is one of many reasons Bayesian methods can perform so well on small (and imperfect) datasets.
 
@@ -252,7 +251,6 @@ Arsenal_goals_plot <- SBpitch::create_Pitch(goaltype = 'box', JdeP = TRUE, Basic
               col = 'forestgreen', alpha = 2/3, size = 1, arrow = arrow(length = unit(0.2, 'cm')))+
   coord_flip(xlim = c(70, 120))+
   labs(title = "   Bergkamp's goal vs. Birmingham (November 2003)",
-       #subtitle = '    Excluding penalties, with goalscorers from further than 18 yards labelled',
        caption = 'Data from StatsBomb |  @Domenic_DF   ')+
   theme_void(base_size = 11, base_family = 'Bahnschrift')+
   theme(legend.position = 'top', legend.box = 'vertical')
@@ -308,7 +306,6 @@ Arsenal_goals_plot <- SBpitch::create_Pitch(goaltype = 'box', JdeP = TRUE, Basic
               col = 'forestgreen', alpha = 2/3, size = 1, arrow = arrow(length = unit(0.2, 'cm')))+
   coord_flip(xlim = c(70, 120))+
   labs(title = "   Henry's goal vs. Man Utd (March 2004)",
-       #subtitle = '    Excluding penalties, with goalscorers from further than 18 yards labelled',
        caption = 'Data from StatsBomb |  @Domenic_DF   ')+
   theme_void(base_size = 11, base_family = 'Bahnschrift')+
   theme(legend.position = 'top', legend.box = 'vertical')
@@ -369,7 +366,6 @@ Arsenal_shots_plot <- SBpitch::create_Pitch(goaltype = 'box', JdeP = TRUE, Basic
               col = 'firebrick', alpha = 2/3, size = 1, arrow = arrow(length = unit(0.2, 'cm')))+
   coord_flip(xlim = c(70, 120))+
   labs(title = "   Gilberto Silva's shot vs. Chelsea (Feb 2004)",
-       #subtitle = '    Excluding penalties, with goalscorers from further than 18 yards labelled',
        caption = 'Data from StatsBomb |  @Domenic_DF   ')+
   theme_void(base_size = 11, base_family = 'Bahnschrift')+
   theme(legend.position = 'top', legend.box = 'vertical')
@@ -413,5 +409,5 @@ ggplot(data = plot_df)+
 
 ![Thoughtful Pirlo](https://media.giphy.com/media/e78UID432cQGA/giphy.gif)
 
-What should we make of the above predictions? The single values (*point estimates*) provided by analytics companies may be a bit easier to read, but I'm suggesting that they are not as useful. We should want our models to tell us when they are not sure. There is more information in a probabilistic prediction than a point estimate, which means you can go from the former to the latter, but not vice-versa. The type of model we have discussed in this article has the added benefit of sharing information between different players in a mathematically coherent way (see part 2 for the technical details).
+What should we make of the above predictions? The single values (*point estimates*) provided by analytics companies may be a bit easier to read, but I'm suggesting that they are not as useful. We should want our models to tell us when they are not sure. There is more information in a probabilistic prediction than a point estimate, which means you can go from the former to the latter, but not vice-versa. The type of model we have discussed in this article has the added benefit of sharing information between different players in a mathematically coherent way (see part 2 (*In development*) for the technical details).
 
