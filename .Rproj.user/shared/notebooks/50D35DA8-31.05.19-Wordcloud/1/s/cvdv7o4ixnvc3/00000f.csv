@@ -1,5 +1,0 @@
-"0","minLength <- 4"
-"0",""
-"0","paper_tbl <- paper_tbl %>% "
-"0","  mutate(check = case_when(nchar(word) < minLength ~ 0,"
-"0","                           nchar(word) >= minLength ~ 1))"

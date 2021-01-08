@@ -13,7 +13,7 @@ tags: ['MCMC', 'Multi-Level Modelling', 'Partial Pooling', 'xG', 'Football']
 
 <div id="tldr" class="section level3">
 <h3>TLDR</h3>
-<p>The Expected Goals (xG) metric is now widely recognised as numerical measure of the <em>quality</em> of a goal scoring opportunity in a football (soccer) match. In this article we consider how to deal with uncertainty in predicting xG, and how each players individual abilities can be accounted for. This is part 1 of the article, which is intended to be free of stats jargon, maths and code. If you are interested in those details, you can also check out part 2 (<em>In development</em>).</p>
+<p>The Expected Goals (xG) metric is now widely recognised as numerical measure of the <em>quality</em> of a goal scoring opportunity in a football (soccer) match. In this article we consider how to deal with uncertainty in predicting xG, and how each players individual abilities can be accounted for. This is part 1 of the article, which is intended to be free of stats jargon, maths and code. If you are interested in those details, you can also check out <a href="https://www.allyourbayes.com/post/2020-12-10-uncertainty-in-xg-2/">part 2</a>.</p>
 <hr />
 </div>
 <div id="what-are-expected-goals" class="section level3">
@@ -51,7 +51,7 @@ tags: ['MCMC', 'Multi-Level Modelling', 'Partial Pooling', 'xG', 'Football']
 <p>We have a model that describes uncertainty (using probability) and makes both team-level and player-specific predictions. Here are some examples:</p>
 <p>How about <a href="https://en.wikipedia.org/wiki/Dennis_Bergkamp">Dennis Bergkamp’s</a> dinked finish when clear through on goal against Birmingham. Remember it? Me neither - here’s where the shot was taken from:</p>
 <p><img src="/post/2020-12-10-uncertainty-in-xg-1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>And our predicted xG is shown below, both for Dennis Bergkamp (upper) and for the case where any of the players could be shooting (lower). Here is a great example of being able to make a better prediction conditional on the information of who is taking the shot. The model has identified that Bergkamp was very capable of scoring these kind of chances and was therefore able to identify a narrow range of very high xG values. However, if we were considering a generic player in the Arsenal team, there is more uncertainty in our prediction.</p>
+<p>And our predicted xG is shown below, both for Dennis Bergkamp (upper) and for the case where any Arsenal player could be shooting (lower). Here is a great example of being able to make a better prediction conditional on the information of who is taking the shot. The model has identified that Bergkamp was very capable of scoring these kind of chances and was therefore able to identify a narrow range of very high xG values. However, if we were considering a generic player in the Arsenal team, there is more uncertainty in our prediction.</p>
 <p><img src="/post/2020-12-10-uncertainty-in-xg-1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>What about Thierry Henry’s long range goal against Man Utd? (Note that the straight arrow in the below plot does not reflect the true trajectory of his shot).</p>
 <p><img src="/post/2020-12-10-uncertainty-in-xg-1_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
@@ -68,5 +68,5 @@ tags: ['MCMC', 'Multi-Level Modelling', 'Partial Pooling', 'xG', 'Football']
 <img src="https://media.giphy.com/media/e78UID432cQGA/giphy.gif" alt="" />
 <p class="caption">Thoughtful Pirlo</p>
 </div>
-<p>What should we make of the above predictions? The single values (<em>point estimates</em>) provided by analytics companies may be a bit easier to read, but I’m suggesting that they are not as useful. We should want our models to tell us when they are not sure. There is more information in a probabilistic prediction than a point estimate, which means you can go from the former to the latter, but not vice-versa. The type of model we have discussed in this article has the added benefit of sharing information between different players in a mathematically coherent way (see part 2 (<em>In development</em>) for the technical details).</p>
+<p>What should we make of the above predictions? The single values (<em>point estimates</em>) provided by analytics companies may be a bit easier to read, but I’m suggesting that they are not as useful. We should want our models to tell us when they are not sure. There is more information in a probabilistic prediction than a point estimate, which means you can go from the former to the latter, but not vice-versa. The type of model we have discussed in this article has the added benefit of sharing information between different players in a mathematically coherent way (see <a href="https://www.allyourbayes.com/post/2020-12-10-uncertainty-in-xg-2/">part 2</a>) for the technical details).</p>
 </div>
