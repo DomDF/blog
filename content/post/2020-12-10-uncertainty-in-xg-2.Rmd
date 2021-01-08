@@ -151,7 +151,7 @@ Hierarchical (or 'nested') data contains multiple groups within a population, su
 
 Consequently, we want an intermediate solution, acknowledging variation between groups, but allowing for data from one group to inform predictions about others. This is achieved by using a multi-level (or hierarchical) model structure. Such models allow partial sharing (or *pooling*) of information between groups, to the extent that the data indicate is appropriate. This approach results in reduced variance (when compared to a set of corresponding independent models), a shift towards a population mean (known as *shrinkage*), and generally an improved predictive performance.
 
-Sounds great, right? So why would anyone ever not use this kind of model? In his [excellent blog](https://elevanth.org/blog/2017/08/24/multilevel-regression-as-default/), Richard McElreath makes the case that multi-level models should our default approach. His greatest criticism of them is that they require some experience or training to specify and interpret. [His book](https://xcelab.net/rm/statistical-rethinking/) has a dedicated chapter to help with that. Of course, there are many better descriptions of multi-level modelling than you will get from me, but I personally found the examples in [Andrew Gelman and Jennifer Hill's book](http://www.stat.columbia.edu/~gelman/arm/) to be very helpful. Finally, [Michael Betancourt has written a much more comprehensive blog post on the topic](https://betanalpha.github.io/assets/case_studies/hierarchical_modeling.html), which includes a discussion on the underlying assumption of *exchangeability*.
+Sounds great, right? So why would anyone ever not use this kind of model? In his [excellent blog](https://elevanth.org/blog/2017/08/24/multilevel-regression-as-default/), Richard McElreath makes the case that multi-level models should be our default approach. His greatest criticism of them is that they require some experience or training to specify and interpret. [His book](https://xcelab.net/rm/statistical-rethinking/) has a dedicated chapter to help with that. Of course, there are many better descriptions of multi-level modelling than you will get from me, but I personally found the examples in [Andrew Gelman and Jennifer Hill's book](http://www.stat.columbia.edu/~gelman/arm/) to be very helpful. Finally, [Michael Betancourt has written a much more comprehensive blog post on the topic](https://betanalpha.github.io/assets/case_studies/hierarchical_modeling.html), which includes a discussion on the underlying assumption of *exchangeability*.
 
 We can create a partial pooling model by re-writing the below:
 
@@ -167,7 +167,7 @@ xG = Inverse \; Logit(\alpha_{[Player]} + \beta_{[Player]} \cdot X)
 
 In this new structure, each parameter will now be a vector of length $N$ (where $N$ players are being considered). This means there will be a different co-efficient describing how $xG$ varies with distance from goal for each player. This makes sense as we would expect variation between players and we want our model to be able to describe it.
 
-If each of these parameter had their own priors, we would essentially have specified $N$ independent models - one for each player. But there is a twist here: each of the vectors of co-efficients share a single prior.
+If each of these parameters had their own priors, we would essentially have specified $N$ independent models - one for each player. But there is a twist here: each of the vectors of co-efficients share a single prior.
 
 \[
 \beta \sim N(\mu_{\beta}, \; \sigma_{\beta})
